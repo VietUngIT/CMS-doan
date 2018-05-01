@@ -9,6 +9,7 @@ import Header from 'components/Header'
 import ResizeAware from 'react-resize-aware';
 import { Link, } from 'react-router';
 import { message } from 'antd';
+import styles from './styles';
 const AppWrapper = styled.div`
   min-height: 100%;
 `;
@@ -63,6 +64,7 @@ export  class App extends React.Component {
       }else{
         img = require('./maxresdefault.jpg');
       }
+      
       content = (
         <div style={{height:"100%"}} >
           <Header/>

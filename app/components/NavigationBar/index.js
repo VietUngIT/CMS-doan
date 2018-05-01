@@ -5,7 +5,6 @@ import {  Link, } from 'react-router';
 import styles from './styles';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import { active } from 'glamor';
 import { browserHistory } from 'react-router';
 const SubMenu = Menu.SubMenu;
 
@@ -73,6 +72,9 @@ class NavigationBar extends React.Component {
         break;
       case '4':
         browserHistory.push('/marketprice')
+        break;
+      case '5':
+        browserHistory.push('/expert')
         break;
       case '8':
         this.logoutHandle();

@@ -665,3 +665,85 @@ export function callAPIAddNewsMP(ph,p,id,name,price,unit,place,note) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIGetListField(phone,password) {
+  const url = `${API_BASE_URL}parentfiledexpert?ph=${phone}&p=${password}&t=getall`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+export function callAPIAddField(phone,password,name) {
+  const url = `${API_BASE_URL}adminparentfiledexpert?ph=${phone}&p=${password}&t=add&name=${name}`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+export function callAPIDelField(phone,password,id) {
+  const url = `${API_BASE_URL}adminparentfiledexpert?ph=${phone}&p=${password}&t=del&id=${id}`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIGetListExpert(phone,password,id,page) {
+  const url = `${API_BASE_URL}expertinfo?ph=${phone}&p=${password}&t=getbyfield&idparentfield=${id}&page=${page}&ofset=4`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIAddExpert(ph,p,name,phone,desc,email,address,workplace,idparentfield,lat,long,tags,degree) {
+  const url = `${API_BASE_URL}adminexpert`;
+  var formData = new FormData();
+  formData.append("t","ad")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("name",name);
+  formData.append("phone",phone);
+  formData.append("desc",desc);
+  formData.append("email",email);
+  formData.append("address",address);
+  formData.append("workplace",workplace);
+  formData.append("idparentfield",idparentfield);
+  formData.append("lat",lat);
+  formData.append("long",long);
+  if(tags){
+    formData.append("tags",JSON.stringify(tags));
+  }
+  if(degree){
+    formData.append("degree",JSON.stringify(degree));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

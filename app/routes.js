@@ -283,6 +283,69 @@ export default function createRoutes(store) {
         }, 
       ]
     },{
+      path: '/expert',
+      name: 'listExpert',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/UserManager/Expert/ListExpert/reducer'),
+          import('containers/UserManager/Expert/ListExpert/sagas'),
+          import('containers/UserManager/Expert/ListExpert'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('listExpert', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+      childRoutes: [
+        {
+          path: '/expert/:id_field',
+          name: 'inFoListExpert',
+          getComponent(nextState, cb) {
+            const importModules = Promise.all([
+              import('containers/UserManager/Expert/InFoListExpert/reducer'),
+              import('containers/UserManager/Expert/InFoListExpert/sagas'),
+              import('containers/UserManager/Expert/InFoListExpert'),
+            ]);
+
+            const renderRoute = loadModule(cb);
+
+            importModules.then(([reducer, sagas, component]) => {
+              injectReducer('inFoListExpert', reducer.default);
+              injectSagas(sagas.default);
+              renderRoute(component);
+            });
+
+            importModules.catch(errorLoading);
+          },
+        }, 
+      ]
+    },{
+      path: '/expert-info/:id_expert',
+      name: 'expertDetail',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/UserManager/Expert/ExpertDetail/reducer'),
+          import('containers/UserManager/Expert/ExpertDetail/sagas'),
+          import('containers/UserManager/Expert/ExpertDetail'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('expertDetail', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },{
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

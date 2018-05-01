@@ -1,0 +1,9 @@
+
+export const DEFAULT_ACTION = 'app/ListExpert/DEFAULT_ACTION';
+export const GET_LIST_FIELD_ACTION = 'app/ListExpert/GET_LIST_FIELD_ACTION';
+export const GET_LIST_FIELD_ACTION_SUCCESS = 'app/ListExpert/GET_LIST_FIELD_ACTION_SUCCESS';
+export const ADD_LIST_FIELD_ACTION = 'app/ListExpert/ADD_LIST_FIELD_ACTION';
+export const ADD_LIST_FIELD_ACTION_SUCCESS = 'app/ListExpert/ADD_LIST_FIELD_ACTION_SUCCESS';
+export const DELETE_LIST_FIELD_ACTION = 'app/ListExpert/DELETE_LIST_FIELD_ACTION';
+export const DELETE_LIST_FIELD_ACTION_SUCCESS = 'app/ListExpert/DELETE_LIST_FIELD_ACTION_SUCCESS';
+export const LOADING = 'app/ListExpert/LOADING';

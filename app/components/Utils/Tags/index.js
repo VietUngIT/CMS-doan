@@ -23,7 +23,7 @@ class Tags extends React.Component {
     return (
       <div style={{display:'inline-block',padding:'3px 5px', borderRadius:3,border:'1px solid #1565C0',background: '#BBDEFB',margin: 5}}>
         <span>{content}</span>
-        <Icon type="close" onClick={this.closeTag} style={{paddingLeft: 5,verticalAlign: 'middle'}}/>
+        <Icon type="close" onClick={this.closeTag} style={{paddingLeft: 5,verticalAlign: 'middle',cursor: 'pointer'}}/>
       </div>
     );
   }

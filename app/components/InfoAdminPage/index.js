@@ -12,7 +12,6 @@ import {message,} from 'antd';
 import {Icon,Button,Modal} from 'antd';
 
 import styles from './styles';
-import { right } from 'glamor';
 import ModalEditInfo from 'components/ModalEditInfo';
 import ModalChangePass from 'components/ModalChangePass';
 const Button_ = styled.button`
