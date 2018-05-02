@@ -5,6 +5,8 @@ import {
   GET_EXPERT_DETAIL_ACTION,
   GET_LIST_FIELD_ACTION,
   UPDATE_DEGREE_ACTION,
+  GET_LIST_SUB_FIELD_ACTION,
+  UPDATE_SUB_FIELD_ACTION,
 } from './constants';
 import { 
   getExpertDetailSuccess,
@@ -12,18 +14,49 @@ import {
   getListFieldSuccess,
   updateDegreeSuccess,
   updateDegreeError,
+  getListSubFieldSuccess,
+  updateSubFieldError,
+  updateSubFieldSuccess,
 } from './actions';
 import {message,} from 'antd';
 import {
   callAPIGetExpertDetail,
   callAPIGetListField,
   callAPIUpdateDegreeExpert,
+  callAPIGetSubFieldExpert,
+  callAPIUpdateSubFieldExpert,
 } from 'utils/request';
 import {
   selectIdExpert,
   selectDegree,
   selectPhone,
+  selectIdSubField,
 } from './selectors';
+
+export function* getListSubField() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const response = yield call(callAPIGetSubFieldExpert,userInfo.phone,userInfo.password);
+  try{
+    if (response.data.data.e==0) {
+        yield put(getListSubFieldSuccess(response.data.data.array));
+    } else {
+      message.error(response.data.data.msg);
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Lấy thông tin lỗi !');
+  }
+  
+}
+export function* getListSubFieldWatcher() {
+  while (yield take(GET_LIST_SUB_FIELD_ACTION)) {
+    yield call(getListSubField);
+  }
+}
 
 export function* getListField() {
   let userInfo = null;
@@ -104,14 +137,45 @@ export function* updateDegreeExpertWatcher() {
   }
 }
 
+export function* updateSubFieldExpert() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const phone = yield select(selectPhone()); 
+  const ids = yield select(selectIdSubField()); 
+  const response = yield call(callAPIUpdateSubFieldExpert,userInfo.phone,userInfo.password,phone,ids);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateSubFieldSuccess(response.data.data.data));
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateSubFieldError());
+    }
+  } catch(error){
+    message.error(response.data.data.e+" Lỗi trong quá trình xử lý");
+    yield put(updateSubFieldError());
+  }
+  
+}
+export function* updateSubFieldExpertWatcher() {
+  while (yield take(UPDATE_SUB_FIELD_ACTION)) {
+    yield call(updateSubFieldExpert);
+  }
+}
 export function* defaultSaga() {
   const watchergetExpertDetail = yield fork(getExpertDetailWatcher);
   const watchergetListField = yield fork(getListFieldWatcher);
   const watcherupdateDegreeExpert = yield fork(updateDegreeExpertWatcher);
+  const watchergetListSubField = yield fork(getListSubFieldWatcher);
+  const watcherupdateSubFieldExpert = yield fork(updateSubFieldExpertWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetExpertDetail);
     yield cancel(watchergetListField);
     yield cancel(watcherupdateDegreeExpert);
+    yield cancel(watchergetListSubField);
+    yield cancel(watcherupdateSubFieldExpert);
   }
 }
 

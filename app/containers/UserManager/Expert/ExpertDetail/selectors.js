@@ -26,6 +26,14 @@ const selectPhone = () => createSelector(
   selectExpertDetailDomain(),
   (substate) => substate.get('phone')
 );
+const selectSubField = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('listSubField')
+);
+const selectIdSubField = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('idSubField')
+);
 export {
   selectExpertDetailDomain,
   selectIdExpert,
@@ -34,4 +42,6 @@ export {
   selectListField,
   selectDegree,
   selectPhone,
+  selectSubField,
+  selectIdSubField,
 };

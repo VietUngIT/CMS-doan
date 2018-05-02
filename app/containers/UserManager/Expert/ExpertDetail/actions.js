@@ -8,9 +8,44 @@ import {
   GET_LIST_FIELD_ACTION_SUCCESS,
   UPDATE_DEGREE_ACTION,
   UPDATE_DEGREE_ACTION_SUCCESS,
-  UPDATE_DEGREE_ACTION_ERROR
+  UPDATE_DEGREE_ACTION_ERROR,
+  GET_LIST_SUB_FIELD_ACTION,
+  GET_LIST_SUB_FIELD_ACTION_SUCCESS,
+  UPDATE_SUB_FIELD_ACTION,
+  UPDATE_SUB_FIELD_ACTION_SUCCESS,
+  UPDATE_SUB_FIELD_ACTION_ERROR,
 } from './constants';
 
+
+export function updateSubField(ids,phone) {
+  return {
+    type: UPDATE_SUB_FIELD_ACTION,
+    ids,
+    phone,
+  };
+}
+export function updateSubFieldSuccess(data) {
+  return {
+    type: UPDATE_SUB_FIELD_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateSubFieldError() {
+  return {
+    type: UPDATE_SUB_FIELD_ACTION_ERROR,
+  };
+}
+export function getListSubField() {
+  return {
+    type: GET_LIST_SUB_FIELD_ACTION,
+  };
+}
+export function getListSubFieldSuccess(data) {
+  return {
+    type: GET_LIST_SUB_FIELD_ACTION_SUCCESS,
+    data,
+  };
+}
 export function updateDegree(degree,phone) {
   return {
     type: UPDATE_DEGREE_ACTION,

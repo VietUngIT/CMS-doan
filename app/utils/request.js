@@ -778,3 +778,34 @@ export function callAPIUpdateDegreeExpert(ph,p,phone,degree) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIGetSubFieldExpert(phone,password) {
+  const url = `${API_BASE_URL}fieldofexpert?ph=${phone}&p=${password}&t=getall`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateSubFieldExpert(ph,p,phone,ids) {
+  const url = `${API_BASE_URL}adminexpert`;
+  var formData = new FormData();
+  formData.append("t","editfield")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("phone",phone);
+  if(ids){
+    formData.append("idfield",JSON.stringify(ids));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

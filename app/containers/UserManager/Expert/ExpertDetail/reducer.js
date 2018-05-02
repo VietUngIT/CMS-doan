@@ -10,6 +10,11 @@ import {
   UPDATE_DEGREE_ACTION,
   UPDATE_DEGREE_ACTION_SUCCESS,
   UPDATE_DEGREE_ACTION_ERROR,
+  GET_LIST_SUB_FIELD_ACTION,
+  GET_LIST_SUB_FIELD_ACTION_SUCCESS,
+  UPDATE_SUB_FIELD_ACTION,
+  UPDATE_SUB_FIELD_ACTION_SUCCESS,
+  UPDATE_SUB_FIELD_ACTION_ERROR,
 } from './constants';
 
 const initialState = fromJS({
@@ -18,11 +23,32 @@ const initialState = fromJS({
   idExpert: false,
   listField: [],
   degree: [],
+  listSubField: [],
+  idSubField: [],
   phone: false,
 });
 
 function expertDetailReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_SUB_FIELD_ACTION:
+      return state
+      .set("idSubField",action.ids)
+      .set("phone",action.phone)
+    case UPDATE_SUB_FIELD_ACTION_SUCCESS:
+      return state
+      .set("expertDetail",action.data)
+      .set("idSubField",[])
+      .set("phone",false)
+    case UPDATE_SUB_FIELD_ACTION_ERROR:
+      return state
+      .set("idSubField",[])
+      .set("phone",false)
+    case GET_LIST_SUB_FIELD_ACTION:
+      return state
+      .set("listSubField",[])
+    case GET_LIST_SUB_FIELD_ACTION_SUCCESS:
+      return state
+      .update('listSubField', listSubField => listSubField.concat(action.data))
     case UPDATE_DEGREE_ACTION:
       return state
       .set("degree",action.degree)

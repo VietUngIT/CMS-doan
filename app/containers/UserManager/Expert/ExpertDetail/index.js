@@ -11,16 +11,20 @@ import { createStructuredSelector } from 'reselect';
 import { Row, Col, Button, Icon,Pagination } from 'antd';
 import CusInput from 'components/Utils/CusInput';
 import Tags from 'components/Utils/Tags';
+import CusSelect from 'components/Utils/CusSelect';
 import styles from './styles';
 import {
   getListField,
   getExpertDetail,
   updateDegree,
+  getListSubField,
+  updateSubField,
  } from './actions';
  import {
   selectListField,
   selectExpertDetail,
   selectLoading,
+  selectSubField,
  } from './selectors';
 
 export class ExpertDetail extends React.Component {
@@ -38,13 +42,12 @@ export class ExpertDetail extends React.Component {
     if(!(this.props.listField && (this.props.listField.size>0 || this.props.listField.length>0))){
       this.props.getListField();
     }
+    if(!(this.props.listSubField && (this.props.listSubField.size>0 || this.props.listSubField.length>0))){
+      this.props.getListSubField();
+    }
     this.props.getExpertDetail(this.props.params.id_expert);
-    // this.setState({
-    //   listFieldDetail: [],
-    // })
   }
   componentWillReceiveProps(nextProps){
-    console.log("componentWillReceiveProps");
     if(this.props.params.id_expert !== nextProps.params.id_expert){
       this.props.getExpertDetail(nextProps.params.id_expert);
     }
@@ -55,7 +58,7 @@ export class ExpertDetail extends React.Component {
       }))
       let tempField = [];
       nextProps.expert.arrayField.map((item,index)=>{
-        tempField.push(item.id)
+        tempField.push(item)
         
       })
       this.setState((prevState) => ({
@@ -69,11 +72,6 @@ export class ExpertDetail extends React.Component {
       console.log(this.state.listFieldDetail)
       // this.updateDegree(tempDegree);
     }
-  }
-  updateDegree=(value)=>{
-    this.setState({
-      degree: value,
-    })
   }
   capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -100,12 +98,9 @@ export class ExpertDetail extends React.Component {
   }
   updateDegree=()=>{
     if(this.props.expert){
-      console.log(this.props.expert)
       this.props.updateDegree(this.state.degree,this.props.expert.phone)
     }
-    this.setState({
-      stateEditDegree: false,
-    })
+    this.setState({stateEditDegree: false,})
   }
   cancleDegree=()=>{
     if(this.props.expert){
@@ -114,9 +109,65 @@ export class ExpertDetail extends React.Component {
         degree: tempDegree,
       })
     }
-    this.setState({
-      stateEditDegree: false,
+    this.setState({stateEditDegree: false,})
+  }
+
+  addField=()=>{
+    let name = "";
+    if(this.props.listSubField && (this.props.listSubField.size>0 || this.props.listSubField.length>0)){
+      this.props.listSubField.map((item, index) => {
+        if(item.id===this.selectField.value){
+          name = item.nameField;   
+        }
+      })
+    }
+    var i = 0;
+    this.state.listFieldDetail.map((item,index)=>{
+      if(item.id===this.selectField.value){
+        i++;
+      }
     })
+    if(i===0){
+      var temp = this.state.listFieldDetail;
+      temp.push({id:this.selectField.value, idParentField: this.props.expert.idParentField, nameField:name})
+      this.setState({listFieldDetail: temp})
+    }
+    
+  }
+  removeField=(idx)=>{
+    this.setState({
+      listFieldDetail: this.state.listFieldDetail.filter((item,index)=>{
+        if(item.id!==idx) return item;
+      })
+    })
+  }
+  editField=()=>{
+    this.setState({
+      stateEditFieldDetail: true,
+    })
+  }
+  updateField=()=>{
+    if(this.props.expert){
+      var ids = [];
+      this.state.listFieldDetail.map((item,index)=>{
+        ids.push(item.id);
+      });
+      console.log("ids")
+      console.log(ids)
+      this.props.updateSubField(ids,this.props.expert.phone)
+    }
+    this.setState({stateEditFieldDetail: false,})
+  }
+  cancleField=()=>{
+    let tempField = [];
+      this.props.expert.arrayField.map((item,index)=>{
+        tempField.push(item)
+        
+      })
+      this.setState((prevState) => ({
+        listFieldDetail: tempField
+      }))
+    this.setState({stateEditFieldDetail: false,})
   }
   render() {
     let name = "";
@@ -134,6 +185,8 @@ export class ExpertDetail extends React.Component {
     let detaiField = "";
     let degree = "";
     let listDegree = false;
+    let showListField = false;
+    let dropSubField = false;
     if(this.props.expert){
       name = this.props.expert.name;
       if(this.props.expert.avatar!==null){
@@ -170,13 +223,23 @@ export class ExpertDetail extends React.Component {
           }
         })
       }
+
+      if(this.props.listSubField && (this.props.listSubField.size>0 || this.props.listSubField.length>0)){
+        dropSubField = this.props.listSubField.map((item, index) => {
+          if(item.idParentField===this.props.expert.idParentField){
+            return (<option value={item.id}  key={index}>{item.nameField}</option>)    
+          }
+        })
+      }
     }
-    console.log(this.state.degree)
-    console.log("listFieldDetail")
-      console.log(this.state.listFieldDetail)
     if(this.state.degree && (this.state.degree.size>0 || this.state.degree.length>0)){
       listDegree = this.state.degree.map((item,index)=>{
         return <Tags content={item} key={index} index={index} removeTags={this.removeDegree}/>
+      });
+    }
+    if(this.state.listFieldDetail && (this.state.listFieldDetail.size>0 || this.state.listFieldDetail.length>0)){
+      showListField = this.state.listFieldDetail.map((item,index)=>{
+        return <Tags content={item.nameField} key={index} index={item.id} removeTags={this.removeField}/>
       });
     }
 
@@ -211,23 +274,27 @@ export class ExpertDetail extends React.Component {
               <div style={styles.label}>Lĩnh vực làm việc</div>
               <div style={styles.value}>{fieldName}</div>
               <div style={styles.labelWork}>Chi tiết lĩnh vực làm việc</div>
-              <Icon type="edit" style={styles.iconEdit} />
-              <div style={{display:this.state.stateEditDegree?'':"none"}}>
+              <Icon onClick={this.editField} type="edit" style={styles.iconEdit} />
+              <div style={{display:this.state.stateEditFieldDetail?'':"none"}}>
                 <div style={{display: 'flex'}}>
                   <div style={{flex: 1}}>
-                    <CusInput type='text' innerRef={(comp) => { this.degreeExpert = comp;}} placeholder="Nhập bằng cấp"/>
+                  <CusSelect type='text' innerRef={(comp) => { this.selectField = comp;}} ref="selectFieldExpert">
+                    {dropSubField}
+                  </CusSelect>
                   </div>
                   <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
-                    <Button onClick={this.addDegree}>Thêm</Button>
+                    <Button onClick={this.addField}>Thêm</Button>
                   </div>
                 </div>
-                <div>{listDegree}</div>
+                <div>{showListField}</div>
                 <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
-                  <Button onClick={this.updateDegree} type="primary" icon="reload" >Cập nhật</Button>
-                  <Button onClick={this.cancleDegree} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
+                  <Button onClick={this.updateField} type="primary" icon="reload" >Cập nhật</Button>
+                  <Button onClick={this.cancleField} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
                 </div>
               </div>
-              <div style={styles.value}>{detaiField}</div>
+              <div style={{display:this.state.stateEditFieldDetail?'none':""}}>
+                <div style={styles.value}>{detaiField}</div>
+              </div>
               <div style={styles.labelWork}>Bằng cấp</div>
               <Icon onClick={this.editDegree} type="edit" style={styles.iconEdit} />
               <div style={{display:this.state.stateEditDegree?'':"none"}}>
@@ -312,13 +379,16 @@ const mapStateToProps = createStructuredSelector({
   listField: selectListField(),
   expert: selectExpertDetail(),
   loading: selectLoading(),
+  listSubField: selectSubField(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    getListSubField:() => dispatch(getListSubField()),
     getListField: () => dispatch(getListField()),
     getExpertDetail: (id) => dispatch(getExpertDetail(id)),
     updateDegree: (degree,phone) => dispatch(updateDegree(degree,phone)),
+    updateSubField: (ids,phone) => dispatch(updateSubField(ids,phone)),
     dispatch,
   };
 }
