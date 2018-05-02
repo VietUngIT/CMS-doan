@@ -72,7 +72,7 @@ class ModalAddAgriTech extends React.Component {
         author = this.refs.authorAdd.value.trim();
       }
       if(this.refs.imageForNewsAgriTech.src && this.refs.imageForNewsAgriTech.src.toString().indexOf("data\:image")>-1 && this.refs.imageForNewsAgriTech.src.toString().indexOf(";base64")>-1){
-        this.props.addNewsAgriTech(this.props.idSubcate?this.props.idSubcate:this.props.params.id_sub_cate,this.refs.titleAdd.value.trim(),
+        this.props.addNewsAgriTech(this.props.idSubcate,this.refs.titleAdd.value.trim(),
           author,this.refs.imageForNewsAgriTech.src.toString(),
           this.state.listTags,this.refs.selectCateIdAdd.value,this.state.stateContent)
 

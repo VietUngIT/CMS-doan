@@ -23,7 +23,13 @@ export  class App extends React.Component {
     super(props);
       this.state = {
         widthNavigation: 18,
+        collapseNavi: false,
       };
+  }
+  toggleNavigation=()=>{
+    this.setState({
+      collapseNavi: !this.state.collapseNavi,
+    })
   }
   clickIconButton =()=>{
     if(this.state.widthNavigation === 3){
@@ -67,10 +73,10 @@ export  class App extends React.Component {
       
       content = (
         <div style={{height:"100%"}} >
-          <Header/>
+          <Header toggleNavigation={this.toggleNavigation} collapse={this.state.collapseNavi}/>
           <AppWrapper>
-              <div style={{ width: "220px",height: '100%',overflow: 'auto',position: 'fixed',background: '#39435C',zIndex: 10}}>
-                <NavigationBar widthNavigation={220} changeNavigationBar={()=>this.clickIconButton()}/>
+              <div style={{ height: '100%',overflow: 'auto',position: 'fixed',background: '#39435C',zIndex: 10}}>
+                <NavigationBar collapse={this.state.collapseNavi} widthNavigation={220} changeNavigationBar={()=>this.clickIconButton()}/>
               </div>
               <div style={{paddingLeft: 225,paddingTop: 60,height: '100%',position: 'fixed',width: '100%',overflowY: 'auto'}}>
                 <div style={{height: '100%',padding: 10,}}>

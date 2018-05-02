@@ -103,7 +103,7 @@ export class ListMarketInfo extends React.Component {
     let breadCrumb = null;
     if(this.props.listCate && (this.props.listCate.size >0 || this.props.listCate.length>0)){
       modalAdd = (
-        <ModalAddNewsMK listCate={this.props.listCate} addNewsMK={this.props.addNewsMK} idcate={this.state.news.idCateNews}
+        <ModalAddNewsMK listCate={this.props.listCate} addNewsMK={this.props.addNewsMK} idcate={this.props.params.id_cate_news}
           modalAddNews={this.state.modalAddNews} handleCloseModalAdd={this.handleCloseModalAdd}
           errorCode={this.props.errorCode}/>
       )

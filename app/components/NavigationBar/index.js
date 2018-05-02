@@ -19,6 +19,8 @@ class NavigationBar extends React.Component {
     this.state = {
       active: 1,
       current: '1',
+      openKeys: ['sub1'],
+      rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
     };
   }
 
@@ -35,13 +37,15 @@ class NavigationBar extends React.Component {
   }
   componentDidMount(){
     if(location.pathname.toUpperCase().indexOf("/NEWS")>-1){
-      this.setState({active: 2}); 
+      this.setState({current: '1',openKeys: ['sub1']}); 
     }else if(location.pathname.toUpperCase().indexOf("/MARKETINFO")>-1){
-      this.setState({active: 3}); 
+      this.setState({current: '2',openKeys: ['sub1']}); 
     }else if(location.pathname.toUpperCase().indexOf("/AGRITECH")>-1){
-      this.setState({active: 4}); 
-    }else{
-      this.setState({active: 1}); 
+      this.setState({current: '3',openKeys: ['sub1']}); 
+    }else if(location.pathname.toUpperCase().indexOf("/MARKETPRICE")>-1){
+      this.setState({current: '4',openKeys: ['sub1']}); 
+    }else if(location.pathname.toUpperCase().indexOf("/EXPERT")>-1){
+      this.setState({current: '5',openKeys: ['sub2']}); 
     }
   }
 
@@ -84,15 +88,27 @@ class NavigationBar extends React.Component {
       current: e.key,
     });
   }
+
+  onOpenChange = (openKeys) => {
+    const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+    if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      this.setState({ openKeys });
+    } else {
+      this.setState({
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
+      });
+    }
+  }
   
   render() {
     var menu = (
       <Menu
           theme="dark"
           onClick={this.handleClick}
-          style={{ width: 220,background: "#39435c", }}
-          defaultOpenKeys={['sub1']}
+          style={{ background: "#39435c"}}
+          openKeys={this.state.openKeys}
           selectedKeys={[this.state.current]}
+          onOpenChange={this.onOpenChange}
           mode="inline"
         >
           <SubMenu style={{background: '#000'}} key="sub1" title={<span><Icon type="mail" /><span style={{fontSize: 15}}>Quản lý tin tức</span></span>}>
@@ -105,15 +121,15 @@ class NavigationBar extends React.Component {
             <Menu.Item key="5">Chuyên gia</Menu.Item>
             <Menu.Item key="6">Q&A</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub4" title={<span><Icon type="setting" /><span style={{fontSize: 15}}>Cá nhân</span></span>}>
+          <SubMenu key="sub3" title={<span><Icon type="setting" /><span style={{fontSize: 15}}>Cá nhân</span></span>}>
             <Menu.Item key="7">Thông tin cá nhân</Menu.Item>
             <Menu.Item key="8">Đăng xuất</Menu.Item>
           </SubMenu>
         </Menu>
     )
     return (
-      <div style={{height:'100%',paddingTop: 50}}>
-        <div style={{padding:'20px 10px',borderBottom: "1px solid #d8d8d8",display: 'flex'}}>
+      <div style={{height:'100%',paddingTop: 50,width:220 }}>
+        <div style={{padding:'20px 10px',borderBottom: "1px solid #d8d8d8",display:'flex'}}>
           <img src={require('containers/App/maxresdefault.jpg')} width='55' height='55' style={styles.avatar}/>
           <div style={{display: 'flex',flexDirection: 'column',paddingTop: 10}}>
             <span style={{color:'#FFF'}}>Admin</span>

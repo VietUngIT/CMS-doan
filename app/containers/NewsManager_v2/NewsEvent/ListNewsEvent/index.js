@@ -52,7 +52,6 @@ export class ListNewsEvent extends React.Component {
     });
   }
   addNewsHandle=()=>{
-    console.log("addNewsHandle")
     this.handleShowModalAdd();
   }
   componentWillMount(){
@@ -86,7 +85,6 @@ export class ListNewsEvent extends React.Component {
     
   }
   confirm=(e)=> {
-    console.log('Click on Yes');
     if(this.state.news){
       this.props.deleteNews(this.state.news.id);
     }
@@ -99,7 +97,7 @@ export class ListNewsEvent extends React.Component {
     let breadCrumb = null;
     if(this.props.listCate && (this.props.listCate.size >0 || this.props.listCate.length>0)){
       modalAdd = (
-        <ModalAddNews listCate={this.props.listCate} addNews={this.props.addNews} idcate={this.state.news.idCateNews}
+        <ModalAddNews listCate={this.props.listCate} addNews={this.props.addNews} idcate={this.props.params.id_cate_news}
           modalAddNews={this.state.modalAddNews} handleCloseModalAdd={this.handleCloseModalAdd}
           errorCode={this.props.errorCode}/>
       )

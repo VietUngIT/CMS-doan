@@ -34,6 +34,10 @@ const selectIdSubField = () => createSelector(
   selectExpertDetailDomain(),
   (substate) => substate.get('idSubField')
 );
+const selectTags = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('tags')
+);
 export {
   selectExpertDetailDomain,
   selectIdExpert,
@@ -44,4 +48,5 @@ export {
   selectPhone,
   selectSubField,
   selectIdSubField,
+  selectTags,
 };

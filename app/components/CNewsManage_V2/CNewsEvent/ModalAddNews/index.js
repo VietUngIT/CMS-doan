@@ -102,7 +102,7 @@ class ModalAddNews extends React.Component {
         source = this.refs.sourceAdd.value.trim();
       }
       if(this.refs.imageForNews.src && this.refs.imageForNews.src.toString().indexOf("data\:image")>-1 && this.refs.imageForNews.src.toString().indexOf(";base64")>-1){
-        this.props.addNews(this.props.idcate?this.props.idcate:this.props.params.id_cate_news,this.refs.titleAdd.value.trim(),
+        this.props.addNews(this.props.idcate,this.refs.titleAdd.value.trim(),
           this.refs.shortDescAdd.value.trim(),author,this.refs.imageForNews.src.toString(),source,
           this.state.listTags,this.refs.selectCateIdAdd.value,this.state.stateContent)
 

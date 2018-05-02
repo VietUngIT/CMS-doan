@@ -15,6 +15,9 @@ import {
   UPDATE_SUB_FIELD_ACTION,
   UPDATE_SUB_FIELD_ACTION_SUCCESS,
   UPDATE_SUB_FIELD_ACTION_ERROR,
+  UPDATE_TAGS_ACTION,
+  UPDATE_TAGS_ACTION_SUCCESS,
+  UPDATE_TAGS_ACTION_ERROR,
 } from './constants';
 
 const initialState = fromJS({
@@ -26,10 +29,25 @@ const initialState = fromJS({
   listSubField: [],
   idSubField: [],
   phone: false,
+  tags: [],
+  // stateTags: false,
 });
 
 function expertDetailReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_TAGS_ACTION:
+      return state
+      .set("tags",action.tags)
+      .set("phone",action.phone)
+    case UPDATE_TAGS_ACTION_SUCCESS:
+      return state
+      .set("expertDetail",action.data)
+      .set("tags",[])
+      .set("phone",false)
+    case UPDATE_TAGS_ACTION_ERROR:
+      return state
+      .set("tags",[])
+      .set("phone",false)
     case UPDATE_SUB_FIELD_ACTION:
       return state
       .set("idSubField",action.ids)

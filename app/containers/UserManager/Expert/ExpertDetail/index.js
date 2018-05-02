@@ -19,6 +19,7 @@ import {
   updateDegree,
   getListSubField,
   updateSubField,
+  updateTags,
  } from './actions';
  import {
   selectListField,
@@ -34,8 +35,10 @@ export class ExpertDetail extends React.Component {
         showProfile: true,
         stateEditDegree: false,
         stateEditFieldDetail: false,
+        stateEditTags: false,
         degree: [],
         listFieldDetail: [],
+        listTags: [],
       };
   }
   componentWillMount(){
@@ -64,14 +67,14 @@ export class ExpertDetail extends React.Component {
       this.setState((prevState) => ({
         listFieldDetail: tempField
       }))
-      console.log("temp")
-      console.log(tempDegree)
-      console.log("state")
-      console.log(this.state.degree)
-      console.log("listFieldDetail")
-      console.log(this.state.listFieldDetail)
-      // this.updateDegree(tempDegree);
     }
+    if(nextProps.expert){
+      let tempTags = JSON.parse(nextProps.expert.tags);
+      this.setState((prevState) => ({
+        listTags: tempTags
+      }))
+    }
+    
   }
   capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -152,8 +155,6 @@ export class ExpertDetail extends React.Component {
       this.state.listFieldDetail.map((item,index)=>{
         ids.push(item.id);
       });
-      console.log("ids")
-      console.log(ids)
       this.props.updateSubField(ids,this.props.expert.phone)
     }
     this.setState({stateEditFieldDetail: false,})
@@ -168,6 +169,35 @@ export class ExpertDetail extends React.Component {
         listFieldDetail: tempField
       }))
     this.setState({stateEditFieldDetail: false,})
+  }
+
+  addTags=()=>{
+    if(this.tagsExpert.value && this.tagsExpert.value.trim()!==""){
+      var temp = this.state.listTags;
+      temp.push(this.tagsExpert.value.trim())
+      this.setState({listTags: temp})
+      this.tagsExpert.value="";
+    }
+  }
+  removeTags=(idx)=>{
+    this.setState({
+      listTags: this.state.listTags.filter((item,index)=>{
+        if(index!==idx) return item;
+      })
+    })
+  }
+  updateTags=()=>{
+    if(this.props.expert){
+      this.props.updateTags(this.state.listTags,this.props.expert.phone)
+    }
+  }
+  cancelTags=()=>{
+    if(this.props.expert){
+      let tempTags = JSON.parse(this.props.expert.tags);
+      this.setState({
+        listTags: tempTags,
+      })
+    }
   }
   render() {
     let name = "";
@@ -187,6 +217,7 @@ export class ExpertDetail extends React.Component {
     let listDegree = false;
     let showListField = false;
     let dropSubField = false;
+    let showTags = false;
     if(this.props.expert){
       name = this.props.expert.name;
       if(this.props.expert.avatar!==null){
@@ -240,6 +271,11 @@ export class ExpertDetail extends React.Component {
     if(this.state.listFieldDetail && (this.state.listFieldDetail.size>0 || this.state.listFieldDetail.length>0)){
       showListField = this.state.listFieldDetail.map((item,index)=>{
         return <Tags content={item.nameField} key={index} index={item.id} removeTags={this.removeField}/>
+      });
+    }
+    if(this.state.listTags && (this.state.listTags.size>0 || this.state.listTags.length>0)){
+      showTags = this.state.listTags.map((item,index)=>{
+        return <Tags content={item} key={index} index={index} removeTags={this.removeTags}/>
       });
     }
 
@@ -319,7 +355,23 @@ export class ExpertDetail extends React.Component {
           </div>
           <div style={styles.wrapDetail}>
             <div style={styles.wrapTitle}>Từ khóa tìm kiếm</div>
-            <div style={styles.wrapBody}>body</div>
+            <div style={styles.wrapBody}>
+            <div >
+                <div style={{display: 'flex'}}>
+                  <div style={{flex: 1}}>
+                    <CusInput type='text' innerRef={(comp) => { this.tagsExpert = comp;}} placeholder="Nhập từ khóa"/>
+                  </div>
+                  <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
+                    <Button onClick={this.addTags}>Thêm</Button>
+                  </div>
+                </div>
+                <div>{showTags}</div>
+                <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
+                  <Button onClick={this.updateTags} type="primary" icon="reload" >Cập nhật</Button>
+                  <Button onClick={this.cancelTags} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -389,6 +441,7 @@ function mapDispatchToProps(dispatch) {
     getExpertDetail: (id) => dispatch(getExpertDetail(id)),
     updateDegree: (degree,phone) => dispatch(updateDegree(degree,phone)),
     updateSubField: (ids,phone) => dispatch(updateSubField(ids,phone)),
+    updateTags: (tags,phone) => dispatch(updateTags(tags,phone)),
     dispatch,
   };
 }

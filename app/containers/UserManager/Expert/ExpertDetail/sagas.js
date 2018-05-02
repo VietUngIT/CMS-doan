@@ -7,6 +7,7 @@ import {
   UPDATE_DEGREE_ACTION,
   GET_LIST_SUB_FIELD_ACTION,
   UPDATE_SUB_FIELD_ACTION,
+  UPDATE_TAGS_ACTION,
 } from './constants';
 import { 
   getExpertDetailSuccess,
@@ -17,6 +18,8 @@ import {
   getListSubFieldSuccess,
   updateSubFieldError,
   updateSubFieldSuccess,
+  updateTagsSuccess,
+  updateTagsError,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -25,12 +28,14 @@ import {
   callAPIUpdateDegreeExpert,
   callAPIGetSubFieldExpert,
   callAPIUpdateSubFieldExpert,
+  callAPIEditTagsExpert,
 } from 'utils/request';
 import {
   selectIdExpert,
   selectDegree,
   selectPhone,
   selectIdSubField,
+  selectTags,
 } from './selectors';
 
 export function* getListSubField() {
@@ -164,18 +169,49 @@ export function* updateSubFieldExpertWatcher() {
     yield call(updateSubFieldExpert);
   }
 }
+
+export function* updateTagsExpert() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const phone = yield select(selectPhone()); 
+  const tags = yield select(selectTags()); 
+  const response = yield call(callAPIEditTagsExpert,userInfo.phone,userInfo.password,tags,phone);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateTagsSuccess(response.data.data.data));
+        message.success("Cập nhật thành công.");
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateTagsError());
+    }
+  } catch(error){
+    message.error(response.data.data.e+" Lỗi trong quá trình xử lý");
+    yield put(updateTagsError());
+  }
+  
+}
+export function* updateTagsExpertWatcher() {
+  while (yield take(UPDATE_TAGS_ACTION)) {
+    yield call(updateTagsExpert);
+  }
+}
 export function* defaultSaga() {
   const watchergetExpertDetail = yield fork(getExpertDetailWatcher);
   const watchergetListField = yield fork(getListFieldWatcher);
   const watcherupdateDegreeExpert = yield fork(updateDegreeExpertWatcher);
   const watchergetListSubField = yield fork(getListSubFieldWatcher);
   const watcherupdateSubFieldExpert = yield fork(updateSubFieldExpertWatcher);
+  const watcherupdateTagsExpert = yield fork(updateTagsExpertWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetExpertDetail);
     yield cancel(watchergetListField);
     yield cancel(watcherupdateDegreeExpert);
     yield cancel(watchergetListSubField);
     yield cancel(watcherupdateSubFieldExpert);
+    yield cancel(watcherupdateTagsExpert);
   }
 }
 

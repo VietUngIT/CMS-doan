@@ -809,3 +809,17 @@ export function callAPIUpdateSubFieldExpert(ph,p,phone,ids) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIEditTagsExpert(ph,p,tags,phone) {
+  const url = `${API_BASE_URL}expertinfo?ph=${ph}&p=${p}&t=edittags&tags=${JSON.stringify(tags)}&phone=${phone}`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

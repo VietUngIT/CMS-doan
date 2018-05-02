@@ -14,8 +14,29 @@ import {
   UPDATE_SUB_FIELD_ACTION,
   UPDATE_SUB_FIELD_ACTION_SUCCESS,
   UPDATE_SUB_FIELD_ACTION_ERROR,
+  UPDATE_TAGS_ACTION,
+  UPDATE_TAGS_ACTION_SUCCESS,
+  UPDATE_TAGS_ACTION_ERROR,
 } from './constants';
 
+export function updateTags(tags,phone) {
+  return {
+    type: UPDATE_TAGS_ACTION,
+    tags,
+    phone,
+  };
+}
+export function updateTagsSuccess(data) {
+  return {
+    type: UPDATE_TAGS_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateTagsError() {
+  return {
+    type: UPDATE_TAGS_ACTION_ERROR,
+  };
+}
 
 export function updateSubField(ids,phone) {
   return {

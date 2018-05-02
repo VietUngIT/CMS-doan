@@ -106,7 +106,7 @@ export class ListAgritech extends React.Component {
     let breadCrumb = null;
     if(this.props.listSubCate && (this.props.listSubCate.size >0 || this.props.listSubCate.length>0)){
       modalAdd = (
-        <ModalAddAgriTech listSubCate={this.props.listSubCate} addNewsAgriTech={this.props.addNewsAgriTech} idSubcate={this.state.news.idSubCate}
+        <ModalAddAgriTech listSubCate={this.props.listSubCate} addNewsAgriTech={this.props.addNewsAgriTech} idSubcate={this.props.params.id_sub_cate}
           modalAddNews={this.state.modalAddNews} handleCloseModalAdd={this.handleCloseModalAdd}
           errorCode={this.props.errorCode}/>
       )
