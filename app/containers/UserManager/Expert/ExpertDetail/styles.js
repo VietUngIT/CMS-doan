@@ -41,6 +41,24 @@ const styles = {
     wrapBody: {
         background: '#FFFFFF',
         padding: 10
+    },
+    label: {
+        fontWeight: 600,
+    },
+    value: {
+        fontStyle: 'italic',
+        color: '#515151',
+        marginBottom: 10,
+    },
+    labelWork: {
+        fontWeight: 600,
+        display: "inline-block",
+    },
+    iconEdit: {
+        cursor: "pointer",
+        fontSize: 16,
+        fontWeight: 600,
+        marginLeft: 5,
     }
 }
 

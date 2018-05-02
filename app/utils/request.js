@@ -747,3 +747,34 @@ export function callAPIAddExpert(ph,p,name,phone,desc,email,address,workplace,id
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIGetExpertDetail(phone,password,id) {
+  const url = `${API_BASE_URL}expertinfo?ph=${phone}&p=${password}&t=get&idexpert=${id}`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateDegreeExpert(ph,p,phone,degree) {
+  const url = `${API_BASE_URL}adminexpert`;
+  var formData = new FormData();
+  formData.append("t","editdegree")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("phone",phone);
+  if(degree){
+    formData.append("degree",JSON.stringify(degree));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

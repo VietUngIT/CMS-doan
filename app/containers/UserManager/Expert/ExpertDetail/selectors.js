@@ -1,25 +1,37 @@
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the expertDetail state domain
- */
 const selectExpertDetailDomain = () => (state) => state.get('expertDetail');
 
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by ExpertDetail
- */
-
-const makeSelectExpertDetail = () => createSelector(
+const selectIdExpert = () => createSelector(
   selectExpertDetailDomain(),
-  (substate) => substate.toJS()
+  (substate) => substate.get('idExpert')
 );
-
-export default makeSelectExpertDetail;
+const selectExpertDetail = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('expertDetail')
+);
+const selectLoading = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('isLoading')
+);
+const selectListField = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('listField')
+);
+const selectDegree = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('degree')
+);
+const selectPhone = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('phone')
+);
 export {
   selectExpertDetailDomain,
+  selectIdExpert,
+  selectExpertDetail,
+  selectLoading,
+  selectListField,
+  selectDegree,
+  selectPhone,
 };
