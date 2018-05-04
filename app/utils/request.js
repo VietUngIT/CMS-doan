@@ -823,3 +823,17 @@ export function callAPIEditTagsExpert(ph,p,tags,phone) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIGetListQA(ph,p,idField,page) {
+  const url = `${API_BASE_URL}qaquestion?ph=${ph}&p=${p}&t=getbyidfield&idfield=${idField}&page=${page}&ofset=4`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

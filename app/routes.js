@@ -346,6 +346,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     },{
+      path: '/qa-info',
+      name: 'qainfo',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/QAManager/Qainfo/reducer'),
+          import('containers/QAManager/Qainfo/sagas'),
+          import('containers/QAManager/Qainfo'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('qainfo', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },{
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

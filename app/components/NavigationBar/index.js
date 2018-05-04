@@ -46,6 +46,8 @@ class NavigationBar extends React.Component {
       this.setState({current: '4',openKeys: ['sub1']}); 
     }else if(location.pathname.toUpperCase().indexOf("/EXPERT")>-1){
       this.setState({current: '5',openKeys: ['sub2']}); 
+    }else if(location.pathname.toUpperCase().indexOf("/QA")>-1){
+      this.setState({current: '6',openKeys: ['sub2']}); 
     }
   }
 
@@ -79,6 +81,9 @@ class NavigationBar extends React.Component {
         break;
       case '5':
         browserHistory.push('/expert')
+        break;
+      case '6':
+        browserHistory.push('/qa-info')
         break;
       case '8':
         this.logoutHandle();
