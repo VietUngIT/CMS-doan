@@ -837,3 +837,50 @@ export function callAPIGetListQA(ph,p,idField,page) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIAddQA(ph,p,id,content,title,answer) {
+  const url = `${API_BASE_URL}adminqaquestion`;
+  var formData = new FormData();
+  formData.append("t","ad")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("idfield",id);
+  formData.append("content",content);
+  formData.append("title",title);
+  formData.append("answer",answer);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+export function callAPIDelQA(ph,p,id) {
+  const url = `${API_BASE_URL}adminqaquestion`;
+  var formData = new FormData();
+  formData.append("t","del")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIEditQA(ph,p,id,content,title,answer) {
+  const url = `${API_BASE_URL}adminqaquestion`;
+  var formData = new FormData();
+  formData.append("t","edit")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("content",content);
+  formData.append("title",title);
+  formData.append("answer",answer);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

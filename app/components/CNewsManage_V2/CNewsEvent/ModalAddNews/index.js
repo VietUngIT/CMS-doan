@@ -27,6 +27,17 @@ const Button_ = styled.button`
 `;
 
 const CKeditor = null;
+var contentEditor = false;
+var toolbarGroups = [
+  { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+  { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+  { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+  '/',
+  { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+  { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+  { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+  { name: 'about', items: [ 'About' ] }
+];
 class ModalAddNews extends React.Component {
   constructor(props) {
     super(props);
@@ -34,19 +45,16 @@ class ModalAddNews extends React.Component {
     this.state = {
       listTags: [],
       stateContent: "",
+      content: "",
+      initValue: "",
     }
   } 
-  updateContent(newContent) {
-    this.setState({
-      stateContent: newContent
+  handleChangeContent=(content)=>{
+  	this.setState({
+      content: content,
     })
   }
-  componentWillMount(){
-    console.log("componentWillMount")
-  }
-  componentWillUpdate(){
-    console.log("componentWillUpdate")
-  }
+ 
   addTags=()=>{
     if(this.refs.tagsAdd.value && this.refs.tagsAdd.value.trim()!==""){
       var temp = this.state.listTags;
@@ -90,7 +98,7 @@ class ModalAddNews extends React.Component {
       message.error(" Không được bỏ trống tiêu đề.");
     }else if(this.refs.shortDescAdd.value===null || this.refs.shortDescAdd.value.trim()===""){
       message.error(" Thêm mô tả cho tin tức.");
-    }else if(this.state.stateContent===null || this.state.stateContent.trim()===""){
+    }else if(this.state.content===null || this.state.content===""){
       message.error(" Nội dung tin tức không được để trống.");
     }else{
       let author = null;
@@ -104,7 +112,7 @@ class ModalAddNews extends React.Component {
       if(this.refs.imageForNews.src && this.refs.imageForNews.src.toString().indexOf("data\:image")>-1 && this.refs.imageForNews.src.toString().indexOf(";base64")>-1){
         this.props.addNews(this.props.idcate,this.refs.titleAdd.value.trim(),
           this.refs.shortDescAdd.value.trim(),author,this.refs.imageForNews.src.toString(),source,
-          this.state.listTags,this.refs.selectCateIdAdd.value,this.state.stateContent)
+          this.state.listTags,this.refs.selectCateIdAdd.value,this.state.content)
 
       }else{
         message.error("Chưa chọn ảnh.");
@@ -125,8 +133,8 @@ class ModalAddNews extends React.Component {
     store.src = require('containers/App/maxresdefault.jpg');
     this.setState({
       stateContent: "",
+      initValue: "",
     });
-    CKEDITOR.instances.editor1.setData("");
   }
   componentWillReceiveProps(nextProps){
     if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode){
@@ -199,14 +207,7 @@ class ModalAddNews extends React.Component {
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Nội dung: </div>
           <div>
-            <CKEditor 
-              activeClass="p10" 
-              content={this.state.stateContent}
-              events={{
-                "afterPaste": this.afterPaste,
-                "change": this.onChangeContent
-              }}
-            />
+            <Rackeditor id="ckcontentnews" initValue={this.state.initValue} value={this.state.content} onChange={this.handleChangeContent}/>
           </div>
         </div>
         <div style={{borderTop: "1px dashed #616161",padding: "5px 0px"}}>

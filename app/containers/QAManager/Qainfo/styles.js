@@ -2,11 +2,13 @@ const styles = {
     wrapBtnQA: {
         textAlign: 'end',
         marginRight: 30,
+        marginBottom: 25,
     },
     wrapcontentlistnews: {
         width: '90%',
         height: '100%',
         background: "#FFF",
+        margin: 'auto',
     },
     wrapcontentDetail: {
         width: '95%',
@@ -32,7 +34,7 @@ const styles = {
         position: "fixed",
         top: 0,
         left: 0,
-        background: '#5d5d5d73',
+        background: '#5d5d5d20',
         padding: 60,
         zIndex: 1200,
         textAlign: 'center',

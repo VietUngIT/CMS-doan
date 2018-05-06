@@ -26,6 +26,34 @@ const selectPage = () => createSelector(
   selectQainfoDomain(),
   (substate) => substate.get('page')
 );
+const selectError = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.getIn(['addQA','errorCode'])
+);
+const selectQAAdd = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.get('addQA')
+);
+const selectIdFieldPage = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.getIn(['addQA','idFieldSelect'])
+);
+const selectQADetail = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.get("qaDetail")
+);
+const selectIdQADel = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.get("idQADel")
+);
+const selectQAEdit = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.get("editQA")
+);
+const selectErrorEdit = () => createSelector(
+  selectQainfoDomain(),
+  (substate) => substate.getIn(['editQA','errorCode'])
+);
 export {
   selectQainfoDomain,
   selectListField,
@@ -34,4 +62,11 @@ export {
   selectIdField,
   selectTotal,
   selectPage,
+  selectError,
+  selectQAAdd,
+  selectIdFieldPage,
+  selectQADetail,
+  selectIdQADel,
+  selectQAEdit,
+  selectErrorEdit,
 };
