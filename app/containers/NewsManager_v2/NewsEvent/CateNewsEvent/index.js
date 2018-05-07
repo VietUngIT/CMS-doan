@@ -19,6 +19,7 @@ import {
 } from './actions';
 import {
   selectListCategoryNews,
+  selectLoading,
 } from './selectors';
 
 export class CateNewsEvent extends React.Component {
@@ -26,8 +27,23 @@ export class CateNewsEvent extends React.Component {
     this.props.getListCateNews();
   }
   render() {
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
     return (
       <div style={styles.wrapcontent}>
+        <Helmet
+          title="Tin tức"
+          meta={[
+            { name: 'description', content: 'Description of ListNewsEvent' },
+          ]}
+        />
+        {loading}
         <div style={styles.inlineWrapContent}>
           <div style={styles.header}>Danh mục tin tức - sự kiện</div>
           <div style={styles.content}>
@@ -46,6 +62,7 @@ CateNewsEvent.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   listCategoryNews: selectListCategoryNews(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

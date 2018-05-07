@@ -19,21 +19,21 @@ const Title = styled.div`
   }
 `;
 
-var questionDiv = null;
+// var questionDiv = null;
 class CitemQa extends React.Component {
   componentDidMount(){
     if(this.props.data){
-      questionDiv = document.getElementById('questionDiv_'+this.props.index);
-      questionDiv.innerHTML = this.props.data.content;
+      // questionDiv = document.getElementById('questionDiv_'+this.props.index);
+      // questionDiv.innerHTML = this.props.data.content;
     }
   }
   componentDidUpdate(){
-    if(questionDiv){
+    // if(questionDiv){
       if(this.props.data){
-        questionDiv = document.getElementById('questionDiv_'+this.props.index);
-        questionDiv.innerHTML = this.props.data.content;
+        // questionDiv = document.getElementById('questionDiv_'+this.props.index);
+        // questionDiv.innerHTML = this.props.data.content;
       }
-    }
+    // }
   }
   viewDetail=()=>{
     if(this.props.data){
@@ -50,7 +50,7 @@ class CitemQa extends React.Component {
     return (
       <div style={{padding: 10}}>
         <Title onClick={this.viewDetail}>{title}</Title>
-        <div id={`questionDiv_${this.props.index}`} style={styles.wrapContentQuestion}></div>
+        <div id={`questionDiv_${this.props.index}`} style={styles.wrapContentQuestion}>{question}</div>
       </div>
     );
   }

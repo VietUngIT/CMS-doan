@@ -10,35 +10,36 @@ import { Row, Col, Button, Icon,Pagination ,Modal,Popconfirm} from 'antd';
 import styles from './styles';
 import CusInput from 'components/Utils/CusInput';
 import Rackeditor from 'components/Utils/Rackeditor';
+import CusArea from 'components/Utils/CusArea';
 import {message,} from 'antd';
 
-var questionDiv = false;
+// var questionDiv = false;
 var answerDiv = false;
 class CqaDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEdit: false,
-      contentQuestion: "",
-      initValueQuestion: "",
+      // contentQuestion: "",
+      // initValueQuestion: "",
       contentAnswer: "",
       initValueAnswer: "",
     };
   }
   componentDidMount(){
     if(this.props.qaDetail){
-      questionDiv = document.getElementById('question');
-      questionDiv.innerHTML = this.props.qaDetail.content;
+      // questionDiv = document.getElementById('question');
+      // questionDiv.innerHTML = this.props.qaDetail.content;
       answerDiv = document.getElementById('answer');
       answerDiv.innerHTML = this.props.qaDetail.answer;
     }
 
   }
-  handleChangeQuestion=(content)=>{
-  	this.setState({
-      contentQuestion: content,
-    })
-  }
+  // handleChangeQuestion=(content)=>{
+  // 	this.setState({
+  //     contentQuestion: content,
+  //   })
+  // }
   handleChangeAnswer=(content)=>{
   	this.setState({
       contentAnswer: content,
@@ -58,8 +59,8 @@ class CqaDetail extends React.Component {
   }
   componentDidUpdate(){
     if(this.props.qaDetail){
-      questionDiv = document.getElementById('question');
-      questionDiv.innerHTML = this.props.qaDetail.content;
+      // questionDiv = document.getElementById('question');
+      // questionDiv.innerHTML = this.props.qaDetail.content;
       answerDiv = document.getElementById('answer');
       answerDiv.innerHTML = this.props.qaDetail.answer;
     }
@@ -70,8 +71,9 @@ class CqaDetail extends React.Component {
     });
     if(this.props.qaDetail){
       this.titleQA.value = this.props.qaDetail.title;
+      this.questionQADT.value = this.props.qaDetail.content;
       this.setState({
-        initValueQuestion: this.props.qaDetail.content,
+        // initValueQuestion: this.props.qaDetail.content,
         initValueAnswer: this.props.qaDetail.answer,
       });
     }
@@ -92,20 +94,22 @@ class CqaDetail extends React.Component {
   updateInfo=()=>{
     if(this.titleQA.value===null || this.titleQA.value===""){
       message.error(" Không được bỏ trống tiêu đề.");
-    } else if(this.state.contentQuestion===null || this.state.contentQuestion===""){
+    } else if(this.questionQADT.value===null || this.questionQADT.value===""){
       message.error(" Không được bỏ trống câu hỏi.");
     } else if(this.state.contentAnswer===null || this.state.contentAnswer===""){
       message.error(" Không được bỏ trống câu trả lời.");
     }else{
       if(this.props.qaDetail){
-        this.props.editQA(this.titleQA.value,this.state.contentQuestion,this.state.contentAnswer,this.props.qaDetail.id);
+        this.props.editQA(this.titleQA.value,this.questionQADT.value,this.state.contentAnswer,this.props.qaDetail.id);
       }
     }
   }
   render() {
     let title = false;
+    let question = false;
     if(this.props.qaDetail){
       title = this.props.qaDetail.title;
+      question = this.props.qaDetail.content;
     }
     return (
       <div>
@@ -132,9 +136,12 @@ class CqaDetail extends React.Component {
               <div style={{fontStyle: 'italic'}}>Câu hỏi:</div>
             </div>
             <div style={{display: !this.state.isEdit?'none':""}}>
-              <Rackeditor id="ckquestion" initValue={this.state.initValueQuestion} value={this.state.contentQuestion} onChange={this.handleChangeQuestion}/>
+              {/* <Rackeditor id="ckquestion" initValue={this.state.initValueQuestion} value={this.state.contentQuestion} onChange={this.handleChangeQuestion}/> */}
+              <CusArea type='text' rows='6' innerRef={(comp) => { this.questionQADT = comp;}}  placeholder="Nhập nội dung câu hỏi"/>
             </div>
-            <div id="question" style={{padding: 7,display: this.state.isEdit?'none':""}}></div>
+            <div id="question" style={{padding: 7,display: this.state.isEdit?'none':""}}>
+              {question}
+            </div>
           </div>
           <div style={{marginBottom: 15}}>
             <div>

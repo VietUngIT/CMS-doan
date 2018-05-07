@@ -6,7 +6,7 @@ const styles = {
     },
     inputStyle: {
         width: '100%',
-        border: '1px solid #455a64',
+        border: '1px solid #bfbfbf',
         padding: '5px 3px',
         borderRadius: 3,
         fontSize: 14,
@@ -24,7 +24,7 @@ const styles = {
     },
     inputTagsStyle: {
         width: '85%',
-        border: '1px solid #455a64',
+        border: '1px solid #bfbfbf',
         padding: '2px 3px',
         borderRadius: 3,
         fontSize: 14,

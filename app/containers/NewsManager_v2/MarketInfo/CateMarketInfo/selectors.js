@@ -16,9 +16,14 @@ const selectIdCategoryDel = () => createSelector(
   selectCateMarketInfoDomain(),
   (substate) => substate.get('idCateDel')
 );
+const selectLoading = () => createSelector(
+  selectCateMarketInfoDomain(),
+  (substate) => substate.get('loading')
+);
 export {
   selectCateMarketInfoDomain,
   selectListCateMK,
   selectNameCategoryAdd,
   selectIdCategoryDel,
+  selectLoading,
 };

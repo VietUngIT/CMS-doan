@@ -31,6 +31,7 @@ import {
   selectStateDelNewsEvent,
   selectErrorCode,
   selectListCateNewsEvent,
+  selectLoading,
 } from './selectors';
 
 export class ListNewsEvent extends React.Component {
@@ -55,8 +56,9 @@ export class ListNewsEvent extends React.Component {
     this.handleShowModalAdd();
   }
   componentWillMount(){
-    this.props.getListNews(this.props.params.id_cate_news,0);
     this.props.getListCateNews();
+    this.props.getListNews(this.props.params.id_cate_news,0);
+    
   }
   onChange=(page)=>{
     this.props.getListNews(this.props.params.id_cate_news,page-1);
@@ -152,17 +154,25 @@ export class ListNewsEvent extends React.Component {
         </div>
       )
     }
-    
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
 
     return (
       <div style={{height: '100%'}}>
         <Helmet
-          title="ListNewsEvent"
+          title="Tin tức"
           meta={[
             { name: 'description', content: 'Description of ListNewsEvent' },
           ]}
         />
         {modalAdd}
+        {loading}
         <Row>
           <Col span={24}>
             <div style={styles.wrapBreadCrum}>
@@ -208,6 +218,7 @@ const mapStateToProps = createStructuredSelector({
   delSuccess: selectStateDelNewsEvent(),
   errorCode: selectErrorCode(),
   listCate: selectListCateNewsEvent(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -8,13 +8,16 @@ import {
   DEFAULT_ACTION,
   GET_LIST_NEWS_ACTION,
   GET_LIST_NEWS_ACTION_SUCCESS,
+  GET_LIST_NEWS_ACTION_FAIL,
   DELETE_NEWS_ACTION,
   DELETE_NEWS_ACTION_SUCCESS,
+  DELETE_NEWS_ACTION_FAIL,
   ADD_NEWS_ACTION,
   ADD_NEWS_ACTION_SUCCESS,
   ADD_NEWS_NOT_DATA_ACTION_SUCCESS,
   GET_LIST_CATE_ACTION,
   GET_LIST_CATE_ACTION_SUCCESS,
+  ADD_NEWS_NOT_DATA_ACTION_FAIL,
 } from './constants';
 
 export function getListCateNews() {
@@ -28,6 +31,7 @@ export function getListCateNewsSuccess(categoryNews) {
     categoryNews,
   };
 }
+
 export function addNews(idCateLink,title,shortDesc,author,image,source,tags,idcate,content) {
   return {
     type: ADD_NEWS_ACTION,
@@ -55,6 +59,12 @@ export function addNewsNotDataSuccess(error) {
     error,
   };
 }
+export function addNewsFail(error) {
+  return {
+    type: ADD_NEWS_NOT_DATA_ACTION_FAIL,
+    error,
+  };
+}
 
 export function deleteNews(id) {
   return {
@@ -66,6 +76,11 @@ export function deleteNewsSuccess(id) {
   return {
     type: DELETE_NEWS_ACTION_SUCCESS,
     id,
+  };
+}
+export function deleteNewsFail() {
+  return {
+    type: DELETE_NEWS_ACTION_FAIL,
   };
 }
 
@@ -81,6 +96,11 @@ export function getListNewsSuccess(listNews,total) {
     type: GET_LIST_NEWS_ACTION_SUCCESS,
     listNews,
     total,
+  };
+}
+export function getListNewsFail() {
+  return {
+    type: GET_LIST_NEWS_ACTION_FAIL,
   };
 }
 export function defaultAction() {

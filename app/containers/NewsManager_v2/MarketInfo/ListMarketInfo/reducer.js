@@ -9,6 +9,7 @@ import {
   DEFAULT_ACTION,
   GET_LIST_MK_ACTION,
   GET_LIST_MK_ACTION_SUCCESS,
+  GET_LIST_MK_ACTION_FAIL,
   GET_LIST_CATE_MK_ACTION,
   GET_LIST_CATE_MK_ACTION_SUCCESS,
   DELETE_NEWS_MK_ACTION,
@@ -16,6 +17,8 @@ import {
   ADD_NEWS_MK_ACTION,
   ADD_NEWS_MK_ACTION_SUCCESS,
   ADD_NEWS_MK_NOT_DATA_ACTION_SUCCESS,
+  ADD_NEWS_MK_NOT_DATA_ACTION_FAIL,
+  DELETE_NEWS_MK_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
@@ -26,6 +29,7 @@ const initialState = fromJS({
   page: false,
   idDelMK: false,
   delNewsSuccess: false,
+  loading: false,
   addNews: {
     idCateLink: false,
     title: false,
@@ -52,6 +56,7 @@ function listMarketInfoReducer(state = initialState, action) {
       .setIn(['addNews', 'idcate'], action.idcate)
       .setIn(['addNews', 'content'], action.content)
       .setIn(['addNews', 'errorCode'], false)
+      .set("loading",true)
     case ADD_NEWS_MK_ACTION_SUCCESS:
       return state
       .update('listNewsMK', listNewsMK => [].concat(action.news).concat(listNewsMK))
@@ -64,6 +69,7 @@ function listMarketInfoReducer(state = initialState, action) {
       .setIn(['addNews', 'idcate'], false)
       .setIn(['addNews', 'content'], false)
       .setIn(['addNews', 'errorCode'], action.error)
+      .set("loading",false)
     case ADD_NEWS_MK_NOT_DATA_ACTION_SUCCESS:
       return state
       .setIn(['addNews', 'idCateLink'], false)
@@ -75,24 +81,51 @@ function listMarketInfoReducer(state = initialState, action) {
       .setIn(['addNews', 'idcate'], false)
       .setIn(['addNews', 'content'], false)
       .setIn(['addNews', 'errorCode'], action.error)
+      .set("loading",false)
+    case ADD_NEWS_MK_NOT_DATA_ACTION_FAIL:
+      return state
+      .setIn(['addNews', 'idCateLink'], false)
+      .setIn(['addNews', 'title'], false)
+      .setIn(['addNews', 'author'], false)
+      .setIn(['addNews', 'image'], false)
+      .setIn(['addNews', 'source'], false)
+      .setIn(['addNews', 'tags'], false)
+      .setIn(['addNews', 'idcate'], false)
+      .setIn(['addNews', 'content'], false)
+      .setIn(['addNews', 'errorCode'], action.error)
+      .set("loading",false)
     case DELETE_NEWS_MK_ACTION:
       return state
       .set("idDelMK",action.id)
       .set("delNewsSuccess",false)
+      .set("loading",true)
     case DELETE_NEWS_MK_ACTION_SUCCESS:
       return state
       .set('listNewsMK', state.get('listNewsMK').filter((item) => { return item.id !== action.id}))
+      .set("idDelMK",false)
       .set("delNewsSuccess",true)
+      .set("loading",false)
+    case DELETE_NEWS_MK_ACTION_FAIL:
+      return state
+      .set("idDelMK",false)
+      .set("delNewsSuccess",true)
+      .set("loading",false)
     case GET_LIST_MK_ACTION:
       return state
       .set("listNewsMK",[])
       .set("idCate",action.idcate)
       .set("page",action.page)
+      .set("loading",true)
     case GET_LIST_MK_ACTION_SUCCESS:
       return state
       .update('listNewsMK', listNewsMK => listNewsMK.concat(action.listNews))
       .set("total",action.total)
       .set("idCate",false)
+      .set("loading",false)
+    case GET_LIST_MK_ACTION_FAIL:
+      return state
+      .set("idCate",false)
+      .set("loading",false)
     case GET_LIST_CATE_MK_ACTION:
       return state
       .set("listcatenewsMK",[])

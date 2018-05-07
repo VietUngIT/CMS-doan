@@ -19,6 +19,7 @@ import {
 } from './actions';
 import {
   selectListCateMK,
+  selectLoading,
 } from './selectors';
 
 export class CateMarketInfo extends React.Component {
@@ -26,8 +27,23 @@ export class CateMarketInfo extends React.Component {
     this.props.getListCateNewsMK();
   }
   render() {
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
     return (
       <div style={styles.wrapcontent}>
+      <Helmet
+          title="tin thị trường"
+          meta={[
+            { name: 'description', content: 'Description of ListMarketInfo' },
+          ]}
+        />
+        {loading}
         <div style={styles.inlineWrapContent}>
           <div style={styles.header}>Danh mục tin tức thị trường</div>
           <div style={styles.content}>
@@ -46,6 +62,7 @@ CateMarketInfo.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   listCate: selectListCateMK(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

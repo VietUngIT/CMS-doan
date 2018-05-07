@@ -40,6 +40,10 @@ const selectErrorCodeMK = () => createSelector(
   selectListMarketInfoDomain(),
   (substate) => substate.getIn(['addNews','errorCode'])
 );
+const selectLoading = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("loading")
+);
 export {
   selectListMarketInfoDomain,
   selectListNewsMK,
@@ -51,4 +55,5 @@ export {
   selectStateDelMK,
   selectNewsAddMK,
   selectErrorCodeMK,
+  selectLoading,
 };

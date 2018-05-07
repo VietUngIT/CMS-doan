@@ -8,7 +8,7 @@ import React from 'react';
 // import styled from 'styled-components';
 
 
-class Rackeditor extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Rackeditor extends React.Component {
   constructor(props) {
     super(props);
     this.elementName = "editor_" + this.props.id;
@@ -21,9 +21,15 @@ class Rackeditor extends React.Component { // eslint-disable-line react/prefer-s
     )
   }
   componentWillReceiveProps(nextProps){
-    // console.log("componentWillReceiveProps");
+    // console.log("componentWillReceiveProps-CK");
+    // console.log("componentWillReceiveProps-CK: "+nextProps.initValue)+ "----"+this.props.initValue;
     if(this.props.initValue!==nextProps.initValue){
+      // console.log("componentWillReceiveProps-CK: "+nextProps.initValue);
       CKEDITOR.instances[this.elementName].setData(nextProps.initValue)
+    }
+    if(this.props.value!==nextProps.value && nextProps.value===""){
+      // console.log("componentWillReceiveProps-CK--: "+nextProps.value);
+      CKEDITOR.instances[this.elementName].setData(nextProps.value)
     }
   }
   // initValue(){

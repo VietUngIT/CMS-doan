@@ -9,10 +9,13 @@ import {
 } from './constants';
 import { 
   getListNewsSuccess,
+  getListCateNewsSuccess,
   deleteNewsSuccess,
   addNewsNotDataSuccess,
   addNewsSuccess,
-  getListCateNewsSuccess,
+  getListNewsFail,
+  addNewsFail,
+  deleteNewsFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -42,10 +45,12 @@ export function* deleteNews() {
         message.success('Xóa tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(deleteNewsFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Xóa tin tức lỗi !');
+          yield put(deleteNewsFail())
   }
   
 }
@@ -69,10 +74,12 @@ export function* getListNews() {
       yield put(getListNewsSuccess(response.data.data.array,response.data.data.total));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListNewsFail());
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Load danh sách tin tức lỗi !');
+          yield put(getListNewsFail());
   }
   
 }
@@ -102,10 +109,12 @@ export function* addNews() {
       message.success('Thêm tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(addNewsFail(response.data.data.e))
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Thêm tin tức lỗi !');
+          yield put(addNewsFail(response.data.data.e))
   }
   
 }
@@ -129,6 +138,7 @@ export function* getListCategoryNews() {
       message.error(response.data.data.msg);
     }
   } catch(error){
+    console.log(er)
           message.error(response.data.data.e);
           message.error('Lấy danh mục tin tức thất bại !');
   }

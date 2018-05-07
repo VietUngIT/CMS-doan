@@ -9,8 +9,11 @@ import {
 
 import { 
   getListCateNewsSuccess,
+  getListCateNewsFail,
   addCateNewsSuccess,
+  addCateNewsFail,
   delCateNewsSuccess,
+  delCateNewsFail,
 } from './actions';
 
 import {
@@ -37,10 +40,12 @@ export function* getListCategoryNews() {
         yield put(getListCateNewsSuccess(response.data.data.array));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListCateNewsFail())
     }
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error(response.data.data.e+ ": "+error);
+          message.error('Lỗi hệ thống !');
+          yield put(getListCateNewsFail())
   }
   
 }
@@ -64,10 +69,12 @@ export function* addCategoryNews() {
         message.success("Thêm thành công.")
     } else {
       message.error(response.data.data.msg);
+      yield put(addCateNewsFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi đăng nhập !');
+          yield put(addCateNewsFail())
   }
   
 }
@@ -91,10 +98,11 @@ export function* delCategoryNews() {
         message.success("Xóa thành công.")
     } else {
       message.error(response.data.data.msg);
+      yield put(delCateNewsFail())
     }
   } catch(error){
     message.error(response.data.data.e);
-    message.error('Lỗi đăng nhập !');
+    yield put(delCateNewsFail())
   }
   
 }

@@ -41,6 +41,10 @@ const selectListCateNewsEvent = () => createSelector(
   selectListNewsEventDomain(),
   (substate) => substate.get("listcatenews")
 );
+const selectLoading = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("loading")
+);
 export {
   selectListNewsEventDomain,
   selectListNewsEvent,
@@ -52,4 +56,5 @@ export {
   selectNewsAdd,
   selectErrorCode,
   selectListCateNewsEvent,
+  selectLoading,
 };

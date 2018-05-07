@@ -17,10 +17,15 @@ const selectIdCategoryNewsDel = () => createSelector(
   selectCateNewsEventDomain(),
   (substate) => substate.get('idCateDel')
 );
+const selectLoading = () => createSelector(
+  selectCateNewsEventDomain(),
+  (substate) => substate.get('loading')
+);
 
 export {
   selectCateNewsEventDomain,
   selectCategoryNewsName,
   selectListCategoryNews,
   selectIdCategoryNewsDel,
+  selectLoading,
 };

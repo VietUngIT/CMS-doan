@@ -13,6 +13,9 @@ import {
   deleteNewsMKSuccess,
   addNewsMKSuccess,
   addNewsNotDataMKSuccess,
+  getListNewsMKFail,
+  addNewsFail,
+  deleteNewsMKFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -48,10 +51,12 @@ export function* addNewsMK() {
       message.success('Thêm tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(addNewsFail(response.data.data.e))
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Thêm tin tức lỗi !');
+          yield put(addNewsFail(response.data.data.e))
   }
   
 }
@@ -74,10 +79,12 @@ export function* deleteNewsMK() {
         message.success('Xóa tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(deleteNewsMKFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Xóa tin tức lỗi !');
+          yield put(deleteNewsMKFail())
   }
   
 }
@@ -124,10 +131,12 @@ export function* getListNewsMK() {
       yield put(getListNewsMKSuccess(response.data.data.array,response.data.data.total));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListNewsMKFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Load danh sách tin tức lỗi !');
+          yield put(getListNewsMKFail())
   }
   
 }

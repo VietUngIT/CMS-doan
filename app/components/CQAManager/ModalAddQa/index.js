@@ -23,17 +23,17 @@ class ModalAddQa extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contentQuestion: "",
-      initValueQuestion: "",
+      // contentQuestion: "",
+      // initValueQuestion: "",
       contentAnswer: "",
       initValueAnswer: "",
     };
   }
-  handleChangeQuestion=(content)=>{
-  	this.setState({
-      contentQuestion: content,
-    })
-  }
+  // handleChangeQuestion=(content)=>{
+  // 	this.setState({
+  //     contentQuestion: content,
+  //   })
+  // }
   handleChangeAnswer=(content)=>{
   	this.setState({
       contentAnswer: content,
@@ -43,19 +43,21 @@ class ModalAddQa extends React.Component {
   addQA=()=>{
     if(this.titleQA.value===null || this.titleQA.value===""){
       message.error(" Không được bỏ trống tiêu đề.");
-    } else if(this.state.contentQuestion===null || this.state.contentQuestion===""){
+    } else if(this.questionQA.value===null || this.questionQA.value===""){
       message.error(" Không được bỏ trống câu hỏi.");
     } else if(this.state.contentAnswer===null || this.state.contentAnswer===""){
       message.error(" Không được bỏ trống câu trả lời.");
     }else{
-      this.props.addQA(this.titleQA.value,this.state.contentQuestion,this.state.contentAnswer,this.selectField.value);
+      this.props.addQA(this.titleQA.value,this.questionQA.value,this.state.contentAnswer,this.selectField.value);
       this.props.handleCloseModalAdd();
     }
   }
   resetQA=()=>{
+    // console.log("resetQA");
     this.titleQA.value = "";
+    this.questionQA.value = "";
     this.setState({
-      initValueQuestion: "",
+      contentAnswer: "",
       initValueAnswer: "",
     });
   
@@ -64,7 +66,9 @@ class ModalAddQa extends React.Component {
     this.resetQA();
   }
   componentWillReceiveProps(nextProps){
+    // console.log("componentWillReceiveProps");
     if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode && nextProps.errorCode===0){
+      // console.log("componentWillReceiveProps-resetQA");
       this.resetQA();
     }
   }
@@ -88,7 +92,8 @@ class ModalAddQa extends React.Component {
           <CusInput type='text' innerRef={(comp) => { this.titleQA = comp;}}  placeholder="Nhập tiêu đề"/>
           <div style={styles.label}>Câu hỏi (*)</div>
           <div style={{paddingTop: 7}}>
-          <Rackeditor id="ckquestionadd" initValue={this.state.initValueQuestion} value={this.state.contentQuestion} onChange={this.handleChangeQuestion}/>
+          {/* <Rackeditor id="ckquestionadd" initValue={this.state.initValueQuestion} value={this.state.contentQuestion} onChange={this.handleChangeQuestion}/> */}
+          <CusArea type='text' rows='6' innerRef={(comp) => { this.questionQA = comp;}}  placeholder="Nhập nội dung câu hỏi"/>
           </div>
           <div style={styles.label}>Câu trả lời (*)</div>
           <div style={{paddingTop: 7}}>

@@ -8,10 +8,13 @@ import {
   DEFAULT_ACTION,
   GET_LIST_CATE_NEWS_MK_ACTION,
   GET_LIST_CATE_NEWS_MK_ACTION_SUCCESS,
+  GET_LIST_CATE_NEWS_MK_ACTION_FAIL,
   ADD_CATE_NEWS_MK_ACTION,
   ADD_CATE_NEWS_MK_ACTION_SUCCESS,
+  ADD_CATE_NEWS_MK_ACTION_FAIL,
   DEL_CATE_NEWS_MK_ACTION,
   DEL_CATE_NEWS_MK_ACTION_SUCCESS,
+  DEL_CATE_NEWS_MK_ACTION_FAIL,
 } from './constants';
 export function getListCateNewsMK() {
   return {
@@ -24,10 +27,20 @@ export function getListCateNewsMKSuccess(cateMK) {
     cateMK,
   };
 }
+export function getListCateNewsMKFail() {
+  return {
+    type: GET_LIST_CATE_NEWS_MK_ACTION_FAIL,
+  };
+}
 export function delCateNewsMK(id) {
   return {
     type: DEL_CATE_NEWS_MK_ACTION,
     id,
+  };
+}
+export function delCateNewsMKFail() {
+  return {
+    type: DEL_CATE_NEWS_MK_ACTION_FAIL,
   };
 }
 export function delCateNewsMKSuccess(id) {
@@ -47,6 +60,11 @@ export function addCateNewsMKSuccess(cate) {
   return {
     type: ADD_CATE_NEWS_MK_ACTION_SUCCESS,
     cate,
+  };
+}
+export function addCateNewsMKFail() {
+  return {
+    type: ADD_CATE_NEWS_MK_ACTION_FAIL,
   };
 }
 export function defaultAction() {

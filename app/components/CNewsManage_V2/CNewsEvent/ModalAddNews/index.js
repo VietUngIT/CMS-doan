@@ -11,7 +11,10 @@ import { FormattedMessage } from 'react-intl';
 import styles from './styles';
 import {Button,Modal,message} from 'antd'
 import CKEditor from "react-ckeditor-component";
+import Rackeditor from 'components/Utils/Rackeditor';
 import Tags from 'components/Utils/Tags';
+import CusInput from 'components/Utils/CusInput';
+import CusSelect from 'components/Utils/CusSelect';
 const Button_ = styled.button`
   height: 35px;
   width: 240px;
@@ -26,22 +29,9 @@ const Button_ = styled.button`
   },
 `;
 
-const CKeditor = null;
-var contentEditor = false;
-var toolbarGroups = [
-  { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-  { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-  { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-  '/',
-  { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-  { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-  { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
-  { name: 'about', items: [ 'About' ] }
-];
 class ModalAddNews extends React.Component {
   constructor(props) {
     super(props);
-    this.updateContent = this.updateContent.bind(this);
     this.state = {
       listTags: [],
       stateContent: "",
@@ -85,16 +75,9 @@ class ModalAddNews extends React.Component {
     fr.onload = this.imageHandler;
     fr.readAsDataURL(filename);
   }
-  onChangeContent=(e)=>{
-    
-    var content = e.editor.getData();
-    this.setState({
-      stateContent: content
-    })
-  }
 
   eventAddNews=()=>{
-    if(this.refs.titleAdd.value===null || this.refs.titleAdd.value.trim()===""){
+    if(this.titleNews.value===null || this.titleNews.value.trim()===""){
       message.error(" Không được bỏ trống tiêu đề.");
     }else if(this.refs.shortDescAdd.value===null || this.refs.shortDescAdd.value.trim()===""){
       message.error(" Thêm mô tả cho tin tức.");
@@ -103,17 +86,17 @@ class ModalAddNews extends React.Component {
     }else{
       let author = null;
       let source = null;
-      if(this.refs.authorAdd.value!=null && this.refs.authorAdd.value.trim()!==""){
-        author = this.refs.authorAdd.value.trim();
+      if(this.authorNews.value!==null && this.authorNews.value.trim()!==""){
+        author = this.authorNews.value.trim();
       }
-      if(this.refs.sourceAdd.value!=null && this.refs.sourceAdd.value.trim()!==""){
-        source = this.refs.sourceAdd.value.trim();
+      if(this.sourceNews.value!=null && this.sourceNews.value.trim()!==""){
+        source = this.sourceNews.value.trim();
       }
       if(this.refs.imageForNews.src && this.refs.imageForNews.src.toString().indexOf("data\:image")>-1 && this.refs.imageForNews.src.toString().indexOf(";base64")>-1){
-        this.props.addNews(this.props.idcate,this.refs.titleAdd.value.trim(),
+        this.props.addNews(this.props.idcate,this.titleNews.value.trim(),
           this.refs.shortDescAdd.value.trim(),author,this.refs.imageForNews.src.toString(),source,
-          this.state.listTags,this.refs.selectCateIdAdd.value,this.state.content)
-
+          this.state.listTags,this.selectCate.value,this.state.content)
+          this.props.handleCloseModalAdd();
       }else{
         message.error("Chưa chọn ảnh.");
       }
@@ -121,10 +104,13 @@ class ModalAddNews extends React.Component {
     }
   }
   resetNews=()=>{
-    this.refs.titleAdd.value = "";
+    // this.refs.titleAdd.value = "";
     this.refs.shortDescAdd.value = "";
-    this.refs.authorAdd.value = "";
-    this.refs.sourceAdd.value = "";
+    // this.refs.authorAdd.value = "";
+    // this.refs.sourceAdd.value = "";
+    this.titleNews.value = "";
+    this.authorNews.value = "";
+    this.sourceNews.value = "";
     this.setState({
       listTags: [],
     });
@@ -133,13 +119,14 @@ class ModalAddNews extends React.Component {
     store.src = require('containers/App/maxresdefault.jpg');
     this.setState({
       stateContent: "",
+      content: "",
       initValue: "",
     });
   }
   componentWillReceiveProps(nextProps){
     if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode){
       this.resetNews();
-      this.props.handleCloseModalAdd();
+      // this.props.handleCloseModalAdd();
     }
   }
   render() {
@@ -160,7 +147,8 @@ class ModalAddNews extends React.Component {
       <div style={{}}>
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Tiêu đề</div>
-          <div><input ref="titleAdd" type="text" placeholder="Nhập title" style={styles.inputStyle}/></div>
+          {/* <div><input ref="titleAdd" type="text" placeholder="Nhập title" style={styles.inputStyle}/></div> */}
+          <CusInput type='text' innerRef={(comp) => { this.titleNews = comp;}}  placeholder="Nhập tiêu đề"/>
         </div>
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Mô tả ngắn: </div>
@@ -168,18 +156,22 @@ class ModalAddNews extends React.Component {
         </div>
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Tác giả: </div>
-          <div><input ref="authorAdd" type="text"placeholder="Nhập tác giả" style={styles.inputStyle}/></div>
+          {/* <div><input ref="authorAdd" type="text"placeholder="Nhập tác giả" style={styles.inputStyle}/></div> */}
+          <CusInput type='text' innerRef={(comp) => { this.authorNews = comp;}}  placeholder="Nhập tác giả"/>
         </div>
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Nguồn tham khảo: </div>
-          <div><input ref="sourceAdd" type="text" placeholder="Nhập nguồn tham khảo" style={styles.inputStyle}/></div>
+          {/* <div><input ref="sourceAdd" type="text" placeholder="Nhập nguồn tham khảo" style={styles.inputStyle}/></div> */}
+          <CusInput type='text' innerRef={(comp) => { this.sourceNews = comp;}}  placeholder="Nhập nguồn tham khảo"/>
         </div>
         <div style={{marginBottom:10}}>
           <div style={styles.label}>Danh mục tin tức: </div>
           <div>
-            <select ref="selectCateIdAdd" style={styles.inputStyle}>
+            {/* <select ref="selectCateIdAdd" style={styles.inputStyle}> */}
+            <CusSelect type='text' innerRef={(comp) => { this.selectCate = comp;}} >
               {dropDownCate}
-            </select>
+            </CusSelect>
+            {/* </select> */}
           </div>
         </div>
         <div style={{marginBottom:10}}>
@@ -219,6 +211,7 @@ class ModalAddNews extends React.Component {
     let modal = (
       <Modal
           title="Thêm tin tức"
+          width='55%'
           visible={this.props.modalAddNews}
           onCancel={this.props.handleCloseModalAdd}
           footer={null}

@@ -10,6 +10,9 @@ import {
   getListCateNewsMKSuccess,
   addCateNewsMKSuccess,
   delCateNewsMKSuccess,
+  getListCateNewsMKFail,
+  addCateNewsMKFail,
+  delCateNewsMKFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -35,10 +38,12 @@ export function* getListCategoryNewsMK() {
         yield put(getListCateNewsMKSuccess(response.data.data.array));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListCateNewsMKFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi hệ thống !');
+          yield put(getListCateNewsMKFail())
   }
   
 }
@@ -62,10 +67,12 @@ export function* addCategoryNewsMK() {
         message.success("Thêm thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(addCateNewsMKFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình thêm!');
+          yield put(addCateNewsMKFail())
   }
   
 }
@@ -89,10 +96,12 @@ export function* delCategoryNewsMK() {
         message.success("Xóa thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(delCateNewsMKFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình xử lý!');
+          yield put(delCateNewsMKFail())
   }
   
 }

@@ -29,6 +29,7 @@ import {
   selectStateDelMK,
   selectErrorCodeMK,
   selectgetListCateNewsMK,
+  selectLoading,
 } from './selectors';
 
 export class ListMarketInfo extends React.Component { 
@@ -119,6 +120,14 @@ export class ListMarketInfo extends React.Component {
         </Breadcrumb>
       )
     }
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
 
     let page = null;
     page =(
@@ -161,12 +170,13 @@ export class ListMarketInfo extends React.Component {
     return (
       <div>
         <Helmet
-          title="ListMarketInfo"
+          title="tin thị trường"
           meta={[
             { name: 'description', content: 'Description of ListMarketInfo' },
           ]}
         />
         {modalAdd}
+        {loading}
         <Row>
           <Col span={24}>
             <div style={styles.wrapBreadCrum}>
@@ -212,6 +222,7 @@ const mapStateToProps = createStructuredSelector({
   listCate: selectgetListCateNewsMK(),
   delSuccess: selectStateDelMK(),
   errorCode: selectErrorCodeMK(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {
