@@ -10,6 +10,7 @@ import {
   getListMPSuccess,
   deleteNewsMPSuccess,
   addNewsMPSuccess,
+  addNewsMPFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -23,6 +24,9 @@ import {
   selectIdNewsMPDel,
   selectNewsAdd,
 } from './selectors';
+import {
+  setLoading,
+} from '../CateMarketPrice/actions';
 
 export function* deleteNewsMP() {
   let userInfo = null;
@@ -39,9 +43,11 @@ export function* deleteNewsMP() {
     } else {
       message.error(response.data.data.msg);
     }
+    yield put(setLoading(false))
   } catch(error){
           message.error(response.data.data.e);
           message.error('Xóa tin tức lỗi !');
+          yield put(setLoading(false))
   }
   
 }
@@ -65,9 +71,11 @@ export function* getListNewsMP() {
     } else {
       message.error(response.data.data.msg);
     }
+    yield put(setLoading(false))
   } catch(error){
     message.error(response.data.data.e);
     message.error('Load danh sách tin tức lỗi !');
+    yield put(setLoading(false))
   }
   
 }
@@ -93,10 +101,14 @@ export function* addNewsMP() {
       message.success('Thêm tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(addNewsMPFail(response.data.data.e))
     }
+    yield put(setLoading(false))
   } catch(error){
           message.error(response.data.data.e);
           message.error('Thêm tin tức lỗi !');
+          yield put(addNewsMPFail(response.data.data.e))
+          yield put(setLoading(false))
   }
   
 }

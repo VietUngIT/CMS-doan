@@ -15,6 +15,9 @@ import {
   deleteNewsSuccess,
   addNewsAgriTechSuccess,
   addNewsNotDataAgriTechSuccess,
+  getListNewsAgriTechFail,
+  deleteNewsFail,
+  addNewsAgriTechFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -71,10 +74,11 @@ export function* getListNewsAgriTech() {
       yield put(getListNewsAgriTechSuccess(response.data.data.array,response.data.data.total));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListNewsAgriTechFail())
     }
   } catch(error){
-    message.error(response.data.data.e);
-    message.error('Load danh sách tin tức lỗi !');
+    message.error(response.data.data.e+": 'Load danh sách tin tức lỗi !'");
+    yield put(getListNewsAgriTechFail())
   }
   
 }
@@ -122,10 +126,11 @@ export function* deleteNews() {
         message.success('Xóa tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(deleteNewsFail())
     }
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Xóa tin tức lỗi !');
+          message.error(response.data.data.e+': Xóa tin tức lỗi !');
+          yield put(deleteNewsFail())
   }
   
 }
@@ -154,10 +159,11 @@ export function* addNewsAgriTech() {
       message.success('Thêm tin tức thành công !');
     } else {
       message.error(response.data.data.msg);
+      yield put(addNewsAgriTechFail(response.data.data.e))
     }
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Thêm tin tức lỗi !');
+          message.error(response.data.data.e+': Thêm tin tức lỗi !');
+          yield put(addNewsAgriTechFail(response.data.data.e))
   }
   
 }

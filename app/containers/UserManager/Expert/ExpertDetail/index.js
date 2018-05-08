@@ -287,95 +287,107 @@ export class ExpertDetail extends React.Component {
       })
     }
 
-    let showProfileHTML = (
-      <div style={{display: this.state.showProfile?"":'none'}}>
-        <div >
-          <div style={styles.wrapDetail}>
-            <div style={styles.wrapTitle}>Thông tin chung</div>
-            <div style={styles.wrapBody}>
-              <div style={styles.label}>Số điện thoại</div>
-              <div style={styles.value}>{phone}</div>
-              <div style={styles.label}>Địa chỉ</div>
-              <div style={styles.value}>{address}</div>
-              <div style={styles.label}>Email</div>
-              <div style={styles.value}>{email}</div>
-              <div >{desc}</div>
-            </div>
-          </div>
-          <div style={styles.wrapDetail}>
-            <div style={styles.wrapTitle}>Nghề nghiệp</div>
-            <div style={styles.wrapBody}>
-              <div style={styles.label}>Nơi làm việc</div>
-              <div style={styles.value}>{workPlace}</div>
-              <div style={styles.label}>Lĩnh vực làm việc</div>
-              <div style={styles.value}>{fieldName}</div>
-              <div style={styles.labelWork}>Chi tiết lĩnh vực làm việc</div>
-              <Icon onClick={this.editField} type="edit" style={styles.iconEdit} />
-              <div style={{display:this.state.stateEditFieldDetail?'':"none"}}>
-                <div style={{display: 'flex'}}>
-                  <div style={{flex: 1}}>
-                  <CusSelect type='text' innerRef={(comp) => { this.selectField = comp;}} ref="selectFieldExpert">
-                    {dropSubField}
-                  </CusSelect>
-                  </div>
-                  <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
-                    <Button onClick={this.addField}>Thêm</Button>
-                  </div>
-                </div>
-                <div>{showListField}</div>
-                <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
-                  <Button onClick={this.updateField} type="primary" icon="reload" >Cập nhật</Button>
-                  <Button onClick={this.cancleField} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
-                </div>
-              </div>
-              <div style={{display:this.state.stateEditFieldDetail?'none':""}}>
-                <div style={styles.value}>{detaiField}</div>
-              </div>
-              <div style={styles.labelWork}>Bằng cấp</div>
-              <Icon onClick={this.editDegree} type="edit" style={styles.iconEdit} />
-              <div style={{display:this.state.stateEditDegree?'':"none"}}>
-                <div style={{display: 'flex'}}>
-                  <div style={{flex: 1}}>
-                    <CusInput type='text' innerRef={(comp) => { this.degreeExpert = comp;}} placeholder="Nhập bằng cấp"/>
-                  </div>
-                  <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
-                    <Button onClick={this.addDegree}>Thêm</Button>
-                  </div>
-                </div>
-                <div>{listDegree}</div>
-                <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
-                  <Button onClick={this.updateDegree} type="primary" icon="reload" >Cập nhật</Button>
-                  <Button onClick={this.cancleDegree} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
-                </div>
-              </div>
-              <div style={{display:this.state.stateEditDegree?'none':""}}>
-                <div style={styles.value}>{degree}</div>
+    let showProfileHTML = false;
+    if(this.props.expert){
+      showProfileHTML = (
+        <div style={{display: this.state.showProfile?"":'none'}}>
+          <div >
+            <div style={styles.wrapDetail}>
+              <div style={styles.wrapTitle}>Thông tin chung</div>
+              <div style={styles.wrapBody}>
+                <div style={styles.label}>Số điện thoại</div>
+                <div style={styles.value}>{phone}</div>
+                <div style={styles.label}>Địa chỉ</div>
+                <div style={styles.value}>{address}</div>
+                <div style={styles.label}>Email</div>
+                <div style={styles.value}>{email}</div>
+                <div >{desc}</div>
               </div>
             </div>
-          </div>
-          <div style={styles.wrapDetail}>
-            <div style={styles.wrapTitle}>Từ khóa tìm kiếm</div>
-            <div style={styles.wrapBody}>
-            <div >
-                <div style={{display: 'flex'}}>
-                  <div style={{flex: 1}}>
-                    <CusInput type='text' innerRef={(comp) => { this.tagsExpert = comp;}} placeholder="Nhập từ khóa"/>
+            <div style={styles.wrapDetail}>
+              <div style={styles.wrapTitle}>Nghề nghiệp</div>
+              <div style={styles.wrapBody}>
+                <div style={styles.label}>Nơi làm việc</div>
+                <div style={styles.value}>{workPlace}</div>
+                <div style={styles.label}>Lĩnh vực làm việc</div>
+                <div style={styles.value}>{fieldName}</div>
+                <div style={styles.labelWork}>Chi tiết lĩnh vực làm việc</div>
+                <Icon onClick={this.editField} type="edit" style={styles.iconEdit} />
+                <div style={{display:this.state.stateEditFieldDetail?'':"none"}}>
+                  <div style={{display: 'flex'}}>
+                    <div style={{flex: 1}}>
+                    <CusSelect type='text' innerRef={(comp) => { this.selectField = comp;}} ref="selectFieldExpert">
+                      {dropSubField}
+                    </CusSelect>
+                    </div>
+                    <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
+                      <Button onClick={this.addField}>Thêm</Button>
+                    </div>
                   </div>
-                  <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
-                    <Button onClick={this.addTags}>Thêm</Button>
+                  <div>{showListField}</div>
+                  <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
+                    <Button onClick={this.updateField} type="primary" icon="reload" >Cập nhật</Button>
+                    <Button onClick={this.cancleField} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
                   </div>
                 </div>
-                <div>{showTags}</div>
-                <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
-                  <Button onClick={this.updateTags} type="primary" icon="reload" >Cập nhật</Button>
-                  <Button onClick={this.cancelTags} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
+                <div style={{display:this.state.stateEditFieldDetail?'none':""}}>
+                  <div style={styles.value}>{detaiField}</div>
+                </div>
+                <div style={styles.labelWork}>Bằng cấp</div>
+                <Icon onClick={this.editDegree} type="edit" style={styles.iconEdit} />
+                <div style={{display:this.state.stateEditDegree?'':"none"}}>
+                  <div style={{display: 'flex'}}>
+                    <div style={{flex: 1}}>
+                      <CusInput type='text' innerRef={(comp) => { this.degreeExpert = comp;}} placeholder="Nhập bằng cấp"/>
+                    </div>
+                    <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
+                      <Button onClick={this.addDegree}>Thêm</Button>
+                    </div>
+                  </div>
+                  <div>{listDegree}</div>
+                  <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
+                    <Button onClick={this.updateDegree} type="primary" icon="reload" >Cập nhật</Button>
+                    <Button onClick={this.cancleDegree} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
+                  </div>
+                </div>
+                <div style={{display:this.state.stateEditDegree?'none':""}}>
+                  <div style={styles.value}>{degree}</div>
+                </div>
+              </div>
+            </div>
+            <div style={styles.wrapDetail}>
+              <div style={styles.wrapTitle}>Từ khóa tìm kiếm</div>
+              <div style={styles.wrapBody}>
+              <div >
+                  <div style={{display: 'flex'}}>
+                    <div style={{flex: 1}}>
+                      <CusInput type='text' innerRef={(comp) => { this.tagsExpert = comp;}} placeholder="Nhập từ khóa"/>
+                    </div>
+                    <div style={{flexBasis:100,marginTop: 3,marginLeft: 5}}>
+                      <Button onClick={this.addTags}>Thêm</Button>
+                    </div>
+                  </div>
+                  <div>{showTags}</div>
+                  <div style={{textAlign: 'end', paddingRight: 25, marginTop: 10}}>
+                    <Button onClick={this.updateTags} type="primary" icon="reload" >Cập nhật</Button>
+                    <Button onClick={this.cancelTags} type="danger" icon="close" style={{marginLeft: 20}} >Hủy</Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
+    
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
     return (
       <div style={{height: '100%'}}>
         <Helmet
@@ -384,6 +396,7 @@ export class ExpertDetail extends React.Component {
             { name: 'description', content: 'Description of ExpertDetail' },
           ]}
         />
+        {loading}
         <Row>
           <Col span={7}>
             <div style={styles.wrapAvatar}>

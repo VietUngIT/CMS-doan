@@ -21,6 +21,7 @@ import {
  } from './actions';
  import {
    selectListCateAgriTech,
+   selectLoading,
  } from './selectors';
 
 export class CateAgriTech extends React.Component {
@@ -28,14 +29,23 @@ export class CateAgriTech extends React.Component {
     this.props.getListCateAgriTech();
   }
   render() {
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
     return (
       <div style={{height: '100%'}}>
         <Helmet
-          title="CateAgriTech"
+          title="Tin tức kỹ thuật"
           meta={[
             { name: 'description', content: 'Description of CateAgriTech' },
           ]}
         />
+        {loading}
         <Row>
           <Col span={12}>
             <div style={styles.wrapcontentlistnews}>
@@ -61,6 +71,7 @@ CateAgriTech.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   listCate: selectListCateAgriTech(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

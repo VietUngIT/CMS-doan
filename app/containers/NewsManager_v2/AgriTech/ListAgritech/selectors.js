@@ -46,6 +46,10 @@ const selectErrorCodeAdAgriTech = () => createSelector(
   selectListAgritechDomain(),
   (substate) => substate.getIn(['addNews','errorCode'])
 );
+const selectLoading = () => createSelector(
+  selectListAgritechDomain(),
+  (substate) => substate.get("loading")
+);
 export {
   selectListAgritechDomain,
   selectListNewsAgriTech,
@@ -58,5 +62,6 @@ export {
   selectNewsAddAgriTech,
   selectStateDelAT,
   selectErrorCodeAdAgriTech,
-  selectIdNewsATDel
+  selectIdNewsATDel,
+  selectLoading,
 };

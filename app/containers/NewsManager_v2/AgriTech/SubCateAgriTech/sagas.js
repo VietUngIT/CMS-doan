@@ -23,7 +23,9 @@ import {
   selectNameAddSubCate,
   selectidSubCateDel,
 } from './selectors';
-
+import {
+  setLoading,
+} from '../CateAgriTech/actions';
 
 export function* getListSubCateAgriTech() {
   let userInfo = null;
@@ -39,9 +41,10 @@ export function* getListSubCateAgriTech() {
     } else {
       message.error(response.data.data.msg);
     }
+    yield put(setLoading(false))
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error(response.data.data.e+" :Lỗi hệ thống");
+          yield put(setLoading(false))
   }
   
 }
@@ -67,9 +70,10 @@ export function* addSubCateAgriTech() {
     } else {
       message.error(response.data.data.msg);
     }
+    yield put(setLoading(false))
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Lỗi trong quá trình thêm!');
+          message.error(response.data.data.e+ ' :Lỗi trong quá trình thêm!');
+          yield put(setLoading(false))
   }
   
 }
@@ -94,9 +98,10 @@ export function* delSubCateAgritech() {
     } else {
       message.error(response.data.data.msg);
     }
+    yield put(setLoading(false))
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Lỗi trong quá trình xử lý!');
+    message.error(response.data.data.e+ ' :Lỗi trong quá trình thêm!');
+    yield put(setLoading(false))
   }
   
 }

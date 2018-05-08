@@ -31,12 +31,14 @@ class ModalAddNewsMp extends React.Component {
         note = this.refs.noteAddNews.value;
       }
       this.props.addNewsMP(this.props.idCate,name,price,unit,place,note)
+      this.props.setLoading(true);
+      this.props.handleCloseModalAdd();
     }
   }
   componentWillReceiveProps(nextProps){
-    if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode){
+    if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode && nextProps.errorCode===0){
       this.resetNews();
-      this.props.handleCloseModalAdd();
+      
     }
   }
   resetNews=()=>{

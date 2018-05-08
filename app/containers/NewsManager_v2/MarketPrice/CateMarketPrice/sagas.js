@@ -10,6 +10,9 @@ import {
   getListCateMPSuccess,
   addCateMPSuccess,
   delCateMPSuccess,
+  getListCateMPFail,
+  delCateMPFail,
+  addCateMPFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -35,10 +38,12 @@ export function* getListCateMP() {
         yield put(getListCateMPSuccess(response.data.data.array));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListCateMPFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lấy thông tin lỗi !');
+          yield put(getListCateMPFail())
   }
   
 }
@@ -63,10 +68,11 @@ export function* addCateMP() {
         message.success("Thêm thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(addCateMPFail(response.data.data.e))
     }
   } catch(error){
-          message.error(response.data.data.e);
-          message.error('Lỗi trong quá trình thêm!');
+          message.error(response.data.data.e+": Lỗi trong quá trình thêm!");
+          yield put(addCateMPFail(response.data.data.e))
   }
   
 }
@@ -90,10 +96,12 @@ export function* delCateMP() {
         message.success("Xóa thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(delCateMPFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình xử lý!');
+          yield put(delCateMPFail())
   }
   
 }

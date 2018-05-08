@@ -16,16 +16,23 @@ import {
   delSubCate,
 } from './actions';
 import {
+  setLoading,
+} from '../CateAgriTech/actions';
+import {
   selectListSubCate,
 } from './selectors';
 
 export class SubCateAgriTech extends React.Component {
   componentWillMount(){
+    this.props.setLoading(true)
     this.props.getListSubCate(this.props.params.id_cate_news);
+    
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.params.id_cate_news!==this.props.params.id_cate_news){
+      this.props.setLoading(true)
       this.props.getListSubCate(nextProps.params.id_cate_news);
+      
     }
   }
   render() {
@@ -36,7 +43,8 @@ export class SubCateAgriTech extends React.Component {
           <div style={styles.header}>Danh mục con</div>
           <div style={styles.content}>
             <CsubCateAgriTech listSubCate={this.props.listSubCate} addSubCate={this.props.addSubCate} 
-              delSubCate={this.props.delSubCate} idCate={this.props.params.id_cate_news}/>
+              delSubCate={this.props.delSubCate} idCate={this.props.params.id_cate_news}
+              setLoading={this.props.setLoading}/>
           </div>
         </div>
       </div>
@@ -54,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setLoading: (loading) => dispatch(setLoading(loading)),
     getListSubCate: (id) => dispatch(getListSubCate(id)),
     addSubCate: (id,name) => dispatch(addSubCate(id,name)),
     delSubCate: (id) => dispatch(delSubCate(id)),

@@ -15,7 +15,7 @@ const styles = {
         backgroundColor: '#FAFAFA',
         fontSize: 16,
         fontWeight: 600,
-        flex: 8,
+        flex: 1,
     },
     content: {
         padding: '10px 15px',

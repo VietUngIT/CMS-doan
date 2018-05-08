@@ -13,9 +13,14 @@ const selectIdDelCate = () => createSelector(
   selectCateAgriTechDomain(),
   (substate) => substate.get('idDelCate')
 );
+const selectLoading = () => createSelector(
+  selectCateAgriTechDomain(),
+  (substate) => substate.get('loading')
+);
 export {
   selectCateAgriTechDomain,
   selectListCateAgriTech,
   selectNameCateAgriTechAdd,
   selectIdDelCate,
+  selectLoading,
 };

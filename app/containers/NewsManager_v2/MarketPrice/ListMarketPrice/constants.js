@@ -6,3 +6,4 @@ export const DEL_LIST_MP_ACTION = 'app/ListMarketPrice/DEL_LIST_MP_ACTION';
 export const DEL_LIST_MP_ACTION_SUCCESS = 'app/ListMarketPrice/DEL_LIST_MP_ACTION_SUCCESS';
 export const ADD_LIST_MP_ACTION = 'app/ListMarketPrice/ADD_LIST_MP_ACTION';
 export const ADD_LIST_MP_ACTION_SUCCESS = 'app/ListMarketPrice/ADD_LIST_MP_ACTION_SUCCESS';
+export const ADD_LIST_MP_ACTION_FAIL = 'app/ListMarketPrice/ADD_LIST_MP_ACTION_FAIL';

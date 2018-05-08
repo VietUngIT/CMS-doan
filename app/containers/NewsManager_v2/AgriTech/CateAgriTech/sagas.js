@@ -10,6 +10,9 @@ import {
   getListCateAgriTechSuccess,
   addCateAgriTechSuccess,
   delCateAgriTechSuccess,
+  getListCateAgriTechFail,
+  delCateAgriTechFail,
+  addCateAgriTechFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -34,10 +37,12 @@ export function* getListCateAgriTech() {
         yield put(getListCateAgriTechSuccess(response.data.data.array));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListCateAgriTechFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi đăng nhập !');
+          yield put(getListCateAgriTechFail())
   }
   
 }
@@ -61,10 +66,12 @@ export function* addCateAgriTech() {
         message.success("Thêm thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(addCateAgriTechFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình thêm!');
+          yield put(addCateAgriTechFail())
   }
   
 }
@@ -88,10 +95,12 @@ export function* delCateAgritech() {
         message.success("Xóa thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(delCateAgriTechFail())
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình xử lý!');
+          yield put(delCateAgriTechFail())
   }
   
 }

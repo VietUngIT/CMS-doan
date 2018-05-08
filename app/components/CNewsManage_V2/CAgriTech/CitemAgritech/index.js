@@ -28,7 +28,8 @@ class CitemAgritech extends React.Component {
     let date = "";
     if(this.props.data){
       title = this.props.data.title;
-      image = this.props.data.image;
+      if(this.props.data.image!==null)
+        image = this.props.data.image;
       date = this.props.data.timeCreate;
     }
     return (

@@ -31,11 +31,11 @@ class CcateAgritech extends React.Component {
           <Col span={4} style={{fontWeight: 600}}></Col>
         </Row>
         <Row style={{borderBottom: '1px solid #ffbf00'}}>
-          <Col span={20}>
-            <input type='text' ref="categoryAT" placeholder="Nhập tên danh mục..."  style={styles.input}/>
-          </Col>
-          <Col span={4}>
-            <div onClick={this.addCategory} style={styles.buttonAdd}>Thêm</div>
+          <Col span={24} >
+            <div style={{paddingRight: 5,display: 'flex'}}>
+              <input type='text' ref="categoryAT" placeholder="Nhập tên danh mục..."  style={styles.input}/>
+              <div onClick={this.addCategory} style={styles.buttonAdd}>Thêm</div>
+            </div>
           </Col>
         </Row>
         {listcat}

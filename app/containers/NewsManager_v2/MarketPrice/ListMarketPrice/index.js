@@ -18,6 +18,9 @@ import {
   addNewsMP,
 } from './actions';
 import {
+  setLoading,
+} from '../CateMarketPrice/actions';
+import {
   selectGetListMP,
   selectPageGetListMP,
   selectTotalItemListMP,
@@ -47,28 +50,34 @@ export class ListMarketPrice extends React.Component {
   }
   componentWillMount(){
     this.props.getListMP(this.props.params.id_cate_news,0);
+    this.props.setLoading(true);
+    
   }
   onChange=(page)=>{
     this.props.getListMP(this.props.params.id_cate_news,page-1);
+    this.props.setLoading(true);
   }
   componentWillReceiveProps(nextProps){
     if(this.props.params.id_cate_news!==nextProps.params.id_cate_news){
       this.props.getListMP(nextProps.params.id_cate_news,0);
+      this.props.setLoading(true);
     }
-    if(this.props.delSuccess!==nextProps.delSuccess && nextProps.delSuccess===true){
-      if(this.props.listNews && (this.props.listNews.size>0||this.props.listNews.length>0)){
-        this.props.getListMP(this.props.params.id_cate_news,this.props.curentPage);
-      }else{
-        if(this.props.curentPage>0){
-          this.props.getListMP(this.props.params.id_cate_news,this.props.curentPage-1);
-        }
-      }
-    }
+    // if(this.props.delSuccess!==nextProps.delSuccess && nextProps.delSuccess===true){
+    //   if(this.props.listNews && (this.props.listNews.size>0||this.props.listNews.length>0)){
+    //     this.props.getListMP(this.props.params.id_cate_news,this.props.curentPage);
+    //     this.props.setLoading(true);
+    //   }else{
+    //     if(this.props.curentPage>0){
+    //       this.props.getListMP(this.props.params.id_cate_news,this.props.curentPage-1);
+    //       this.props.setLoading(true);
+    //     }
+    //   }
+    // }
   }
   render() {
     let modalAdd = null;
       modalAdd = (
-        <ModalAddNewsMp addNewsMP={this.props.addNewsMP} modalAddNews={this.state.modalAddNews}
+        <ModalAddNewsMp addNewsMP={this.props.addNewsMP} modalAddNews={this.state.modalAddNews} setLoading={this.props.setLoading}
          handleCloseModalAdd={this.handleCloseModalAdd} errorCode={this.props.errorCode} idCate={this.props.params.id_cate_news}/>
       )
     let page = null;
@@ -98,7 +107,7 @@ export class ListMarketPrice extends React.Component {
             </div>
           </div>
           <div style={styles.content}>
-            <ClistMarketPrice listNews={this.props.listNews} deleteNewsMP={this.props.deleteNewsMP}/>
+            <ClistMarketPrice listNews={this.props.listNews} setLoading={this.props.setLoading} deleteNewsMP={this.props.deleteNewsMP}/>
           </div>
           {page}
         </div>
@@ -121,6 +130,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    setLoading: (loading) => dispatch(setLoading(loading)),
     getListMP: (id,page)=> dispatch(getListMP(id,page)),
     deleteNewsMP: (id) => dispatch(deleteNewsMP(id)),
     addNewsMP: (idCate,name,price,unit,place,note) => dispatch(addNewsMP(idCate,name,price,unit,place,note)),

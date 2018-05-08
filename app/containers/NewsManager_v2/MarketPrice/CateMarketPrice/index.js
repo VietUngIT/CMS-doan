@@ -15,6 +15,7 @@ import {
  import {
   selectListCateMP,
   selectErrorCodeCate,
+  selectLoading,
  } from './selectors';
 
 export class CateMarketPrice extends React.Component {
@@ -46,14 +47,23 @@ export class CateMarketPrice extends React.Component {
         <ModalAddCateMp addCateMP={this.props.addCateMP} modalAddNews={this.state.modalAddNews}
          handleCloseModalAdd={this.handleCloseModalAdd} errorCode={this.props.errorCode}/>
       )
+    let loading = null;
+    if(this.props.loading){
+      loading = (
+        <div style={styles.loading}>
+          <img src={require('containers/App/loading.gif')} style={styles.imageLoading}/>
+        </div>
+      )
+    }
     return (
       <div style={{height: '100%'}}>
         <Helmet
-          title="CateMarketPrice"
+          title="Giá thị trường"
           meta={[
             { name: 'description', content: 'Description of CateMarketPrice' },
           ]}
         />
+        {loading}
         {modalAdd}
         <Row>
           <Col span={10}>
@@ -83,6 +93,7 @@ CateMarketPrice.propTypes = {
 const mapStateToProps = createStructuredSelector({
   listCate: selectListCateMP(),
   errorCode: selectErrorCodeCate(),
+  loading: selectLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -15,7 +15,7 @@ const styles = {
         backgroundColor: '#FAFAFA',
         fontSize: 16,
         fontWeight: 600,
-        flex: 8,
+        flex: 1,
     },
     content: {
         padding: '10px 15px',
@@ -38,6 +38,17 @@ const styles = {
         height: 40,
         paddingTop: 10,
         paddingLeft: 10,
+    },
+    loading: {
+        width: '100%',
+        height: '100%',
+        position: "fixed",
+        top: 0,
+        left: 0,
+        background: '#5d5d5d20',
+        padding: 60,
+        zIndex: 1200,
+        textAlign: 'center',
     },
 }
 

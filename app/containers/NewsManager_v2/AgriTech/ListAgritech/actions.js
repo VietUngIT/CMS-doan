@@ -10,13 +10,16 @@ import {
   GET_LIST_CATE_AGRI_TECH_ACTION_SUCCESS,
   GET_LIST_AGRI_TECH_ACTION,
   GET_LIST_AGRI_TECH_ACTION_SUCCESS,
+  GET_LIST_AGRI_TECH_ACTION_FAIL,
   GET_LIST_SUB_CATE_AGRI_TECH_ACTION,
   GET_LIST_SUB_CATE_AGRI_TECH_ACTION_SUCCESS,
   DELETE_NEWS_AGRI_TECH_ACTION,
   DELETE_NEWS_AGRI_TECH_ACTION_SUCCESS,
+  DELETE_NEWS_AGRI_TECH_ACTION_FAIL,
   ADD_NEWS_AGRI_TECH_ACTION,
   ADD_NEWS_AGRI_TECH_ACTION_SUCCESS,
   ADD_NEWS_AGRI_TECH_NOT_DATA_ACTION_SUCCESS,
+  ADD_NEWS_AGRI_TECH_NOT_DATA_ACTION_FAIL,
 } from './constants';
 
 export function addNewsAgriTech(idSubCateLink,title,author,image,tags,idsubcate,content) {
@@ -44,6 +47,12 @@ export function addNewsNotDataAgriTechSuccess(error) {
     error,
   };
 }
+export function addNewsAgriTechFail(error) {
+  return {
+    type: ADD_NEWS_AGRI_TECH_NOT_DATA_ACTION_FAIL,
+    error,
+  };
+}
 export function deleteNews(id) {
   return {
     type: DELETE_NEWS_AGRI_TECH_ACTION,
@@ -54,6 +63,11 @@ export function deleteNewsSuccess(id) {
   return {
     type: DELETE_NEWS_AGRI_TECH_ACTION_SUCCESS,
     id,
+  };
+}
+export function deleteNewsFail() {
+  return {
+    type: DELETE_NEWS_AGRI_TECH_ACTION_FAIL,
   };
 }
   export function getListNewsAgriTech(id,page) {
@@ -68,6 +82,11 @@ export function deleteNewsSuccess(id) {
       type: GET_LIST_AGRI_TECH_ACTION_SUCCESS,
       listNews,
       total,
+    };
+  }
+  export function getListNewsAgriTechFail() {
+    return {
+      type: GET_LIST_AGRI_TECH_ACTION_FAIL,
     };
   }
   export function getListSubCateAgriTech(id) {

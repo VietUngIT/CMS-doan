@@ -21,6 +21,10 @@ const selectErrorCodeCate = () => createSelector(
   selectCateMarketPriceDomain(),
   (substate) => substate.get('errorCode')
 );
+const selectLoading = () => createSelector(
+  selectCateMarketPriceDomain(),
+  (substate) => substate.get('loading')
+);
 export {
   selectCateMarketPriceDomain,
   selectListCateMP,
@@ -28,4 +32,5 @@ export {
   selectImageCateAdd,
   selectIdDelCate,
   selectErrorCodeCate,
+  selectLoading,
 };

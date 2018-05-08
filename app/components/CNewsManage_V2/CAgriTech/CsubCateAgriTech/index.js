@@ -12,6 +12,7 @@ class CsubCateAgriTech extends React.Component {
       message.error("Nhập đầy đủ thông tin.")
     }else{
       this.props.addSubCate(this.props.idCate,this.refs.subCategoryAT.value)
+      this.props.setLoading(true)
       this.refs.subCategoryAT.value="";
     }
   }
@@ -19,7 +20,7 @@ class CsubCateAgriTech extends React.Component {
     let listsubcat = null;
     if(this.props.listSubCate && (this.props.listSubCate.size>0|| this.props.listSubCate.length>0)){
       listsubcat = this.props.listSubCate.map((item,index) => {
-        return (<CitemSubCateAgritech key={index} index={index} idCate={this.props.idCate} data={item} delSubCate={this.props.delSubCate}/>);
+        return (<CitemSubCateAgritech key={index} index={index} setLoading={this.props.setLoading} idCate={this.props.idCate} data={item} delSubCate={this.props.delSubCate}/>);
       });
     }
     return (
@@ -31,11 +32,11 @@ class CsubCateAgriTech extends React.Component {
           <Col span={4} style={{fontWeight: 600}}></Col>
         </Row>
         <Row style={{borderBottom: '1px solid #ffbf00'}}>
-          <Col span={20}>
+          <Col span={24}>
+          <div style={{display: 'flex',paddingRight: 5}}>
             <input type='text' ref="subCategoryAT" placeholder="Nhập tên danh mục..."  style={styles.input}/>
-          </Col>
-          <Col span={4}>
             <div onClick={this.addCategory} style={styles.buttonAdd}>Thêm</div>
+          </div>
           </Col>
         </Row>
         {listsubcat}

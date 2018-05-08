@@ -13,6 +13,7 @@ class CitemMarketPrice extends React.Component {
     console.log('Click on Yes');
     if(this.props.data){
       this.props.deleteNewsMP(this.props.data.id);
+      this.props.setLoading(true)
     }
   }
   cancel(e) {

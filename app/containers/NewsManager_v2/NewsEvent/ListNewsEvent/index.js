@@ -142,7 +142,7 @@ export class ListNewsEvent extends React.Component {
               Nội dung
             </div>
             
-            <div style={{flex: 2,minWidth:96,textAlign: 'center',paddingTop: 8}}>
+            <div style={{flexBasic: 100,minWidth:96,textAlign: 'center',paddingTop: 8}}>
               <Popconfirm title="Bạn chắc chắn muốn xóa tin tức này?" onConfirm={this.confirm} onCancel={this.cancel} okText="Đồng ý" cancelText="Hủy">
                 <Button type="danger" icon="close-square-o">Xóa</Button>
               </Popconfirm>
@@ -184,9 +184,9 @@ export class ListNewsEvent extends React.Component {
           <Col span={10} style={{fontWeight: 600}}>
             <div style={styles.wrapcontentlistnews}>
               <div style={styles.inlineWrapContentlistnews}>
-                <div style={{display: 'flex', flexDirection: 'collumn',borderBottom: '1px solid #616161',}}>
+                <div style={{display: 'flex', flexDirection: 'collumn',borderBottom: '1px solid #616161',paddingRight:5}}>
                   <div style={styles.header}>Danh sách tin tức</div>
-                  <div style={{flex: 2,minWidth:96,textAlign: 'center',paddingTop: 8}}>
+                  <div style={{flexBasic: 100,minWidth:96,textAlign: 'center',paddingTop: 8}}>
                     <Button onClick={this.addNewsHandle} type="primary" icon="plus-square-o" >Thêm mới</Button>
                   </div>
                 </div>

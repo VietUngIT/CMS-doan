@@ -24,7 +24,7 @@ class CitemCateMatketPrice extends React.Component {
     return (
       <div style={styles.wrapItem}>
         <div style={styles.wrapInfoItem}>
-          <img src={this.props.data.image==null?require('containers/App/maxresdefault.jpg'):this.props.data.image} id="imgstore" width='90px' height='70px' />
+          <img src={this.props.data.image==null?require('containers/App/fuse.svg'):this.props.data.image} id="imgstore" width='90px' height='70px' />
           <div style={styles.title}>{this.props.data.name}</div>
         </div>
         <div style={styles.wrapAction}>

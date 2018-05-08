@@ -24,6 +24,7 @@ class ModalAddCateMp extends React.Component {
     }else{
       if(this.refs.imageForNewsMP.src && this.refs.imageForNewsMP.src.toString().indexOf("data\:image")>-1 && this.refs.imageForNewsMP.src.toString().indexOf(";base64")>-1){
         this.props.addCateMP(this.refs.nameAdd.value.trim(),this.refs.imageForNewsMP.src.toString())
+        this.props.handleCloseModalAdd();
       }else{
         message.error("Chưa chọn ảnh.");
       }
@@ -31,9 +32,9 @@ class ModalAddCateMp extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps){
-    if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode){
+    if(this.props.errorCode!==nextProps.errorCode && !this.props.errorCode && nextProps.errorCode===0){
       this.resetNews();
-      this.props.handleCloseModalAdd();
+      
     }
   }
   resetNews=()=>{

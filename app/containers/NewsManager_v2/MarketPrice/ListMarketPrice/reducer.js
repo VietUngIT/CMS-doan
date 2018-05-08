@@ -8,6 +8,7 @@ import {
   DEL_LIST_MP_ACTION_SUCCESS,
   ADD_LIST_MP_ACTION,
   ADD_LIST_MP_ACTION_SUCCESS,
+  ADD_LIST_MP_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
@@ -42,6 +43,15 @@ function listMarketPriceReducer(state = initialState, action) {
     case ADD_LIST_MP_ACTION_SUCCESS:
       return state
       .update('listMP', listMP => [].concat(action.news).concat(listMP))
+      .setIn(['addNews', 'idCate'], false)
+      .setIn(['addNews', 'name'], false)
+      .setIn(['addNews', 'price'], false)
+      .setIn(['addNews', 'unit'], false)
+      .setIn(['addNews', 'place'], false)
+      .setIn(['addNews', 'note'], false)
+      .setIn(['addNews', 'errorCode'], action.error)
+    case ADD_LIST_MP_ACTION_FAIL:
+      return state
       .setIn(['addNews', 'idCate'], false)
       .setIn(['addNews', 'name'], false)
       .setIn(['addNews', 'price'], false)

@@ -12,6 +12,7 @@ import {
   DEL_LIST_MP_ACTION_SUCCESS,
   ADD_LIST_MP_ACTION,
   ADD_LIST_MP_ACTION_SUCCESS,
+  ADD_LIST_MP_ACTION_FAIL,
 } from './constants';
 
 export function addNewsMP(idCate,name,price,unit,place,note) {
@@ -30,6 +31,12 @@ export function addNewsMPSuccess(news,error) {
   return {
     type: ADD_LIST_MP_ACTION_SUCCESS,
     news,
+    error,
+  };
+}
+export function addNewsMPFail(error) {
+  return {
+    type: ADD_LIST_MP_ACTION_FAIL,
     error,
   };
 }

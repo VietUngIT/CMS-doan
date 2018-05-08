@@ -40,6 +40,17 @@ const styles = {
         paddingTop: 10,
         paddingLeft: 10,
     },
+    loading: {
+        width: '100%',
+        height: '100%',
+        position: "fixed",
+        top: 0,
+        left: 0,
+        background: '#5d5d5d20',
+        padding: 60,
+        zIndex: 1200,
+        textAlign: 'center',
+    },
 }
 
 export default styles;
