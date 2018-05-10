@@ -38,6 +38,18 @@ const selectTags = () => createSelector(
   selectExpertDetailDomain(),
   (substate) => substate.get('tags')
 );
+const selectidExpertStatitic = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('idExpertStatitic')
+);
+const selectstatiticComment = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('statiticComment')
+);
+const selecttotalActice = () => createSelector(
+  selectExpertDetailDomain(),
+  (substate) => substate.get('selecttotalActice')
+);
 export {
   selectExpertDetailDomain,
   selectIdExpert,
@@ -49,4 +61,7 @@ export {
   selectSubField,
   selectIdSubField,
   selectTags,
+  selectidExpertStatitic,
+  selectstatiticComment,
+  selecttotalActice,
 };

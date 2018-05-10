@@ -8,6 +8,7 @@ import {
   GET_LIST_SUB_FIELD_ACTION,
   UPDATE_SUB_FIELD_ACTION,
   UPDATE_TAGS_ACTION,
+  STATITIC_COMMENT_ACTION,
 } from './constants';
 import { 
   getExpertDetailSuccess,
@@ -20,6 +21,8 @@ import {
   updateSubFieldSuccess,
   updateTagsSuccess,
   updateTagsError,
+  statiticCommentExpertError,
+  statiticCommentExpertSuccess,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -29,6 +32,7 @@ import {
   callAPIGetSubFieldExpert,
   callAPIUpdateSubFieldExpert,
   callAPIEditTagsExpert,
+  callAPIStatiticCommentExpert,
 } from 'utils/request';
 import {
   selectIdExpert,
@@ -36,6 +40,7 @@ import {
   selectPhone,
   selectIdSubField,
   selectTags,
+  selectidExpertStatitic,
 } from './selectors';
 
 export function* getListSubField() {
@@ -198,6 +203,35 @@ export function* updateTagsExpertWatcher() {
     yield call(updateTagsExpert);
   }
 }
+
+export function* statiticCommentExpert() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectidExpertStatitic()); 
+  const response = yield call(callAPIStatiticCommentExpert,userInfo.phone,userInfo.password,id);
+  try{
+    if (response.data.data.e==0) {
+        yield put(statiticCommentExpertSuccess(response.data.data.data.statitic,response.data.data.data.totalActice));
+    } else {
+      message.error(response.data.data.msg);
+      yield put(statiticCommentExpertError());
+    }
+  } catch(error){
+    message.error(response.data.data.e+" Lỗi trong quá trình xử lý");
+    yield put(statiticCommentExpertError());
+  }
+  
+}
+export function* statiticCommentExpertWatcher() {
+  while (yield take(STATITIC_COMMENT_ACTION)) {
+    yield call(statiticCommentExpert);
+  }
+}
+
+
 export function* defaultSaga() {
   const watchergetExpertDetail = yield fork(getExpertDetailWatcher);
   const watchergetListField = yield fork(getListFieldWatcher);
@@ -205,6 +239,7 @@ export function* defaultSaga() {
   const watchergetListSubField = yield fork(getListSubFieldWatcher);
   const watcherupdateSubFieldExpert = yield fork(updateSubFieldExpertWatcher);
   const watcherupdateTagsExpert = yield fork(updateTagsExpertWatcher);
+  const watcherstatiticCommentExpert = yield fork(statiticCommentExpertWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetExpertDetail);
     yield cancel(watchergetListField);
@@ -212,6 +247,7 @@ export function* defaultSaga() {
     yield cancel(watchergetListSubField);
     yield cancel(watcherupdateSubFieldExpert);
     yield cancel(watcherupdateTagsExpert);
+    yield cancel(watcherstatiticCommentExpert);
   }
 }
 
