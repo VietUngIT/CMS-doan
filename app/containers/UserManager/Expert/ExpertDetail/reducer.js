@@ -39,28 +39,34 @@ function expertDetailReducer(state = initialState, action) {
       return state
       .set("tags",action.tags)
       .set("phone",action.phone)
+      .set("isLoading",true)
     case UPDATE_TAGS_ACTION_SUCCESS:
       return state
       .set("expertDetail",action.data)
       .set("tags",[])
       .set("phone",false)
+      .set("isLoading",false)
     case UPDATE_TAGS_ACTION_ERROR:
       return state
       .set("tags",[])
       .set("phone",false)
+      .set("isLoading",false)
     case UPDATE_SUB_FIELD_ACTION:
       return state
       .set("idSubField",action.ids)
       .set("phone",action.phone)
+      .set("isLoading",true)
     case UPDATE_SUB_FIELD_ACTION_SUCCESS:
       return state
       .set("expertDetail",action.data)
       .set("idSubField",[])
       .set("phone",false)
+      .set("isLoading",false)
     case UPDATE_SUB_FIELD_ACTION_ERROR:
       return state
       .set("idSubField",[])
       .set("phone",false)
+      .set("isLoading",false)
     case GET_LIST_SUB_FIELD_ACTION:
       return state
       .set("listSubField",[])
@@ -71,15 +77,18 @@ function expertDetailReducer(state = initialState, action) {
       return state
       .set("degree",action.degree)
       .set("phone",action.phone)
+      .set("isLoading",true)
     case UPDATE_DEGREE_ACTION_SUCCESS:
       return state
       .set("expertDetail",action.data)
       .set("degree",[])
       .set("phone",false)
+      .set("isLoading",false)
     case UPDATE_DEGREE_ACTION_ERROR:
       return state
       .set("degree",[])
       .set("phone",false)
+      .set("isLoading",false)
     case GET_LIST_FIELD_ACTION:
       return state
       .set("listField",[])
