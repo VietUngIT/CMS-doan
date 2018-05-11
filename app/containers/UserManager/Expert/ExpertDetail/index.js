@@ -34,6 +34,7 @@ import {
   selectstatiticComment,
   selecttotalActice,
   selectidExpertStatitic,
+  selectorderShow,
  } from './selectors';
 
 export class ExpertDetail extends React.Component {
@@ -49,6 +50,7 @@ export class ExpertDetail extends React.Component {
         listTags: [],
         showActiveExpert: false,
         rateData: [],
+        stylerateMax: 0,
       };
   }
   componentWillMount(){
@@ -60,17 +62,17 @@ export class ExpertDetail extends React.Component {
       this.props.getListSubField();
     }
     if(!(this.props.expert && this.props.expert._id === this.props.params.id_expert)){
-      console.log("getExpertDetail")
+      // console.log("getExpertDetail")
       this.props.getExpertDetail(this.props.params.id_expert);
     }
     
   }
   componentWillReceiveProps(nextProps){
-    console.log("componentWillReceiveProps")
+    // console.log("componentWillReceiveProps")
     console.log()
     if(this.props.params.id_expert !== nextProps.params.id_expert){
       if(!(nextProps.expert && nextProps.expert._id === nextProps.params.id_expert)){
-        console.log("componentWillReceiveProps-getExpertDetail")
+        // console.log("componentWillReceiveProps-getExpertDetail")
         this.props.getExpertDetail(nextProps.params.id_expert);
       }
       
@@ -228,16 +230,26 @@ export class ExpertDetail extends React.Component {
     }
     if(this.props.expert){
       let temp = [];
-      temp.push({name: "Rate 1", value: this.props.expert.numRate1});
-      temp.push({name: "Rate 2", value: this.props.expert.numRate2});
-      temp.push({name: "Rate 3", value: this.props.expert.numRate3});
-      temp.push({name: "Rate 4", value: this.props.expert.numRate4});
-      temp.push({name: "Rate 5", value: this.props.expert.numRate5});
+      temp.push({name: "1 Sao", value: this.props.expert.numRate1});
+      temp.push({name: "2 Sao", value: this.props.expert.numRate2});
+      temp.push({name: "3 Sao", value: this.props.expert.numRate3});
+      temp.push({name: "4 Sao", value: this.props.expert.numRate4});
+      temp.push({name: "5 Sao", value: this.props.expert.numRate5});
+      var max =  this.props.expert.numRate1;
+      temp.map((item,index)=>{
+        if(max<item.value){
+          max = item.value;
+          this.setState({
+            stylerateMax: index,
+          })
+        }
+      })
       this.setState({
         rateData: temp,
       })
     }
   }
+
   render() {
     let showProfileHTML = false;
     if(this.props.expert && this.state.showProfile){
@@ -254,8 +266,8 @@ export class ExpertDetail extends React.Component {
     if(this.props.statiticComment && this.state.showActiveExpert){
       showActiveExpertHTML = (<CstatiticCommentExpert statiticComment={this.props.statiticComment} 
         totalActive={this.props.totalActive}/>)
-        if(this.props.expert){
-          showPiechartRateHTML = (<CpieChartRateExpert rateData={this.state.rateData}/>)
+        if(this.props.expert && this.props.orderShow===2){
+          showPiechartRateHTML = (<CpieChartRateExpert rateData={this.state.rateData} activeInitPieChart={this.state.stylerateMax}/>)
         }
     }
     
@@ -348,6 +360,7 @@ const mapStateToProps = createStructuredSelector({
   statiticComment: selectstatiticComment(),
   totalActive: selecttotalActice(),
   idExpertStatitic: selectidExpertStatitic(),
+  orderShow: selectorderShow(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -8,6 +8,7 @@ import React from 'react';
 // import styled from 'styled-components';
 import styles from './styles';
 import { PieChart, Pie, Sector,Cell} from 'recharts';
+import { Row, Col, Button, Icon } from 'antd';
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -52,8 +53,6 @@ const renderActiveShape = (props) => {
     </g>
   );
 };
-const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 50}, {name: 'Group D', value: 200}];
 class CpieChartRateExpert extends React.Component { 
   constructor(props) {
     super(props);
@@ -62,6 +61,12 @@ class CpieChartRateExpert extends React.Component {
       activeIndex: 0,
     };
   }
+  componentWillMount(){
+    console.log("num: "+this.props.activeInitPieChart)
+    this.setState({
+      activeIndex: this.props.activeInitPieChart,
+    })
+  }
   onPieEnter=(data,index)=>{
     this.setState({
       activeIndex: index,
@@ -69,32 +74,52 @@ class CpieChartRateExpert extends React.Component {
   }
   render() {
     let piechart = false;
+    let itemTable = false;
     if(this.props.rateData &&(this.props.rateData.size>0 || this.props.rateData.length>0)){
+      itemTable = this.props.rateData.map((item, index) => {
+        return (<Row style={styles.rowTable} key={index}>
+                  <Col style={styles.firstCell}span={8}>{item.name}</Col>
+                  <Col style={styles.middleCell} span={8}><div style={{height: 20,width: '40%',background: `${this.state.COLORS[index % this.state.COLORS.length]}`,display: 'inline-block'}}></div></Col>
+                  <Col style={styles.lastCell} span={8}>{item.value}</Col>
+                </Row>);
+        });
+
       piechart = (
         <div style={styles.wrapDetail}>
-          <div style={styles.wrapTitle}>Nguyễn Phương Anh</div>
+          <div style={styles.wrapTitle}>Thống kê đánh giá của người dùng cho chuyên gia</div>
           <div style={styles.wrapBody}>
-            <PieChart width={800} height={400}>
-              <Pie 
-                activeIndex={this.state.activeIndex}
-                activeShape={renderActiveShape} 
-                data={this.props.rateData} 
-                cx={300} 
-                cy={200} 
-                innerRadius={60}
-                outerRadius={80} 
-                fill="#8884d8"
-                onMouseEnter={this.onPieEnter}
-                dataKey="value"
-              >
-              {
-                this.props.rateData.map((entry, index) => <Cell key={index} fill={this.state.COLORS[index % this.state.COLORS.length]}/>)
-              }
-              </Pie>
-            </PieChart>     
+            <div style={{display: 'flex'}}>
+              <div style={{flex: 1,paddingTop: '3%'}}>
+                <Row style={styles.headerTable}>
+                  <Col style={styles.firstHeaderCell}span={8}>Tên</Col>
+                  <Col style={styles.middleHeaderCell} span={8}>Màu sắc</Col>
+                  <Col style={styles.lastHeaderCell} span={8}>Số đánh giá</Col>
+                </Row>
+                {itemTable}
+              </div>
+              <div>
+                <PieChart width={400} height={265}>
+                  <Pie 
+                    activeIndex={this.state.activeIndex}
+                    activeShape={renderActiveShape} 
+                    data={this.props.rateData} 
+                    innerRadius={30}
+                    outerRadius={90} 
+                    fill="#8884d8"
+                    onMouseEnter={this.onPieEnter}
+                    dataKey="value"
+                  >
+                  {
+                    this.props.rateData.map((entry, index) => <Cell key={index} fill={this.state.COLORS[index % this.state.COLORS.length]}/>)
+                  }
+                  </Pie>
+                </PieChart>
+              </div>     
+            </div>     
           </div>
        </div>  
       )
+      
     }
     return (
       <div>

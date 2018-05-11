@@ -36,6 +36,7 @@ const initialState = fromJS({
   totalActice: false,
   statiticComment: [],
   idExpertStatitic: false,
+  orderShow: 1,
 });
 
 function expertDetailReducer(state = initialState, action) {
@@ -46,17 +47,20 @@ function expertDetailReducer(state = initialState, action) {
       .set("statiticComment",[])
       .set("isLoading",true)
       .set("totalActice",false)
+      .set("orderShow",1)
     case STATITIC_COMMENT_ACTION_SUCCESS:
       return state
       .update('statiticComment', statiticComment => statiticComment.concat(action.data))
       .set("idExpertStatitic",false)
       .set("totalActice",action.total)
       .set("isLoading",false)
+      .set("orderShow",2)
     case STATITIC_COMMENT_ACTION_ERROR:
       return state
       .set("idExpertStatitic",false)
       .set("statiticComment",[])
       .set("isLoading",false)
+      .set("orderShow",1)
     case UPDATE_TAGS_ACTION:
       return state
       .set("tags",action.tags)
