@@ -5,6 +5,7 @@ const styles = {
         minWidth: 250,
         margin: 'auto',
         padding: 20,
+        marginBottom: 20,
     },
     avatar: {
         width: 90,
@@ -23,7 +24,7 @@ const styles = {
         width: '80%',
         margin: 'auto',
         minWidth: 250,
-        marginTop: 25,
+        marginTop: 6,
         padding: '7px 20px',
         fontWeight: 600,
         cursor: 'pointer',

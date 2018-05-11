@@ -884,3 +884,17 @@ export function callAPIEditQA(ph,p,id,content,title,answer) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIStatiticCommentExpert(ph,p,id) {
+  const url = `${API_BASE_URL}expertinfo?ph=${ph}&p=${p}&t=statiticcommentbyexpert&idexpert=${id}`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

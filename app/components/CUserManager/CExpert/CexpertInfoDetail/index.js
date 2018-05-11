@@ -208,7 +208,7 @@ class CexpertInfoDetail extends React.Component {
     }
     return (
       <div style={{display: this.props.showProfile?"":'none'}}>
-      {showProfileHTML}
+        {showProfileHTML}
       </div>
     );
   }

@@ -17,8 +17,29 @@ import {
   UPDATE_TAGS_ACTION,
   UPDATE_TAGS_ACTION_SUCCESS,
   UPDATE_TAGS_ACTION_ERROR,
+  STATITIC_COMMENT_ACTION,
+  STATITIC_COMMENT_ACTION_SUCCESS,
+  STATITIC_COMMENT_ACTION_ERROR,
 } from './constants';
 
+export function statiticCommentExpert(id) {
+  return {
+    type: STATITIC_COMMENT_ACTION,
+    id,
+  };
+}
+export function statiticCommentExpertSuccess(data,total) {
+  return {
+    type: STATITIC_COMMENT_ACTION_SUCCESS,
+    data,
+    total,
+  };
+}
+export function statiticCommentExpertError() {
+  return {
+    type: STATITIC_COMMENT_ACTION_ERROR,
+  };
+}
 export function updateTags(tags,phone) {
   return {
     type: UPDATE_TAGS_ACTION,

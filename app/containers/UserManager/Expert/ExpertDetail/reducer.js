@@ -18,6 +18,9 @@ import {
   UPDATE_TAGS_ACTION,
   UPDATE_TAGS_ACTION_SUCCESS,
   UPDATE_TAGS_ACTION_ERROR,
+  STATITIC_COMMENT_ACTION,
+  STATITIC_COMMENT_ACTION_SUCCESS,
+  STATITIC_COMMENT_ACTION_ERROR,
 } from './constants';
 
 const initialState = fromJS({
@@ -30,11 +33,30 @@ const initialState = fromJS({
   idSubField: [],
   phone: false,
   tags: [],
-  // stateTags: false,
+  totalActice: false,
+  statiticComment: [],
+  idExpertStatitic: false,
 });
 
 function expertDetailReducer(state = initialState, action) {
   switch (action.type) {
+    case STATITIC_COMMENT_ACTION:
+      return state
+      .set("idExpertStatitic",action.id)
+      .set("statiticComment",[])
+      .set("isLoading",true)
+      .set("totalActice",false)
+    case STATITIC_COMMENT_ACTION_SUCCESS:
+      return state
+      .update('statiticComment', statiticComment => statiticComment.concat(action.data))
+      .set("idExpertStatitic",false)
+      .set("totalActice",action.total)
+      .set("isLoading",false)
+    case STATITIC_COMMENT_ACTION_ERROR:
+      return state
+      .set("idExpertStatitic",false)
+      .set("statiticComment",[])
+      .set("isLoading",false)
     case UPDATE_TAGS_ACTION:
       return state
       .set("tags",action.tags)
@@ -100,6 +122,7 @@ function expertDetailReducer(state = initialState, action) {
         .set("expertDetail",false)
         .set("isLoading",true)
         .set("idExpert",action.id)
+        .set("statiticComment",[])
     case GET_EXPERT_DETAIL_ACTION_SUCCESS:
       return state
         .set("expertDetail",action.data)

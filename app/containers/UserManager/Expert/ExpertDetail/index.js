@@ -14,6 +14,9 @@ import Tags from 'components/Utils/Tags';
 import CusSelect from 'components/Utils/CusSelect';
 import styles from './styles';
 import CexpertInfoDetail from 'components/CUserManager/CExpert/CexpertInfoDetail'
+import CstatiticCommentExpert from 'components/CUserManager/CExpert/CstatiticCommentExpert'
+import CpieChartRateExpert from 'components/CUserManager/CExpert/CpieChartRateExpert'
+
 import {
   getListField,
   getExpertDetail,
@@ -21,12 +24,16 @@ import {
   getListSubField,
   updateSubField,
   updateTags,
+  statiticCommentExpert,
  } from './actions';
  import {
   selectListField,
   selectExpertDetail,
   selectLoading,
   selectSubField,
+  selectstatiticComment,
+  selecttotalActice,
+  selectidExpertStatitic,
  } from './selectors';
 
 export class ExpertDetail extends React.Component {
@@ -40,20 +47,33 @@ export class ExpertDetail extends React.Component {
         degree: [],
         listFieldDetail: [],
         listTags: [],
+        showActiveExpert: false,
+        rateData: [],
       };
   }
   componentWillMount(){
+    // console.log("componentWillMount")
     if(!(this.props.listField && (this.props.listField.size>0 || this.props.listField.length>0))){
       this.props.getListField();
     }
     if(!(this.props.listSubField && (this.props.listSubField.size>0 || this.props.listSubField.length>0))){
       this.props.getListSubField();
     }
-    this.props.getExpertDetail(this.props.params.id_expert);
+    if(!(this.props.expert && this.props.expert._id === this.props.params.id_expert)){
+      console.log("getExpertDetail")
+      this.props.getExpertDetail(this.props.params.id_expert);
+    }
+    
   }
   componentWillReceiveProps(nextProps){
+    console.log("componentWillReceiveProps")
+    console.log()
     if(this.props.params.id_expert !== nextProps.params.id_expert){
-      this.props.getExpertDetail(nextProps.params.id_expert);
+      if(!(nextProps.expert && nextProps.expert._id === nextProps.params.id_expert)){
+        console.log("componentWillReceiveProps-getExpertDetail")
+        this.props.getExpertDetail(nextProps.params.id_expert);
+      }
+      
     }
     if(nextProps.expert && this.props.expert!==nextProps.expert){
       let tempDegree = JSON.parse(nextProps.expert.degree);
@@ -195,12 +215,32 @@ export class ExpertDetail extends React.Component {
   showProfile=()=>{
     this.setState({
       showProfile: true,
+      showActiveExpert: false,
     });
   }
-  render() {
-
-    let showProfileHTML = false;
+  showStatiticExpert=()=>{
+    this.setState({
+      showProfile: false,
+      showActiveExpert: true,
+    });
+    if(!(this.props.statiticComment && (this.props.statiticComment.size>0 || this.props.statiticComment.length>0))){
+      this.props.statiticCommentExpert(this.props.params.id_expert);
+    }
     if(this.props.expert){
+      let temp = [];
+      temp.push({name: "Rate 1", value: this.props.expert.numRate1});
+      temp.push({name: "Rate 2", value: this.props.expert.numRate2});
+      temp.push({name: "Rate 3", value: this.props.expert.numRate3});
+      temp.push({name: "Rate 4", value: this.props.expert.numRate4});
+      temp.push({name: "Rate 5", value: this.props.expert.numRate5});
+      this.setState({
+        rateData: temp,
+      })
+    }
+  }
+  render() {
+    let showProfileHTML = false;
+    if(this.props.expert && this.state.showProfile){
       showProfileHTML = (<CexpertInfoDetail expert={this.props.expert} listField={this.props.listField} listSubField={this.props.listSubField}
                           updateSubField={this.props.updateSubField} updateDegree={this.props.updateDegree} updateTags={this.props.updateTags}
                           showProfile={this.state.showProfile} listTags={this.state.listTags} addTags={this.addTags} updateTags={this.updateTags}
@@ -208,6 +248,15 @@ export class ExpertDetail extends React.Component {
                           removeDegree={this.removeDegree} cancleDegree={this.cancleDegree} editDegree={this.editDegree} stateEditDegree={this.state.stateEditDegree}
                           listFieldDetail={this.state.listFieldDetail} addField={this.addField} updateField={this.updateField}
                           removeField={this.removeField} cancleField={this.cancleField} editField={this.editField} stateEditFieldDetail={this.state.stateEditFieldDetail}/>)
+    }
+    let showActiveExpertHTML = false;
+    let showPiechartRateHTML = false;
+    if(this.props.statiticComment && this.state.showActiveExpert){
+      showActiveExpertHTML = (<CstatiticCommentExpert statiticComment={this.props.statiticComment} 
+        totalActive={this.props.totalActive}/>)
+        if(this.props.expert){
+          showPiechartRateHTML = (<CpieChartRateExpert rateData={this.state.rateData}/>)
+        }
     }
     
     let loading = null;
@@ -272,9 +321,14 @@ export class ExpertDetail extends React.Component {
             <div style={styles.wrapItem} onClick={this.showProfile}>
               <div style={{color: this.state.showProfile?"#2962FF":"#000000"}}>Thông tin cá nhân</div>
             </div>
+            <div style={styles.wrapItem} onClick={this.showStatiticExpert}>
+              <div style={{color: this.state.showActiveExpert?"#2962FF":"#000000"}}>Hoạt động</div>
+            </div>
           </Col>
           <Col span={17}>
             {showProfileHTML}
+            {showActiveExpertHTML}
+            {showPiechartRateHTML}
           </Col>
         </Row>
       </div>
@@ -291,10 +345,14 @@ const mapStateToProps = createStructuredSelector({
   expert: selectExpertDetail(),
   loading: selectLoading(),
   listSubField: selectSubField(),
+  statiticComment: selectstatiticComment(),
+  totalActive: selecttotalActice(),
+  idExpertStatitic: selectidExpertStatitic(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    statiticCommentExpert:(id) => dispatch(statiticCommentExpert(id)),
     getListSubField:() => dispatch(getListSubField()),
     getListField: () => dispatch(getListField()),
     getExpertDetail: (id) => dispatch(getExpertDetail(id)),
