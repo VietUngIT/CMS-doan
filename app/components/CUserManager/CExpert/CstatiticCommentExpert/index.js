@@ -24,7 +24,7 @@ class CstatiticCommentExpert extends React.Component {
                 <Label value="Thời gian" offset={0} position="insideBottom" />
               </XAxis>
               <YAxis label={{ value: 'Số bình luận', angle: -90, position: 'insideLeft' }}/>
-              <Tooltip cursor={{ stroke: 'red', strokeWidth: 1 }} content={<CcustomTooltip/>}/>
+              <Tooltip cursor={{ stroke: 'red', strokeWidth: 1 }} content={<CcustomTooltip label="Số câu hỏi"/>}/>
               <Legend verticalAlign="top" height={36}/>
               <Line name="Số bình luận" type="monotone" dataKey="countComment" stroke="#8884d8" activeDot={{r: 8}}/>
             </LineChart>      

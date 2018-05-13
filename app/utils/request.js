@@ -898,3 +898,16 @@ export function callAPIStatiticCommentExpert(ph,p,id) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+export function callAPIGetDashBoard(ph,p) {
+  const url = `${API_BASE_URL}dashboard?ph=${ph}&p=${p}&t=getdashboard`;
+  return axios({ url,
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
+  }).then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

@@ -62,7 +62,6 @@ class CpieChartRateExpert extends React.Component {
     };
   }
   componentWillMount(){
-    console.log("num: "+this.props.activeInitPieChart)
     this.setState({
       activeIndex: this.props.activeInitPieChart,
     })

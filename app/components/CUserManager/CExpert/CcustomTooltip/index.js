@@ -17,7 +17,7 @@ class CcustomTooltip extends React.Component {
       return (
         <div style={styles.wrapDetail}>
           <p className="label">{`Ngày: ${label}`}</p>
-          <p className="intro">{`Số bình luận: ${payload[0].value}`}</p>
+          <p className="intro">{`${this.props.labelTooltip}: ${payload[0].value}`}</p>
         </div>
       );
     }

@@ -18,7 +18,7 @@ class NavigationBar extends React.Component {
     super(props);
     this.state = {
       active: 1,
-      current: '1',
+      current: '0',
       openKeys: ['sub1'],
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
     };
@@ -48,6 +48,8 @@ class NavigationBar extends React.Component {
       this.setState({current: '5',openKeys: ['sub2']}); 
     }else if(location.pathname.toUpperCase().indexOf("/QA")>-1){
       this.setState({current: '6',openKeys: ['sub2']}); 
+    }else{
+      this.setState({current: '0',openKeys: []});
     }
   }
 
@@ -67,6 +69,9 @@ class NavigationBar extends React.Component {
   }
   handleClick = (e) => {
     switch(e.key){
+      case '0':
+        browserHistory.push('/')
+        break;
       case '1':
         browserHistory.push('/news')
         break;
@@ -116,6 +121,10 @@ class NavigationBar extends React.Component {
           onOpenChange={this.onOpenChange}
           mode="inline"
         >
+          <Menu.Item key="0">
+            <Icon type="desktop" />
+            <span style={{fontSize: 15}}>Trang chủ</span>
+          </Menu.Item>
           <SubMenu style={{background: '#000'}} key="sub1" title={<span><Icon type="mail" /><span style={{fontSize: 15}}>Quản lý tin tức</span></span>}>
             <Menu.Item key="1">Tin tức-Sự kiện</Menu.Item>
             <Menu.Item key="2">Tin tức thị trường</Menu.Item>
