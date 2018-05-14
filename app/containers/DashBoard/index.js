@@ -28,7 +28,7 @@ import {
 export class DashBoard extends React.Component { 
   componentWillMount(){
     var date = new Date();
-    if(!this.props.getDashBoardSuccess || endTime<date.getTime()){
+    if(!this.props.getDashBoardSuccess || this.props.endTime<date.getTime()){
       this.props.getDashBoard();
     }
   }
@@ -45,7 +45,6 @@ export class DashBoard extends React.Component {
     let numShow = false;
     let frqs = false;
     if(this.props.getDashBoardSuccess){
-      console.log(this.props.reportExpert)
       numShow = (<div style={{display: 'flex', padding: '0 20px'}}>
         <div style={{flex: 1}}>
           <div style={{width: '90%',maxWidth: 320}}>

@@ -23,7 +23,7 @@ class CqaDetail extends React.Component {
       // contentQuestion: "",
       // initValueQuestion: "",
       contentAnswer: "",
-      initValueAnswer: "",
+      initValueAnswer: false,
     };
   }
   componentDidMount(){
@@ -44,6 +44,11 @@ class CqaDetail extends React.Component {
   	this.setState({
       contentAnswer: content,
     })
+    if(this.state.initValueAnswer){
+      this.setState({
+        initValueAnswer: false,
+      })
+    }
   }
   componentWillReceiveProps(nextProps){
     if(this.props.qaDetail!==nextProps.qaDetail){
@@ -73,8 +78,8 @@ class CqaDetail extends React.Component {
       this.titleQA.value = this.props.qaDetail.title;
       this.questionQADT.value = this.props.qaDetail.content;
       this.setState({
-        // initValueQuestion: this.props.qaDetail.content,
-        initValueAnswer: this.props.qaDetail.answer,
+        contentAnswer: this.props.qaDetail.answer,
+        initValueAnswer: true,
       });
     }
   }
@@ -107,9 +112,11 @@ class CqaDetail extends React.Component {
   render() {
     let title = false;
     let question = false;
+    let ckeditor = false;
     if(this.props.qaDetail){
       title = this.props.qaDetail.title;
       question = this.props.qaDetail.content;
+      ckeditor = (<Rackeditor id="ckanswer" initValue={this.state.initValueAnswer} value={this.state.contentAnswer} onChange={this.handleChangeAnswer}/>)
     }
     return (
       <div>
@@ -136,7 +143,6 @@ class CqaDetail extends React.Component {
               <div style={{fontStyle: 'italic'}}>Câu hỏi:</div>
             </div>
             <div style={{display: !this.state.isEdit?'none':""}}>
-              {/* <Rackeditor id="ckquestion" initValue={this.state.initValueQuestion} value={this.state.contentQuestion} onChange={this.handleChangeQuestion}/> */}
               <CusArea type='text' rows='6' innerRef={(comp) => { this.questionQADT = comp;}}  placeholder="Nhập nội dung câu hỏi"/>
             </div>
             <div id="question" style={{padding: 7,display: this.state.isEdit?'none':""}}>
@@ -148,7 +154,7 @@ class CqaDetail extends React.Component {
               <div style={{fontStyle: 'italic'}}>Câu trả lời</div>
             </div>
             <div style={{display: !this.state.isEdit?'none':""}}>
-              <Rackeditor id="ckanswer" initValue={this.state.initValueAnswer} value={this.state.contentAnswer} onChange={this.handleChangeAnswer}/>
+              {ckeditor}
             </div>
             <div id="answer" style={{padding: 7,display: this.state.isEdit?'none':""}}></div>
           </div>

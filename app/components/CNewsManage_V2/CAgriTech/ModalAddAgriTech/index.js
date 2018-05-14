@@ -32,13 +32,18 @@ class ModalAddAgriTech extends React.Component {
       listTags: [],
       stateContent: "",
       content: "",
-      initValue: "",
+      initValue: false,
     }
   } 
   handleChangeContent=(content)=>{
   	this.setState({
       content: content,
     })
+    if(this.state.initValue){
+      this.setState({
+        initValue: false,
+      })
+    }
   }
   addTags=()=>{
     if(this.refs.tagsAdd.value && this.refs.tagsAdd.value.trim()!==""){
@@ -103,7 +108,7 @@ class ModalAddAgriTech extends React.Component {
     this.setState({
       stateContent: "",
       content: "",
-      initValue: "",
+      initValue: true,
     });
   }
   componentWillReceiveProps(nextProps){

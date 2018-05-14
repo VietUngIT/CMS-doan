@@ -19,6 +19,9 @@ import {
   ADD_NEWS_MK_NOT_DATA_ACTION_SUCCESS,
   ADD_NEWS_MK_NOT_DATA_ACTION_FAIL,
   DELETE_NEWS_MK_ACTION_FAIL,
+  UPDATE_TAGS_MK_ACTION,
+  UPDATE_TAGS_MK_ACTION_SUCCESS,
+  UPDATE_TAGS_MK_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
@@ -30,6 +33,8 @@ const initialState = fromJS({
   idDelMK: false,
   delNewsSuccess: false,
   loading: false,
+  tagsUpdate: [],
+  idNewsMKEdit: false,
   addNews: {
     idCateLink: false,
     title: false,
@@ -45,6 +50,22 @@ const initialState = fromJS({
 
 function listMarketInfoReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_TAGS_MK_ACTION:
+      return state
+      .set("loading",true)
+      .set("tagsUpdate",action.tags)
+      .set("idNewsMKEdit",action.id)
+    case UPDATE_TAGS_MK_ACTION_SUCCESS:
+      return state
+      .set('listNewsMK', state.get('listNewsMK').map((item) => { return item.id === action.data.id ? action.data : item;}))
+      .set("loading",false)
+      .set("tagsUpdate",[])
+      .set("idNewsMKEdit",false)
+    case UPDATE_TAGS_MK_ACTION_FAIL:
+      return state
+      .set("loading",false)
+      .set("tagsUpdate",[])
+      .set("idNewsMKEdit",false)
     case ADD_NEWS_MK_ACTION:
       return state
       .setIn(['addNews', 'idCateLink'], action.idCateLink)

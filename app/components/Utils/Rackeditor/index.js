@@ -23,12 +23,15 @@ class Rackeditor extends React.Component {
   componentWillReceiveProps(nextProps){
     // console.log("componentWillReceiveProps-CK");
     // console.log("componentWillReceiveProps-CK: "+nextProps.initValue)+ "----"+this.props.initValue;
-    if(this.props.initValue!==nextProps.initValue){
-      // console.log("componentWillReceiveProps-CK: "+nextProps.initValue);
-      CKEDITOR.instances[this.elementName].setData(nextProps.initValue)
-    }
-    if(this.props.value!==nextProps.value && nextProps.value===""){
-      // console.log("componentWillReceiveProps-CK--: "+nextProps.value);
+    // if(this.props.initValue!==nextProps.initValue && nextProps.value){
+    //   // console.log("componentWillReceiveProps-CK: "+nextProps.initValue);
+    //   CKEDITOR.instances[this.elementName].setData(nextProps.initValue)
+    // }
+    // if(this.props.value!==nextProps.value){
+    //   // console.log("componentWillReceiveProps-CK--: "+nextProps.value);
+    //   CKEDITOR.instances[this.elementName].setData(nextProps.value)
+    // }
+    if(this.props.initValue !== nextProps.initValue && nextProps.initValue){
       CKEDITOR.instances[this.elementName].setData(nextProps.value)
     }
   }
@@ -43,7 +46,8 @@ class Rackeditor extends React.Component {
     CKEDITOR.replace(this.elementName, configuration);
     CKEDITOR.instances[this.elementName].on("change", function () {
       let data = CKEDITOR.instances[this.elementName].getData();
-      this.props.onChange(data);
+        this.props.onChange(data);
+      
     }.bind(this));
   }
 }

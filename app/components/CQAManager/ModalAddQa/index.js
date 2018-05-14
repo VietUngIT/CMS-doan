@@ -26,7 +26,7 @@ class ModalAddQa extends React.Component {
       // contentQuestion: "",
       // initValueQuestion: "",
       contentAnswer: "",
-      initValueAnswer: "",
+      initValueAnswer: false,
     };
   }
   // handleChangeQuestion=(content)=>{
@@ -38,6 +38,11 @@ class ModalAddQa extends React.Component {
   	this.setState({
       contentAnswer: content,
     })
+    if(this.state.initValueAnswer){
+      this.setState({
+        initValueAnswer: false,
+      })
+    }
   }
 
   addQA=()=>{
@@ -58,7 +63,7 @@ class ModalAddQa extends React.Component {
     this.questionQA.value = "";
     this.setState({
       contentAnswer: "",
-      initValueAnswer: "",
+      initValueAnswer: true,
     });
   
   }

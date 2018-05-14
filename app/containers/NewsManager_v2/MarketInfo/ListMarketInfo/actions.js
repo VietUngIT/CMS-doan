@@ -18,8 +18,29 @@ import {
   ADD_NEWS_MK_NOT_DATA_ACTION_SUCCESS,
   ADD_NEWS_MK_NOT_DATA_ACTION_FAIL,
   DELETE_NEWS_MK_ACTION_FAIL,
+  UPDATE_TAGS_MK_ACTION,
+  UPDATE_TAGS_MK_ACTION_SUCCESS,
+  UPDATE_TAGS_MK_ACTION_FAIL,
 } from './constants';
 
+export function updateTags(tags,id) {
+  return {
+    type: UPDATE_TAGS_MK_ACTION,
+    tags,
+    id,
+  };
+}
+export function updateTagsSuccess(data) {
+  return {
+    type: UPDATE_TAGS_MK_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateTagsFail() {
+  return {
+    type: UPDATE_TAGS_MK_ACTION_FAIL,
+  };
+}
 export function addNewsMK(idCateLink,title,author,image,source,tags,idcate,content) {
   return {
     type: ADD_NEWS_MK_ACTION,

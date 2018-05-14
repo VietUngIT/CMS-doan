@@ -17,7 +17,10 @@ class CitemExpert extends React.Component {
     let address = "";
     if(this.props.data){
       name = this.props.data.name;
-      avatar = this.props.data.avatar;
+      if(this.props.data.avatar!==null){
+        let index = this.props.data.avatar.indexOf("upload/")+7;
+        avatar = this.props.data.avatar.substring(0,index)+"q_20/"+this.props.data.avatar.substring(index);
+      }
       phone = this.props.data.phone;
       address = this.props.data.address;
     }

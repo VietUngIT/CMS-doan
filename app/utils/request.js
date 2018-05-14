@@ -911,3 +911,71 @@ export function callAPIGetDashBoard(ph,p) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+export function callAPIUpdateTagsNewsEvent(ph,p,tags,id) {
+  const url = `${API_BASE_URL}adminnews`;
+  var formData = new FormData();
+  formData.append("t","edittags")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  if(tags){
+    formData.append("tags",JSON.stringify(tags));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+export function callAPIUpdateImageNewsEvent(ph,p,image,id) {
+  const url = `${API_BASE_URL}adminnews`;
+  
+  var formData = new FormData();
+  formData.append("t","editimage")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("image",image);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+export function callAPIUpdateNewsEvent(ph,p,id,title,shortdesc,author,source,idcatenews,content) {
+  const url = `${API_BASE_URL}adminnews`;
+  
+  var formData = new FormData();
+  formData.append("t","edit")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("title",title);
+  formData.append("shortdesc",shortdesc);
+  formData.append("author",author);
+  formData.append("source",source);
+  formData.append("idcatenews",idcatenews);
+  formData.append("content",content);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateTagsNewsMK(ph,p,tags,id) {
+  const url = `${API_BASE_URL}adminmarketinfo`;
+  var formData = new FormData();
+  formData.append("t","edittags")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  if(tags){
+    formData.append("tags",JSON.stringify(tags));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

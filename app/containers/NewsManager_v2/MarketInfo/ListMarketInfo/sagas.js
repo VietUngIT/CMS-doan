@@ -6,6 +6,7 @@ import {
   GET_LIST_CATE_MK_ACTION,
   DELETE_NEWS_MK_ACTION,
   ADD_NEWS_MK_ACTION,
+  UPDATE_TAGS_MK_ACTION,
 } from './constants';
 import { 
   getListNewsMKSuccess,
@@ -16,6 +17,8 @@ import {
   getListNewsMKFail,
   addNewsFail,
   deleteNewsMKFail,
+  updateTagsSuccess,
+  updateTagsFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -23,12 +26,15 @@ import {
   callAPIGetListCategoryNewsMK,
   callAPIDeleteNewsMK,
   callAPIAddNewsMK,
+  callAPIUpdateTagsNewsMK,
 } from 'utils/request';
 import {
   selectidCateNewsMK,
   selectPageNews,
   selectIdNewsMKDel,
   selectNewsAddMK,
+  selectidNewsMKEdit,
+  selectTags,
 } from './selectors';
 
 export function* addNewsMK() {
@@ -146,16 +152,48 @@ export function* getListNewsMKWatcher() {
   }
 }
 
+export function* updateTagsNewsMK() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectidNewsMKEdit());
+  const tags = yield select(selectTags());
+  const response = yield call(callAPIUpdateTagsNewsMK,userInfo.phone,userInfo.password,tags,id);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateTagsSuccess(response.data.data.data));
+        message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateTagsFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý !');
+          yield put(updateTagsFail())
+  }
+  
+}
+export function* updateTagsNewsMKWatcher() {
+  while (yield take(UPDATE_TAGS_MK_ACTION)) {
+    yield call(updateTagsNewsMK);
+  }
+}
+
 export function* defaultSaga() {
   const watchergetListNewsMK = yield fork(getListNewsMKWatcher);
   const watchergetListCategoryNewsMK = yield fork(getListCategoryNewsMKWatcher);
   const watcherdeleteNewsMK = yield fork(deleteNewsMKWatcher);
   const watcheraddNewsMK = yield fork(addNewsMKWatcher);
+  const watcherupdateTagsNewsMK = yield fork(updateTagsNewsMKWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetListNewsMK);
     yield cancel(watchergetListCategoryNewsMK);
     yield cancel(watcherdeleteNewsMK);
     yield cancel(watcheraddNewsMK);
+    yield cancel(watcherupdateTagsNewsMK);
   }
 }
 export default [

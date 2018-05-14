@@ -15,6 +15,7 @@ import { Row, Col, Button, Icon,Pagination } from 'antd';
 import ClistNewsEvent from 'components/CNewsManage_V2/CNewsEvent/ClistNewsEvent'
 import CnewsEventDetail from 'components/CNewsManage_V2/CNewsEvent/CnewsEventDetail';
 import ModalAddNews from 'components/CNewsManage_V2/CNewsEvent/ModalAddNews'
+import EditNewsEventModal from 'components/CNewsManage_V2/CNewsEvent/EditNewsEventModal'
 import styles from './styles';
 import { Breadcrumb,Popconfirm } from 'antd';
 
@@ -23,6 +24,9 @@ import {
   deleteNews,
   addNews,
   getListCateNews,
+  updateTags,
+  updateImage,
+  updateNewsEvent,
 } from './actions';
 import {
   selectListNewsEvent,
@@ -40,7 +44,23 @@ export class ListNewsEvent extends React.Component {
     this.state = {
       news: false,
       modalAddNews: false,
+      modalEditNews: false,
     }
+  }
+  handleShowModalEdit=()=>{
+    console.log("handleShowModalEdit")
+    this.setState({
+      modalEditNews: true,
+    });
+  }
+  handleCloseModalEdit=()=>{
+    this.setState({
+      modalEditNews: false,
+    });
+  }
+  editNewsHandle=()=>{
+    console.log("editNewsHandle")
+    this.handleShowModalEdit();
   }
   handleShowModalAdd=()=>{
     this.setState({
@@ -71,6 +91,16 @@ export class ListNewsEvent extends React.Component {
       this.setState({
         news: false,
       });
+    }
+    if(this.props.listNews!==nextProps.listNews){
+      nextProps.listNews.filter((item,index)=>{
+        if(this.state.news.id===item.id){
+          this.setState({
+            news: item,
+          });
+        }
+      })
+      
     }
   }
 
@@ -143,13 +173,15 @@ export class ListNewsEvent extends React.Component {
             </div>
             
             <div style={{flexBasic: 100,minWidth:96,textAlign: 'center',paddingTop: 8}}>
+              <Button type="danger" onClick={this.editNewsHandle} icon="close-square-o">Sửa</Button>
               <Popconfirm title="Bạn chắc chắn muốn xóa tin tức này?" onConfirm={this.confirm} onCancel={this.cancel} okText="Đồng ý" cancelText="Hủy">
                 <Button type="danger" icon="close-square-o">Xóa</Button>
               </Popconfirm>
             </div>
           </div>
           <div style={styles.content}>
-            <CnewsEventDetail newsEventInfo={this.state.news} addNews={this.props.addNews}/>
+            <CnewsEventDetail newsEventInfo={this.state.news} addNews={this.props.addNews} updateTags={this.props.updateTags} 
+              updateImage={this.props.updateImage} updateNewsEvent={this.props.updateNewsEvent}/>
           </div>
         </div>
       )
@@ -162,6 +194,13 @@ export class ListNewsEvent extends React.Component {
         </div>
       )
     }
+    let modalEdit = false;
+    if(this.state.news && this.state.modalEditNews){
+      modalEdit = (
+        <EditNewsEventModal handleCloseModalEdit={this.handleCloseModalEdit} modalEditNews={this.state.modalEditNews} dataNews={this.state.news}
+        updateNewsEvent={this.props.updateNewsEvent}/>
+      )
+    }
 
     return (
       <div style={{height: '100%'}}>
@@ -172,6 +211,7 @@ export class ListNewsEvent extends React.Component {
           ]}
         />
         {modalAdd}
+        {modalEdit}
         {loading}
         <Row>
           <Col span={24}>
@@ -224,6 +264,9 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    updateNewsEvent:(idnews,title,shortDesc,author,source,idcate,content) => dispatch(updateNewsEvent(idnews,title,shortDesc,author,source,idcate,content) ),
+    updateImage: (image,id) =>dispatch(updateImage(image,id)),
+    updateTags: (tags,id) =>dispatch(updateTags(tags,id)),
     getListNews: (id,page)=> dispatch(getListNews(id,page)),
     deleteNews: (id)=> dispatch(deleteNews(id)),
     getListCateNews:()=>dispatch(getListCateNews()),

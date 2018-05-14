@@ -18,8 +18,76 @@ import {
   GET_LIST_CATE_ACTION,
   GET_LIST_CATE_ACTION_SUCCESS,
   ADD_NEWS_NOT_DATA_ACTION_FAIL,
+  ADD_TAGS_ACTION,
+  ADD_TAGS_ACTION_SUCCESS,
+  ADD_TAGS_ACTION_FAIL,
+  UPDATE_IMAGE_NEWS_EVENT_ACTION,
+  UPDATE_IMAGE_NEWS_EVENT_ACTION_SUCCESS,
+  UPDATE_IMAGE_NEWS_EVENT_ACTION_FAIL,
+  UPDATE_NEWS_EVENT_ACTION,
+  UPDATE_NEWS_EVENT_ACTION_SUCCESS,
+  UPDATE_NEWS_EVENT_ACTION_FAIL,
 } from './constants';
 
+export function updateNewsEvent(idnews,title,shortDesc,author,source,idcate,content) {
+  return {
+    type: UPDATE_NEWS_EVENT_ACTION,
+    idnews,
+    title,
+    shortDesc,
+    author,
+    source,
+    idcate,
+    content,
+  };
+}
+export function updateNewsEventSuccess(data) {
+  return {
+    type: UPDATE_NEWS_EVENT_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateNewsEventFail() {
+  return {
+    type: UPDATE_NEWS_EVENT_ACTION_FAIL,
+  };
+}
+export function updateImage(image,id) {
+  return {
+    type: UPDATE_IMAGE_NEWS_EVENT_ACTION,
+    image,
+    id,
+  };
+}
+export function updateImageSuccess(data) {
+  return {
+    type: UPDATE_IMAGE_NEWS_EVENT_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateImageFail() {
+  return {
+    type: UPDATE_IMAGE_NEWS_EVENT_ACTION_FAIL,
+  };
+}
+export function updateTags(tags,id) {
+  return {
+    type: ADD_TAGS_ACTION,
+    tags,
+    id,
+  };
+}
+export function updateTagsSuccess(data) {
+  return {
+    type: ADD_TAGS_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateTagsFail() {
+  return {
+    type: ADD_TAGS_ACTION_FAIL,
+  };
+}
 export function getListCateNews() {
   return {
     type: GET_LIST_CATE_ACTION,

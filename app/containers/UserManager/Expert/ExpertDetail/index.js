@@ -288,6 +288,7 @@ export class ExpertDetail extends React.Component {
     if(this.props.expert){
       if(this.props.expert.avatar!==null){
         avatar = this.props.expert.avatar;
+        
       }
       online = this.props.expert.isOnline;
       rate = this.props.expert.rate;

@@ -28,13 +28,18 @@ class ModalAddNewsMK extends React.Component {
       listTags: [],
       stateContent: "",
       contentMK: "",
-      initValue: "",
+      initValue: false,
     }
   } 
   handleChangeContent=(content)=>{
   	this.setState({
       contentMK: content,
     })
+    if(this.state.initValue){
+      this.setState({
+        initValue: false,
+      })
+    }
   }
   addTags=()=>{
     if(this.refs.tagsAdd.value && this.refs.tagsAdd.value.trim()!==""){
@@ -106,7 +111,7 @@ class ModalAddNewsMK extends React.Component {
     this.setState({
       stateContent: "",
       contentMK: "",
-      initValue: "",
+      initValue: true,
     });
     // CKEDITOR.instances.editor1.setData("");
   }

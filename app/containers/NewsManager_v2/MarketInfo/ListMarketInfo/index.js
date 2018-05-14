@@ -21,6 +21,7 @@ import {
   deleteNewsMK,
   addNewsMK,
   getListCateNewsMK,
+  updateTags,
 } from './actions';
 import {
   selectListNewsMK,
@@ -162,7 +163,7 @@ export class ListMarketInfo extends React.Component {
             </div>
           </div>
           <div style={styles.content}>
-            <CmarketInfoDetail newsMKInfo={this.state.news}/>
+            <CmarketInfoDetail newsMKInfo={this.state.news} updateTags={this.props.updateTags}/>
           </div>
         </div>
       )
@@ -227,6 +228,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateTags:(tags,id) => dispatch(updateTags(tags,id)),
     deleteNewsMK: (id) => dispatch(deleteNewsMK(id)),
     getListNewsMK: (id,page)=> dispatch(getListNewsMK(id,page)),
     getListCateNewsMK: ()=> dispatch(getListCateNewsMK()),

@@ -45,6 +45,22 @@ const selectLoading = () => createSelector(
   selectListNewsEventDomain(),
   (substate) => substate.get("loading")
 );
+const selectidNewsEventEdit = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("idNewsEdit")
+);
+const selectTags = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("tagsUpdate")
+);
+const selectImageUpdate = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("imageUpdate")
+);
+const selectNewsEventUpdate = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("editNews")
+);
 export {
   selectListNewsEventDomain,
   selectListNewsEvent,
@@ -57,4 +73,8 @@ export {
   selectErrorCode,
   selectListCateNewsEvent,
   selectLoading,
+  selectidNewsEventEdit,
+  selectTags,
+  selectImageUpdate,
+  selectNewsEventUpdate,
 };

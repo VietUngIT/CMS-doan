@@ -19,7 +19,7 @@ class NavigationBar extends React.Component {
     this.state = {
       active: 1,
       current: '0',
-      openKeys: ['sub1'],
+      openKeys: [],
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3'],
     };
   }
@@ -49,7 +49,7 @@ class NavigationBar extends React.Component {
     }else if(location.pathname.toUpperCase().indexOf("/QA")>-1){
       this.setState({current: '6',openKeys: ['sub2']}); 
     }else{
-      this.setState({current: '0',openKeys: []});
+      this.setState({current: '0'});
     }
   }
 
@@ -68,6 +68,7 @@ class NavigationBar extends React.Component {
     this.setState({active: item}); 
   }
   handleClick = (e) => {
+    console.log(e.key)
     switch(e.key){
       case '0':
         browserHistory.push('/')

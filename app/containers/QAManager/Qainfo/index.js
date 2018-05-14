@@ -147,7 +147,7 @@ export class Qainfo extends React.Component {
     return (
       <div style={{height: '100%'}}>
         <Helmet
-          title="Qainfo"
+          title="FQA"
           meta={[
             { name: 'description', content: 'Description of Qainfo' },
           ]}
