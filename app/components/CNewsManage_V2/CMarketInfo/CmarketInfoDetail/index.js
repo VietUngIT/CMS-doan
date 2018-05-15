@@ -27,7 +27,7 @@ class CmarketInfoDetail extends React.Component {
   } 
   updateImage=()=>{
     if(this.props.newsMKInfo && this.state.changedImage){
-      this.props.updateImage(this.state.image,this.props.newsMKInfo.id);
+      this.props.updateImageMK(this.state.image,this.props.newsMKInfo.id);
       this.setState({
         changedImage: false,
       });
@@ -151,7 +151,7 @@ class CmarketInfoDetail extends React.Component {
       title = this.props.newsMKInfo.title;
       date = this.props.newsMKInfo.timeCreate;
       comment = this.props.newsMKInfo.comments;
-      img = this.props.newsMKInfo.image;
+      // img = this.props.newsMKInfo.image;
       source = this.props.newsMKInfo.source;
       author = this.props.newsMKInfo.author;
       let temp = JSON.parse(this.props.newsMKInfo.tags);
@@ -180,7 +180,7 @@ class CmarketInfoDetail extends React.Component {
           </div>
         </div>
         <div style={{ display: img==null?'none':"",textAlign: 'center', paddingBottom: 10}}>
-          <img src={img} id="imgstore" width='280px' height='220px' />
+          <img src={this.state.image} id="imgstore" width='280px' height='220px' />
           <div style={{textAlign: 'center',paddingTop: 5}}> 
             <div style={{width: 280,display: 'flex',margin: 'auto'}}>
               <input type="file" ref="imageNewsEventEdit" onChange={this.loadImage} accept="image/*"/>
@@ -191,7 +191,7 @@ class CmarketInfoDetail extends React.Component {
         <div id="contentNewsMK">
         </div>
         <div style={{padding: 10}}>
-        <div style={{display: "flex"}}>
+          <div style={{display: "flex"}}>
             <div style={{flex: 1}}> 
               <CusInput type='text' innerRef={(comp) => { this.tagsAdd = comp;}} onKeyPress={this.onkeyPress} placeholder="Nhập từ khóa"/>
             </div>

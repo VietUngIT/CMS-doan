@@ -50,6 +50,22 @@ const selectLoading = () => createSelector(
   selectListAgritechDomain(),
   (substate) => substate.get("loading")
 );
+const selectidNewsAGEdit = () => createSelector(
+  selectListAgritechDomain(),
+  (substate) => substate.get("idNewsAGEdit")
+);
+const selectTags = () => createSelector(
+  selectListAgritechDomain(),
+  (substate) => substate.get("tagsUpdate")
+);
+const selectImageAGUpdate = () => createSelector(
+  selectListAgritechDomain(),
+  (substate) => substate.get("imageUpdateAG")
+);
+const selectNewsAGUpdate = () => createSelector(
+  selectListAgritechDomain(),
+  (substate) => substate.get("editNews")
+);
 export {
   selectListAgritechDomain,
   selectListNewsAgriTech,
@@ -64,4 +80,8 @@ export {
   selectErrorCodeAdAgriTech,
   selectIdNewsATDel,
   selectLoading,
+  selectidNewsAGEdit,
+  selectTags,
+  selectImageAGUpdate,
+  selectNewsAGUpdate,
 };

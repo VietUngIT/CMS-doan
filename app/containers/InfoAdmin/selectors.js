@@ -30,6 +30,10 @@ const selectNewPass = () => createSelector(
   selectInfoAdminDomain(),
   (substate) => substate.get('newPass')
 );
+const selectLoading = () => createSelector(
+  selectInfoAdminDomain(),
+  (substate) => substate.get('loading')
+);
 export {
   selectInfoAdminDomain,
   selectUser,
@@ -39,4 +43,5 @@ export {
   selectAvatar,
   selectOldPass,
   selectNewPass,
+  selectLoading,
 };

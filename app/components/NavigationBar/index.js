@@ -48,6 +48,8 @@ class NavigationBar extends React.Component {
       this.setState({current: '5',openKeys: ['sub2']}); 
     }else if(location.pathname.toUpperCase().indexOf("/QA")>-1){
       this.setState({current: '6',openKeys: ['sub2']}); 
+    }else if(location.pathname.toUpperCase().indexOf("/INFOADMIN")>-1){
+      this.setState({current: '7',openKeys: ['sub3']}); 
     }else{
       this.setState({current: '0'});
     }
@@ -90,6 +92,9 @@ class NavigationBar extends React.Component {
         break;
       case '6':
         browserHistory.push('/qa-info')
+        break;
+      case '7':
+        browserHistory.push('/infoadmin')
         break;
       case '8':
         this.logoutHandle();
@@ -142,10 +147,25 @@ class NavigationBar extends React.Component {
           </SubMenu>
         </Menu>
     )
+    let avatar = require('containers/App/maxresdefault.jpg');
+    let userInfo  = false;
+    if(localStorage.getItem("userInfo")){
+      userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      if(userInfo.avatar!==null){
+        avatar = userInfo.avatar;
+      }
+      
+    }
+    if(sessionStorage.getItem("userInfo")){
+      userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      if(userInfo.avatar!==null){
+        avatar = userInfo.avatar;
+      }
+    }
     return (
       <div style={{height:'100%',paddingTop: 50,width:220 }}>
         <div style={{padding:'20px 10px',borderBottom: "1px solid #d8d8d8",display:'flex'}}>
-          <img src={require('containers/App/maxresdefault.jpg')} width='55' height='55' style={styles.avatar}/>
+          <img src={avatar} width='55' height='55' style={styles.avatar}/>
           <div style={{display: 'flex',flexDirection: 'column',paddingTop: 10}}>
             <span style={{color:'#FFF'}}>Admin</span>
             <span style={styles.nameUser}>Đinh Viết Ưng</span>

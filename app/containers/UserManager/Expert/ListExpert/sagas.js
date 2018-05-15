@@ -10,6 +10,9 @@ import {
   getListFieldSuccess,
   addFieldSuccess,
   delFieldSuccess,
+  getListFieldFail,
+  delFieldFail,
+  addFieldFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -34,10 +37,12 @@ export function* getListField() {
         yield put(getListFieldSuccess(response.data.data.array));
     } else {
       message.error(response.data.data.msg);
+      yield put(getListFieldFail());
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lấy thông tin lỗi !');
+          yield put(getListFieldFail());
   }
   
 }
@@ -61,10 +66,12 @@ export function* addField() {
         message.success("Thêm thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(addFieldFail());
     }
   } catch(error){
           message.error(response.data.data.e);
           message.error('Lỗi trong quá trình thêm!');
+          yield put(addFieldFail());
   }
   
 }
@@ -88,10 +95,12 @@ export function* delField() {
         message.success("Xóa thành công.");
     } else {
       message.error(response.data.data.msg);
+      yield put(delFieldFail());
     }
   } catch(error){
     message.error(response.data.data.e);
     message.error('Lỗi trong quá trình xử lý!');
+    yield put(delFieldFail());
   }
   
 }

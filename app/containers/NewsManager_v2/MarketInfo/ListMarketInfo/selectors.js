@@ -52,6 +52,14 @@ const selectTags = () => createSelector(
   selectListMarketInfoDomain(),
   (substate) => substate.get("tagsUpdate")
 );
+const selectImageMKUpdate = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("imageUpdateMK")
+);
+const selectNewsMKUpdate = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("editNews")
+);
 export {
   selectListMarketInfoDomain,
   selectListNewsMK,
@@ -66,4 +74,6 @@ export {
   selectLoading,
   selectidNewsMKEdit,
   selectTags,
+  selectImageMKUpdate,
+  selectNewsMKUpdate,
 };

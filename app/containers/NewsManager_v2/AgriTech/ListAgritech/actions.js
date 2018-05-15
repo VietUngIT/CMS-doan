@@ -20,7 +20,75 @@ import {
   ADD_NEWS_AGRI_TECH_ACTION_SUCCESS,
   ADD_NEWS_AGRI_TECH_NOT_DATA_ACTION_SUCCESS,
   ADD_NEWS_AGRI_TECH_NOT_DATA_ACTION_FAIL,
+  UPDATE_TAGS_AG_ACTION,
+  UPDATE_TAGS_AG_ACTION_SUCCESS,
+  UPDATE_TAGS_AG_ACTION_FAIL,
+  UPDATE_IMAGE_NEWS_AG_ACTION,
+  UPDATE_IMAGE_NEWS_AG_ACTION_SUCCESS,
+  UPDATE_IMAGE_NEWS_AG_ACTION_FAIL,
+  UPDATE_NEWS_AG_ACTION,
+  UPDATE_NEWS_AG_ACTION_SUCCESS,
+  UPDATE_NEWS_AG_ACTION_FAIL,
 } from './constants';
+
+export function updateNewsAG(idnews,title,author,idsubcate,content) {
+  return {
+    type: UPDATE_NEWS_AG_ACTION,
+    idnews,
+    title,
+    author,
+    idsubcate,
+    content,
+  };
+}
+export function updateNewsAGSuccess(data) {
+  return {
+    type: UPDATE_NEWS_AG_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateNewsAGFail() {
+  return {
+    type: UPDATE_NEWS_AG_ACTION_FAIL,
+  };
+}
+
+export function updateImageAG(image,id) {
+  return {
+    type: UPDATE_IMAGE_NEWS_AG_ACTION,
+    image,
+    id,
+  };
+}
+export function updateImageAGSuccess(data) {
+  return {
+    type: UPDATE_IMAGE_NEWS_AG_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateImageAGFail() {
+  return {
+    type: UPDATE_IMAGE_NEWS_AG_ACTION_FAIL,
+  };
+}
+export function updateTags(tags,id) {
+  return {
+    type: UPDATE_TAGS_AG_ACTION,
+    tags,
+    id,
+  };
+}
+export function updateTagsSuccess(data) {
+  return {
+    type: UPDATE_TAGS_AG_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateTagsFail() {
+  return {
+    type: UPDATE_TAGS_AG_ACTION_FAIL,
+  };
+}
 
 export function addNewsAgriTech(idSubCateLink,title,author,image,tags,idsubcate,content) {
   return {

@@ -979,3 +979,91 @@ export function callAPIUpdateTagsNewsMK(ph,p,tags,id) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIUpdateImageNewsMK(ph,p,image,id) {
+  const url = `${API_BASE_URL}adminmarketinfo`;
+  
+  var formData = new FormData();
+  formData.append("t","editimage")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("image",image);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateNewsMK(ph,p,id,title,author,source,idcatenews,content) {
+  const url = `${API_BASE_URL}adminmarketinfo`;
+  
+  var formData = new FormData();
+  formData.append("t","edit")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("title",title);
+  formData.append("author",author);
+  formData.append("source",source);
+  formData.append("idcatenews",idcatenews);
+  formData.append("content",content);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateTagsNewsAG(ph,p,tags,id) {
+  const url = `${API_BASE_URL}adminagritech`;
+  var formData = new FormData();
+  formData.append("t","edittags")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  if(tags){
+    formData.append("tags",JSON.stringify(tags));
+  }
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateImageNewsAG(ph,p,image,id) {
+  const url = `${API_BASE_URL}adminagritech`;
+  
+  var formData = new FormData();
+  formData.append("t","editimage")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("image",image);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIUpdateNewsAG(ph,p,id,title,author,idsubcate,content) {
+  const url = `${API_BASE_URL}adminagritech`;
+  
+  var formData = new FormData();
+  formData.append("t","edit")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("id",id);
+  formData.append("title",title);
+  formData.append("author",author);
+  formData.append("idsubcate",idsubcate);
+  formData.append("content",content);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

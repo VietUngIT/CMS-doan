@@ -14,6 +14,7 @@ import { Row, Col, Button, Icon,Pagination } from 'antd';
 import ClistMarketInfo from 'components/CNewsManage_V2/CMarketInfo/ClistMarketInfo'
 import CmarketInfoDetail from 'components/CNewsManage_V2/CMarketInfo/CmarketInfoDetail';
 import ModalAddNewsMK from 'components/CNewsManage_V2/CMarketInfo/ModalAddNewsMK';
+import EditNewsMkmodal from 'components/CNewsManage_V2/CMarketInfo/EditNewsMkmodal';
 import styles from './styles';
 import { Breadcrumb,Popconfirm } from 'antd';
 import {
@@ -22,6 +23,8 @@ import {
   addNewsMK,
   getListCateNewsMK,
   updateTags,
+  updateImageMK,
+  updateNewsMK,
 } from './actions';
 import {
   selectListNewsMK,
@@ -39,8 +42,25 @@ export class ListMarketInfo extends React.Component {
     this.state = {
       news: false,
       modalAddNews: false,
+      modalEditNews: false,
     }
   }
+  handleShowModalEdit=()=>{
+    console.log("handleShowModalEdit")
+    this.setState({
+      modalEditNews: true,
+    });
+  }
+  handleCloseModalEdit=()=>{
+    this.setState({
+      modalEditNews: false,
+    });
+  }
+  editNewsHandle=()=>{
+    console.log("editNewsHandle")
+    this.handleShowModalEdit();
+  }
+
   handleShowModalAdd=()=>{
     this.setState({
       modalAddNews: true,
@@ -76,6 +96,16 @@ export class ListMarketInfo extends React.Component {
           this.props.getListNewsMK(this.props.params.id_cate_news,this.props.curentPage-1);
         }
       }
+    }
+    if(this.props.listNews!==nextProps.listNews){
+      nextProps.listNews.filter((item,index)=>{
+        if(this.state.news.id===item.id){
+          this.setState({
+            news: item,
+          });
+        }
+      })
+      
     }
   }
 
@@ -157,15 +187,23 @@ export class ListMarketInfo extends React.Component {
             </div>
             
             <div style={{flexBasic: 100,minWidth:96,textAlign: 'center',paddingTop: 8}}>
+              <Button type="danger" onClick={this.editNewsHandle} icon="close-square-o">Sửa</Button>
               <Popconfirm title="Bạn chắc chắn muốn xóa tin tức này?" onConfirm={this.confirm} onCancel={this.cancel} okText="Đồng ý" cancelText="Hủy">
                 <Button type="danger" icon="close-square-o">Xóa</Button>
               </Popconfirm>
             </div>
           </div>
           <div style={styles.content}>
-            <CmarketInfoDetail newsMKInfo={this.state.news} updateTags={this.props.updateTags}/>
+            <CmarketInfoDetail newsMKInfo={this.state.news} updateTags={this.props.updateTags} updateImageMK={this.props.updateImageMK}/>
           </div>
         </div>
+      )
+    }
+    let modalEdit = false;
+    if(this.state.news && this.state.modalEditNews){
+      modalEdit = (
+        <EditNewsMkmodal handleCloseModalEdit={this.handleCloseModalEdit} modalEditNews={this.state.modalEditNews} dataNews={this.state.news}
+        updateNewsMK={this.props.updateNewsMK}/>
       )
     }
     return (
@@ -176,6 +214,7 @@ export class ListMarketInfo extends React.Component {
             { name: 'description', content: 'Description of ListMarketInfo' },
           ]}
         />
+        {modalEdit}
         {modalAdd}
         {loading}
         <Row>
@@ -228,6 +267,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateNewsMK:(idnews,title,author,source,idcate,content) => dispatch(updateNewsMK(idnews,title,author,source,idcate,content)),
+    updateImageMK:(image,id) => dispatch(updateImageMK(image,id)),
     updateTags:(tags,id) => dispatch(updateTags(tags,id)),
     deleteNewsMK: (id) => dispatch(deleteNewsMK(id)),
     getListNewsMK: (id,page)=> dispatch(getListNewsMK(id,page)),

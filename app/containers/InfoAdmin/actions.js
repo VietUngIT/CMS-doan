@@ -19,6 +19,12 @@ import {
   CHANGE_AVATAR_ACTION_SUCCESS,
   CHANGE_PASS_ACTION,
   CHANGE_PASS_ACTION_SUCCESS,
+  GET_INFO_ADMIN_ACTION_FAIL,
+  CHANGE_NAME_ACTION_FAIL,
+  CHANGE_PHONE_ACTION_FAIL,
+  CHANGE_ADDRESS_ACTION_FAIL,
+  CHANGE_AVATAR_ACTION_FAIL,
+  CHANGE_PASS_ACTION_FAIL,
 } from './constants';
 
 export function defaultAction() {
@@ -40,6 +46,11 @@ export function changePassAdminSuccess(user) {
     user,
   };
 }
+export function changePassAdminFail() {
+  return {
+    type: CHANGE_PASS_ACTION_FAIL,
+  };
+}
 
 export function submitChangeAvatarAdmin() {
   return {
@@ -59,6 +70,11 @@ export function changeAvatarAdminSuccess(user) {
     user,
   };
 }
+export function changeAvatarAdminFail() {
+  return {
+    type: CHANGE_AVATAR_ACTION_FAIL,
+  };
+}
 
 export function changeAddressAdmin(address) {
   return {
@@ -70,6 +86,11 @@ export function changeAddressAdminSuccess(user) {
   return {
     type: CHANGE_ADDRESS_ACTION_SUCCESS,
     user,
+  };
+}
+export function changeAddressAdminFail() {
+  return {
+    type: CHANGE_ADDRESS_ACTION_FAIL,
   };
 }
 
@@ -84,6 +105,11 @@ export function getinfoAdminSuccess(user) {
     user,
   };
 }
+export function getinfoAdminFail() {
+  return {
+    type: GET_INFO_ADMIN_ACTION_FAIL,
+  };
+}
 export function changeNameAdmin(name) {
   return {
     type: CHANGE_NAME_ACTION,
@@ -96,6 +122,11 @@ export function changeNameAdminSuccess(user) {
     user,
   };
 }
+export function changeNameAdminFail() {
+  return {
+    type: CHANGE_NAME_ACTION_FAIL,
+  };
+}
 export function changePhoneAdmin(newPhone) {
   return {
     type: CHANGE_PHONE_ACTION,
@@ -106,5 +137,10 @@ export function changePhoneAdminSuccess(user) {
   return {
     type: CHANGE_PHONE_ACTION_SUCCESS,
     user,
+  };
+}
+export function changePhoneAdminFail() {
+  return {
+    type: CHANGE_PHONE_ACTION_FAIL,
   };
 }

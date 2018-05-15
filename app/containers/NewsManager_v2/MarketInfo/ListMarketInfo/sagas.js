@@ -7,6 +7,8 @@ import {
   DELETE_NEWS_MK_ACTION,
   ADD_NEWS_MK_ACTION,
   UPDATE_TAGS_MK_ACTION,
+  UPDATE_IMAGE_NEWS_MK_ACTION,
+  UPDATE_NEWS_MK_ACTION,
 } from './constants';
 import { 
   getListNewsMKSuccess,
@@ -19,6 +21,10 @@ import {
   deleteNewsMKFail,
   updateTagsSuccess,
   updateTagsFail,
+  updateImageMKSuccess,
+  updateImageMKFail,
+  updateNewsMKSuccess,
+  updateNewsMKFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -27,6 +33,8 @@ import {
   callAPIDeleteNewsMK,
   callAPIAddNewsMK,
   callAPIUpdateTagsNewsMK,
+  callAPIUpdateImageNewsMK,
+  callAPIUpdateNewsMK,
 } from 'utils/request';
 import {
   selectidCateNewsMK,
@@ -35,6 +43,8 @@ import {
   selectNewsAddMK,
   selectidNewsMKEdit,
   selectTags,
+  selectImageMKUpdate,
+  selectNewsMKUpdate,
 } from './selectors';
 
 export function* addNewsMK() {
@@ -182,18 +192,87 @@ export function* updateTagsNewsMKWatcher() {
   }
 }
 
+export function* updateImageNewsMK() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectidNewsMKEdit());
+  const image = yield select(selectImageMKUpdate());
+  const response = yield call(callAPIUpdateImageNewsMK,userInfo.phone,userInfo.password,image,id);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateImageMKSuccess(response.data.data.data));
+        message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateImageMKFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý !');
+          yield put(updateImageMKFail())
+  }
+  
+}
+export function* updateImageNewsMKWatcher() {
+  while (yield take(UPDATE_IMAGE_NEWS_MK_ACTION)) {
+    yield call(updateImageNewsMK);
+  }
+}
+
+export function* updateNewsMK() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const newUpdate = yield select(selectNewsMKUpdate());
+  const response = yield call(callAPIUpdateNewsMK,userInfo.phone,userInfo.password,
+                                newUpdate.get("idnews"),
+                                newUpdate.get("title"),
+                                newUpdate.get("author"),
+                                newUpdate.get("source"),
+                                newUpdate.get("idcate"), 
+                                newUpdate.get("content"));
+  try{
+    if (response.data.data.e==0) {
+      yield put(updateNewsMKSuccess(response.data.data.data))
+      message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateNewsMKFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý');
+          yield put(updateNewsMKFail())
+  }
+  
+}
+export function* updateNewsMKWatcher() {
+  while (yield take(UPDATE_NEWS_MK_ACTION)) {
+    yield call(updateNewsMK);
+  }
+}
+
 export function* defaultSaga() {
   const watchergetListNewsMK = yield fork(getListNewsMKWatcher);
   const watchergetListCategoryNewsMK = yield fork(getListCategoryNewsMKWatcher);
   const watcherdeleteNewsMK = yield fork(deleteNewsMKWatcher);
   const watcheraddNewsMK = yield fork(addNewsMKWatcher);
   const watcherupdateTagsNewsMK = yield fork(updateTagsNewsMKWatcher);
+  const watcherupdateImageNewsMK = yield fork(updateImageNewsMKWatcher);
+  const watcherupdateNewsMK = yield fork(updateNewsMKWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetListNewsMK);
     yield cancel(watchergetListCategoryNewsMK);
     yield cancel(watcherdeleteNewsMK);
     yield cancel(watcheraddNewsMK);
     yield cancel(watcherupdateTagsNewsMK);
+    yield cancel(watcherupdateImageNewsMK);
+    yield cancel(watcherupdateNewsMK);
   }
 }
 export default [

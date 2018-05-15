@@ -12,6 +12,9 @@ import {
   ADD_LIST_FIELD_ACTION_SUCCESS,
   DELETE_LIST_FIELD_ACTION,
   DELETE_LIST_FIELD_ACTION_SUCCESS,
+  GET_LIST_FIELD_ACTION_FAIL,
+  ADD_LIST_FIELD_ACTION_FAIL,
+  DELETE_LIST_FIELD_ACTION_FAIL,
   LOADING,
 } from './constants';
 
@@ -33,6 +36,11 @@ export function delFieldSuccess(id) {
     id,
   };
 }
+export function delFieldFail() {
+  return {
+    type: DELETE_LIST_FIELD_ACTION_FAIL,
+  };
+}
 export function addField(name) {
   return {
     type: ADD_LIST_FIELD_ACTION,
@@ -46,6 +54,11 @@ export function addFieldSuccess(field,error) {
     error,
   };
 }
+export function addFieldFail() {
+  return {
+    type: ADD_LIST_FIELD_ACTION_FAIL,
+  };
+}
 export function getListField() {
   return {
     type: GET_LIST_FIELD_ACTION,
@@ -55,6 +68,11 @@ export function getListFieldSuccess(data) {
   return {
     type: GET_LIST_FIELD_ACTION_SUCCESS,
     data,
+  };
+}
+export function getListFieldFail() {
+  return {
+    type: GET_LIST_FIELD_ACTION_FAIL,
   };
 }
 export function defaultAction() {

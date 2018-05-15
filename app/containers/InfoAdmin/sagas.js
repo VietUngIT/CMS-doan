@@ -15,6 +15,12 @@ import {
   changeAddressAdminSuccess,
   changeAvatarAdminSuccess,
   changePassAdminSuccess,
+  getinfoAdminFail,
+  changeNameAdminFail,
+  changePhoneAdminFail,
+  changeAddressAdminFail,
+  changeAvatarAdminFail,
+  changePassAdminFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -46,14 +52,15 @@ export function* getinfoAdmin() {
         yield put(getinfoAdminSuccess(response.data.data.data));
     } else {
       message.error(response.data.data.msg);
+      yield put(getinfoAdminFail());
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi xử lý !');
+          yield put(getinfoAdminFail());
   }
   
 }
-
 export function* getinfoAdminWatcher() {
   while (yield take(GET_INFO_ADMIN_ACTION)) {
     yield call(getinfoAdmin);
@@ -78,14 +85,15 @@ export function* changeNameAdmin() {
       sessionStorage.setItem('userInfo',(JSON.stringify(response.data.data.data)));
     } else {
       message.error(response.data.data.msg);
+      yield put(changeNameAdminFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi Xử lý !');
+          yield put(changeNameAdminFail())
   }
   
 }
-
 export function* changeNameAdminWatcher() {
   while (yield take(CHANGE_NAME_ACTION)) {
     yield call(changeNameAdmin);
@@ -110,14 +118,15 @@ export function* changePhoneAdmin() {
       sessionStorage.setItem('userInfo',(JSON.stringify(response.data.data.data)));
     } else {
       message.error(response.data.data.msg);
+      yield put(changePhoneAdminFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi xử lý !');
+          yield put(changePhoneAdminFail())
   }
   
 }
-
 export function* changePhoneAdminWatcher() {
   while (yield take(CHANGE_PHONE_ACTION)) {
     yield call(changePhoneAdmin);
@@ -142,10 +151,12 @@ export function* changeAddressAdmin() {
       sessionStorage.setItem('userInfo',(JSON.stringify(response.data.data.data)));
     } else {
       message.error(response.data.data.msg);
+      yield put(changeAddressAdminFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi xử lý !');
+          yield put(changeAddressAdminFail())
   }
   
 }
@@ -174,10 +185,12 @@ export function* changeAvatarAdmin() {
       sessionStorage.setItem('userInfo',(JSON.stringify(response.data.data.data)));
     } else {
       message.error(response.data.data.msg);
+      yield put(changeAvatarAdminFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi xử lý !');
+          yield put(changeAvatarAdminFail())
   }
   
 }
@@ -207,10 +220,12 @@ export function* changePassAdmin() {
       sessionStorage.setItem('userInfo',(JSON.stringify(response.data.data.data)));
     } else {
       message.error(response.data.data.msg);
+      yield put(changePassAdminFail())
     }
   } catch(error){
           message.error(response.data.data.e);
-          message.error('Lỗi đăng nhập !');
+          message.error('Lỗi xử lý!');
+          yield put(changePassAdminFail())
   }
   
 }

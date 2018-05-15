@@ -21,8 +21,55 @@ import {
   UPDATE_TAGS_MK_ACTION,
   UPDATE_TAGS_MK_ACTION_SUCCESS,
   UPDATE_TAGS_MK_ACTION_FAIL,
+  UPDATE_IMAGE_NEWS_MK_ACTION,
+  UPDATE_IMAGE_NEWS_MK_ACTION_SUCCESS,
+  UPDATE_IMAGE_NEWS_MK_ACTION_FAIL,
+  UPDATE_NEWS_MK_ACTION,
+  UPDATE_NEWS_MK_ACTION_SUCCESS,
+  UPDATE_NEWS_MK_ACTION_FAIL,
 } from './constants';
 
+export function updateNewsMK(idnews,title,author,source,idcate,content) {
+  return {
+    type: UPDATE_NEWS_MK_ACTION,
+    idnews,
+    title,
+    author,
+    source,
+    idcate,
+    content,
+  };
+}
+export function updateNewsMKSuccess(data) {
+  return {
+    type: UPDATE_NEWS_MK_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateNewsMKFail() {
+  return {
+    type: UPDATE_NEWS_MK_ACTION_FAIL,
+  };
+}
+
+export function updateImageMK(image,id) {
+  return {
+    type: UPDATE_IMAGE_NEWS_MK_ACTION,
+    image,
+    id,
+  };
+}
+export function updateImageMKSuccess(data) {
+  return {
+    type: UPDATE_IMAGE_NEWS_MK_ACTION_SUCCESS,
+    data,
+  };
+}
+export function updateImageMKFail() {
+  return {
+    type: UPDATE_IMAGE_NEWS_MK_ACTION_FAIL,
+  };
+}
 export function updateTags(tags,id) {
   return {
     type: UPDATE_TAGS_MK_ACTION,

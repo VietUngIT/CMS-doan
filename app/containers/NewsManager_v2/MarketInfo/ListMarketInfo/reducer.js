@@ -22,6 +22,12 @@ import {
   UPDATE_TAGS_MK_ACTION,
   UPDATE_TAGS_MK_ACTION_SUCCESS,
   UPDATE_TAGS_MK_ACTION_FAIL,
+  UPDATE_IMAGE_NEWS_MK_ACTION,
+  UPDATE_IMAGE_NEWS_MK_ACTION_SUCCESS,
+  UPDATE_IMAGE_NEWS_MK_ACTION_FAIL,
+  UPDATE_NEWS_MK_ACTION,
+  UPDATE_NEWS_MK_ACTION_SUCCESS,
+  UPDATE_NEWS_MK_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
@@ -35,6 +41,7 @@ const initialState = fromJS({
   loading: false,
   tagsUpdate: [],
   idNewsMKEdit: false,
+  imageUpdateMK: false,
   addNews: {
     idCateLink: false,
     title: false,
@@ -45,11 +52,63 @@ const initialState = fromJS({
     idcate: false,
     content: false,
     errorCode: false,
+  },
+  editNews: {
+    idnews: false,
+    title: false,
+    author: false,
+    source: false,
+    idcate: false,
+    content: false,
   }
 });
 
 function listMarketInfoReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE_NEWS_MK_ACTION:
+      return state
+      .setIn(['editNews', 'idnews'], action.idnews)
+      .setIn(['editNews', 'title'], action.title)
+      .setIn(['editNews', 'author'], action.author)
+      .setIn(['editNews', 'source'], action.source)
+      .setIn(['editNews', 'idcate'], action.idcate)
+      .setIn(['editNews', 'content'], action.content)
+      .set("loading",true)
+    case UPDATE_NEWS_MK_ACTION_SUCCESS:
+      return state
+      .set('listNewsMK', state.get('listNewsMK').map((item) => { return item.id === action.data.id ? action.data : item;}))
+      .setIn(['editNews', 'idnews'], false)
+      .setIn(['editNews', 'title'], false)
+      .setIn(['editNews', 'author'], false)
+      .setIn(['editNews', 'source'], false)
+      .setIn(['editNews', 'idcate'], false)
+      .setIn(['editNews', 'content'], false)
+      .set("loading",false)
+    case UPDATE_NEWS_MK_ACTION_FAIL:
+      return state
+      .setIn(['editNews', 'idnews'], false)
+      .setIn(['editNews', 'title'], false)
+      .setIn(['editNews', 'author'], false)
+      .setIn(['editNews', 'source'], false)
+      .setIn(['editNews', 'idcate'], false)
+      .setIn(['editNews', 'content'], false)
+      .set("loading",false)
+    case UPDATE_IMAGE_NEWS_MK_ACTION:
+      return state
+      .set("loading",true)
+      .set("imageUpdateMK",action.image)
+      .set("idNewsMKEdit",action.id)
+    case UPDATE_IMAGE_NEWS_MK_ACTION_SUCCESS:
+      return state
+      .set('listNewsMK', state.get('listNewsMK').map((item) => { return item.id === action.data.id ? action.data : item;}))
+      .set("loading",false)
+      .set("imageUpdateMK",false)
+      .set("idNewsMKEdit",false)
+    case UPDATE_IMAGE_NEWS_MK_ACTION_FAIL:
+      return state
+      .set("loading",false)
+      .set("imageUpdateMK",false)
+      .set("idNewsMKEdit",false)
     case UPDATE_TAGS_MK_ACTION:
       return state
       .set("loading",true)

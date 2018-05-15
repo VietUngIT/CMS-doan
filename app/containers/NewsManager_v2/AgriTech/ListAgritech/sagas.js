@@ -7,6 +7,9 @@ import {
   GET_LIST_CATE_AGRI_TECH_ACTION,
   DELETE_NEWS_AGRI_TECH_ACTION,
   ADD_NEWS_AGRI_TECH_ACTION,
+  UPDATE_TAGS_AG_ACTION,
+  UPDATE_IMAGE_NEWS_AG_ACTION,
+  UPDATE_NEWS_AG_ACTION,
 } from './constants';
 import { 
   getListNewsAgriTechSuccess,
@@ -18,6 +21,12 @@ import {
   getListNewsAgriTechFail,
   deleteNewsFail,
   addNewsAgriTechFail,
+  updateImageAGSuccess,
+  updateImageAGFail,
+  updateTagsSuccess,
+  updateTagsFail,
+  updateNewsAGSuccess,
+  updateNewsAGFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -26,6 +35,9 @@ import {
   callAPIGetListCateAgriTech,
   callAPIDeleteNewsAgriTech,
   callAPIAddNewsAgriTech,
+  callAPIUpdateTagsNewsAG,
+  callAPIUpdateImageNewsAG,
+  callAPIUpdateNewsAG,
 } from 'utils/request';
 import {
   selectidSubCateNewsAgriTech,
@@ -34,6 +46,10 @@ import {
   selectidNewsAgriTech,
   selectIdNewsATDel,
   selectNewsAddAgriTech,
+  selectidNewsAGEdit,
+  selectImageAGUpdate,
+  selectTags,
+  selectNewsAGUpdate,
 } from './selectors';
 
 export function* getListCateAgriTech() {
@@ -172,6 +188,100 @@ export function* addNewsAgriTechWatcher() {
     yield call(addNewsAgriTech);
   }
 }
+export function* updateTagsNewsAG() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectidNewsAGEdit());
+  const tags = yield select(selectTags());
+  const response = yield call(callAPIUpdateTagsNewsAG,userInfo.phone,userInfo.password,tags,id);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateTagsSuccess(response.data.data.data));
+        message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateTagsFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý !');
+          yield put(updateTagsFail())
+  }
+  
+}
+export function* updateTagsNewsAGWatcher() {
+  while (yield take(UPDATE_TAGS_AG_ACTION)) {
+    yield call(updateTagsNewsAG);
+  }
+}
+
+export function* updateImageNewsAG() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectidNewsAGEdit());
+  const image = yield select(selectImageAGUpdate());
+  const response = yield call(callAPIUpdateImageNewsAG,userInfo.phone,userInfo.password,image,id);
+  try{
+    if (response.data.data.e==0) {
+        yield put(updateImageAGSuccess(response.data.data.data));
+        message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateImageAGFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý !');
+          yield put(updateImageAGFail())
+  }
+  
+}
+export function* updateImageNewsAGWatcher() {
+  while (yield take(UPDATE_IMAGE_NEWS_AG_ACTION)) {
+    yield call(updateImageNewsAG);
+  }
+}
+
+export function* updateNewsAG() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const newUpdate = yield select(selectNewsAGUpdate());
+  const response = yield call(callAPIUpdateNewsAG,userInfo.phone,userInfo.password,
+                                newUpdate.get("idnews"),
+                                newUpdate.get("title"),
+                                newUpdate.get("author"),
+                                newUpdate.get("idsubcate"), 
+                                newUpdate.get("content"));
+  try{
+    if (response.data.data.e==0) {
+      yield put(updateNewsAGSuccess(response.data.data.data))
+      message.success('Thành công !');
+    } else {
+      message.error(response.data.data.msg);
+      yield put(updateNewsAGFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý');
+          yield put(updateNewsAGFail())
+  }
+  
+}
+export function* updateNewsAGWatcher() {
+  while (yield take(UPDATE_NEWS_AG_ACTION)) {
+    yield call(updateNewsAG);
+  }
+}
+
 
 export function* defaultSaga() {
   const watchergetListCateAgriTech = yield fork(getListCateAgriTechWatcher);
@@ -179,12 +289,18 @@ export function* defaultSaga() {
   const watchergetListSubCategoryNewsAgriTech = yield fork(getListSubCategoryNewsAgriTechWatcher);
   const watcherdeleteNews = yield fork(deleteNewsWatcher);
   const watcheraddNewsAgriTech = yield fork(addNewsAgriTechWatcher);
+  const watcherupdateTagsNewsAG = yield fork(updateTagsNewsAGWatcher);
+  const watcherupdateImageNewsAG = yield fork(updateImageNewsAGWatcher);
+  const watcherupdateNewsAG = yield fork(updateNewsAGWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetListCateAgriTech);
     yield cancel(watchergetListNewsAgriTech);
     yield cancel(watchergetListSubCategoryNewsAgriTech);
     yield cancel(watcherdeleteNews);
     yield cancel(watcheraddNewsAgriTech);
+    yield cancel(watcherupdateTagsNewsAG);
+    yield cancel(watcherupdateImageNewsAG);
+    yield cancel(watcherupdateNewsAG);
   }
 }
 export default [

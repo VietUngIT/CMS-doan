@@ -14,6 +14,7 @@ import { Row, Col, Button, Icon,Pagination } from 'antd';
 import ClistAgritech from 'components/CNewsManage_V2/CAgriTech/ClistAgritech'
 import CagriTechDetail from 'components/CNewsManage_V2/CAgriTech/CagriTechDetail';
 import ModalAddAgriTech from 'components/CNewsManage_V2/CAgriTech/ModalAddAgriTech';
+import EditNewsAgmodal from 'components/CNewsManage_V2/CAgriTech/EditNewsAgmodal';
 import styles from './styles';
 import { Breadcrumb,Popconfirm } from 'antd';
 import {
@@ -22,6 +23,9 @@ import {
   getListSubCateAgriTech,
   deleteNews,
   addNewsAgriTech,
+  updateImageAG,
+  updateTags,
+  updateNewsAG,
 } from './actions';
 import {
   selectgetListSubCateNewsAgriTech,
@@ -40,7 +44,23 @@ export class ListAgritech extends React.Component {
     this.state = {
       news: false,
       modalAddNews: false,
+      modalEditNews: false,
     }
+  }
+  handleShowModalEdit=()=>{
+    console.log("handleShowModalEdit")
+    this.setState({
+      modalEditNews: true,
+    });
+  }
+  handleCloseModalEdit=()=>{
+    this.setState({
+      modalEditNews: false,
+    });
+  }
+  editNewsHandle=()=>{
+    console.log("editNewsHandle")
+    this.handleShowModalEdit();
   }
   handleShowModalAdd=()=>{
     this.setState({
@@ -78,6 +98,16 @@ export class ListAgritech extends React.Component {
           this.props.getListNewsAgriTech(this.props.params.id_sub_cate,this.props.curentPage-1);
         }
       }
+    }
+    if(this.props.listNews!==nextProps.listNews){
+      nextProps.listNews.filter((item,index)=>{
+        if(this.state.news.id===item.id){
+          this.setState({
+            news: item,
+          });
+        }
+      })
+      
     }
   }
 
@@ -160,13 +190,14 @@ export class ListAgritech extends React.Component {
             </div>
             
             <div style={{flexBasic: 100,minWidth:96,textAlign: 'center',paddingTop: 8}}>
+              <Button type="danger" onClick={this.editNewsHandle} icon="close-square-o">Sửa</Button>
               <Popconfirm title="Bạn chắc chắn muốn xóa tin tức này?" onConfirm={this.confirm} onCancel={this.cancel} okText="Đồng ý" cancelText="Hủy">
                 <Button type="danger" icon="close-square-o">Xóa</Button>
               </Popconfirm>
             </div>
           </div>
           <div style={styles.content}>
-            <CagriTechDetail newsAgritech={this.state.news}/>
+            <CagriTechDetail updateImageAG={this.props.updateImageAG} updateTags={this.props.updateTags} newsAgritech={this.state.news} />
           </div>
         </div>
       )
@@ -179,6 +210,13 @@ export class ListAgritech extends React.Component {
         </div>
       )
     }
+    let modalEdit = false;
+    if(this.state.news && this.state.modalEditNews){
+      modalEdit = (
+        <EditNewsAgmodal handleCloseModalEdit={this.handleCloseModalEdit} modalEditNews={this.state.modalEditNews} dataNews={this.state.news}
+        updateNewsAG={this.props.updateNewsAG}/>
+      )
+    }
     return (
       <div>
         <Helmet
@@ -189,6 +227,7 @@ export class ListAgritech extends React.Component {
         />
         {loading}
         {modalAdd}
+        {modalEdit}
         <Row>
           <Col span={24}>
             <div style={styles.wrapBreadCrum}>
@@ -240,6 +279,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateNewsAG:(idnews,title,author,idsubcate,content) => dispatch(updateNewsAG(idnews,title,author,idsubcate,content)),
+    updateTags:(tags,id) => dispatch(updateTags(tags,id)),
+    updateImageAG:(image,id) => dispatch(updateImageAG(image,id)),
     getListNewsAgriTech: (id,page)=> dispatch(getListNewsAgriTech(id,page)),
     getListCateAgriTech: ()=> dispatch(getListCateAgriTech()),
     getListSubCateAgriTech: (id)=> dispatch(getListSubCateAgriTech(id)),
