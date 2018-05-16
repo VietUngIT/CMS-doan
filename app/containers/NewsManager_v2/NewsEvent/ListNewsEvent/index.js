@@ -236,7 +236,7 @@ export class ListNewsEvent extends React.Component {
               </div>
             </div>
           </Col>
-          <Col span={14} style={{fontWeight: 600}}>
+          <Col span={14} style={{fontWeight: 600,paddingBottom: 20}}>
             <div style={styles.wrapcontent}>
               {contentNews}
             </div>

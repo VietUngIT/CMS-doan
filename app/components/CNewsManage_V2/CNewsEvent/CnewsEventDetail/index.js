@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { Row, Col, Button, Icon } from 'antd';
 import Tags from 'components/Utils/Tags';
 import CusInput from 'components/Utils/CusInput';
+import Ccomment from 'components/CCommentManager/Ccomment';
 import EditNewsEventModal from '../EditNewsEventModal'
 
 const Tag = styled.div`
@@ -183,7 +184,10 @@ class CnewsEventDetail extends React.Component {
       });
     }
     
-    
+    let commentListShow = false;
+    commentListShow = (
+      <Ccomment/>
+    )
 
     return (
       <div style={styles.wrapContent}>
@@ -234,6 +238,7 @@ class CnewsEventDetail extends React.Component {
         </div>
         <div style={{fontWeight: 600,textAlign: 'center'}}>{`Theo: ${author}`}</div>
         <div style={{ paddingLeft: 20, fontStyle: 'italic'}}>{`Nguồn: ${source}`}</div>
+        {commentListShow}
       </div>
     );
   }
