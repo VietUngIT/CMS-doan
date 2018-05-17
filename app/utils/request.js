@@ -1067,3 +1067,37 @@ export function callAPIUpdateNewsAG(ph,p,id,title,author,idsubcate,content) {
     .then((data) => ( {data}))
     .catch((error) => ({ error }));
 }
+
+export function callAPIGetCommentNews(ph,p,idnews,page,type) {
+  const url = `${API_BASE_URL}comment`;
+  
+  var formData = new FormData();
+  formData.append("t","getbynews")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("idnews",idnews);
+  formData.append("ofset",4);
+  formData.append("page",page);
+  formData.append("typecmt",type);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}
+
+export function callAPIDelCommentNews(ph,p,idcmnt,type) {
+  const url = `${API_BASE_URL}comment`;
+  
+  var formData = new FormData();
+  formData.append("t","delcmt")
+  formData.append("ph",ph);
+  formData.append("p",p);
+  formData.append("idcmnt",idcmnt);
+  formData.append("typecmt",type);
+  
+  return axios.post(url,formData)
+    .then(checkStatus)
+    .then((data) => ( {data}))
+    .catch((error) => ({ error }));
+}

@@ -35,6 +35,18 @@ const styles = {
     btnClose: {
         fontSize: 17,
         fontWeight: 600
+    },
+    btnLoadmore: {
+        padding: 10,
+        display: 'inline-block',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+        color: '#2196F3',
+        fontWeight: 700,
+    },
+    loadMore: {
+       textAlign: "center",
+       marginTop: 20
     }
 }
 

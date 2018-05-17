@@ -1,6 +1,7 @@
 const styles = {
     itemComment: {
-        display: 'flex'
+        display: 'flex',
+        marginTop: 20
     },
     contentComment: {
         marginLeft: 10,

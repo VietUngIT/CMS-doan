@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styles from './styles';
 import styled from 'styled-components';
 import { Row, Col, Button, Icon } from 'antd';
@@ -148,6 +149,12 @@ class CnewsEventDetail extends React.Component {
     result =date;
     return result;
   }
+  gotoComment=()=>{
+    const tesNode = ReactDOM.findDOMNode(this.refs.comment)
+    if (tesNode!==null && tesNode!=="undefined"){
+      tesNode.scrollIntoView({behavior: 'smooth'});
+    }
+  }
   render() {
 
     let title = null;
@@ -185,9 +192,15 @@ class CnewsEventDetail extends React.Component {
     }
     
     let commentListShow = false;
-    commentListShow = (
-      <Ccomment/>
-    )
+    if(this.props.newsEventInfo){
+      commentListShow = (
+        <Ccomment loadingComment={this.props.loadingComment} pageComment={this.props.pageComment} totalComment={this.props.totalComment}
+        listComment={this.props.listComment} initPageTotalComment={this.props.initPageTotalComment} getCommentNews={this.props.getCommentNews}
+        idNews={this.props.newsEventInfo.id} delComment={this.props.delComment}/>
+      )
+    }
+    
+    
 
     return (
       <div style={styles.wrapContent}>
@@ -199,7 +212,7 @@ class CnewsEventDetail extends React.Component {
           <div style={styles.date}>
             <Row>
               <Col span={8}>
-                <Icon type="message" style={{color:'#00B0FF',marginRight: 2,fontSize: 13}}/>
+                <Icon onClick={this.gotoComment} type="message" style={{color:'#00B0FF',marginRight: 2,fontSize: 13, cursor: "pointer"}}/>
                 <span>{comment}</span>
               </Col>
               <Col span={8}>
@@ -238,7 +251,9 @@ class CnewsEventDetail extends React.Component {
         </div>
         <div style={{fontWeight: 600,textAlign: 'center'}}>{`Theo: ${author}`}</div>
         <div style={{ paddingLeft: 20, fontStyle: 'italic'}}>{`Nguồn: ${source}`}</div>
-        {commentListShow}
+        <div ref="comment">
+          {commentListShow}
+        </div>
       </div>
     );
   }

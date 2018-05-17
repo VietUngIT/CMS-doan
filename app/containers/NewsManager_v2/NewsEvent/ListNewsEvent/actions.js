@@ -27,7 +27,58 @@ import {
   UPDATE_NEWS_EVENT_ACTION,
   UPDATE_NEWS_EVENT_ACTION_SUCCESS,
   UPDATE_NEWS_EVENT_ACTION_FAIL,
+  GET_COMMENT_NEWS_EVENT_ACTION,
+  GET_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+  GET_COMMENT_NEWS_EVENT_ACTION_FAIL,
+  INIT_PAGE_TOTAL_NEWS_EVENT_ACTION,
+  DEL_COMMENT_NEWS_EVENT_ACTION,
+  DEL_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+  DEL_COMMENT_NEWS_EVENT_ACTION_FAIL,
 } from './constants';
+
+export function delComment(id,idNews) {
+  return {
+    type: DEL_COMMENT_NEWS_EVENT_ACTION,
+    id,
+    idNews,
+  };
+}
+export function delCommentSuccess(id,idNewsToCommentDel) {
+  return {
+    type: DEL_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+    id,
+    idNewsToCommentDel,
+  };
+}
+export function delCommentFail() {
+  return {
+    type: DEL_COMMENT_NEWS_EVENT_ACTION_FAIL,
+  };
+}
+export function initPageTotalComment() {
+  return {
+    type: INIT_PAGE_TOTAL_NEWS_EVENT_ACTION,
+  };
+}
+export function getCommentNews(id,page) {
+  return {
+    type: GET_COMMENT_NEWS_EVENT_ACTION,
+    id,
+    page,
+  };
+}
+export function getCommentNewsSuccess(data,total) {
+  return {
+    type: GET_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+    data,
+    total,
+  };
+}
+export function getCommentNewsFail(data,total) {
+  return {
+    type: GET_COMMENT_NEWS_EVENT_ACTION_FAIL,
+  };
+}
 
 export function updateNewsEvent(idnews,title,shortDesc,author,source,idcate,content) {
   return {

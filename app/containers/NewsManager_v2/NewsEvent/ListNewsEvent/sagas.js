@@ -9,6 +9,8 @@ import {
   ADD_TAGS_ACTION,
   UPDATE_IMAGE_NEWS_EVENT_ACTION,
   UPDATE_NEWS_EVENT_ACTION,
+  GET_COMMENT_NEWS_EVENT_ACTION,
+  DEL_COMMENT_NEWS_EVENT_ACTION,
 } from './constants';
 import { 
   getListNewsSuccess,
@@ -25,6 +27,10 @@ import {
   updateImageFail,
   updateNewsEventSuccess,
   updateNewsEventFail,
+  getCommentNewsSuccess,
+  getCommentNewsFail,
+  delCommentSuccess,
+  delCommentFail,
 } from './actions';
 import {message,} from 'antd';
 import {
@@ -35,7 +41,8 @@ import {
   callAPIUpdateTagsNewsEvent,
   callAPIUpdateImageNewsEvent,
   callAPIUpdateNewsEvent,
-  
+  callAPIGetCommentNews,
+  callAPIDelCommentNews,
 } from 'utils/request';
 import {
   selectidCateNewsEvent,
@@ -46,6 +53,10 @@ import {
   selectTags,
   selectImageUpdate,
   selectNewsEventUpdate,
+  selectPageComment,
+  selectIdNewsGetComment,
+  selectIdCommentDel,
+  selectIdNewsToCommentDel,
 } from './selectors';
 
 export function* deleteNews() {
@@ -263,6 +274,64 @@ export function* updateNewsWatcher() {
   }
 }
 
+export function* getCommentNewsEvent() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectIdNewsGetComment());
+  const page = yield select(selectPageComment());
+  const response = yield call(callAPIGetCommentNews,userInfo.phone,userInfo.password,id,page,1);
+  try{
+    if (response.data.data.e==0) {
+      yield put(getCommentNewsSuccess(response.data.data.array,response.data.data.total))
+    } else {
+      message.error(response.data.data.msg);
+      yield put(getCommentNewsFail())
+    }
+  } catch(error){
+          message.error(response.data.data.e);
+          message.error('Có lỗi trong quá trình xử lý');
+          yield put(getCommentNewsFail())
+  }
+  
+}
+export function* getCommentNewsEventWatcher() {
+  while (yield take(GET_COMMENT_NEWS_EVENT_ACTION)) {
+    yield call(getCommentNewsEvent);
+  }
+}
+
+export function* delComment() {
+  let userInfo = null;
+  userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if(userInfo == null){
+    userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
+  const id = yield select(selectIdCommentDel());
+  const idNews = yield select(selectIdNewsToCommentDel());
+  const response = yield call(callAPIDelCommentNews,userInfo.phone,userInfo.password,id,1);
+  try{
+    if (response.data.data.e==0) {
+      yield put(delCommentSuccess(id,idNews))
+    } else {
+      message.error(response.data.data.msg);
+      yield put(delCommentFail())
+    }
+  } catch(error){
+    message.error(response.data.data.e);
+    message.error('Có lỗi trong quá trình xử lý');
+    yield put(delCommentFail())
+  }
+  
+}
+export function* delCommentWatcher() {
+  while (yield take(DEL_COMMENT_NEWS_EVENT_ACTION)) {
+    yield call(delComment);
+  }
+}
+
 export function* defaultSaga() {
   const watchergetListNews = yield fork(getListNewsWatcher);
   const watcherdeleteNews = yield fork(deleteNewsWatcher);
@@ -271,6 +340,8 @@ export function* defaultSaga() {
   const watcherupdateTagsNewsEvent = yield fork(updateTagsNewsEventWatcher);
   const watcherupdateImageNewsEvent = yield fork(updateImageNewsEventWatcher);
   const watcherupdateNews = yield fork(updateNewsWatcher);
+  const watchergetCommentNewsEvent = yield fork(getCommentNewsEventWatcher);
+  const watcherdelComment = yield fork(delCommentWatcher);
   if(yield take(LOCATION_CHANGE)){
     yield cancel(watchergetListNews);
     yield cancel(watcherdeleteNews);
@@ -279,6 +350,8 @@ export function* defaultSaga() {
     yield cancel(watcherupdateTagsNewsEvent);
     yield cancel(watcherupdateImageNewsEvent);
     yield cancel(watcherupdateNews);
+    yield cancel(watchergetCommentNewsEvent);
+    yield cancel(watcherdelComment);
   }
 }
 

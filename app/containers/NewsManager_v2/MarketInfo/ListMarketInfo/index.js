@@ -25,6 +25,8 @@ import {
   updateTags,
   updateImageMK,
   updateNewsMK,
+  getCommentNews,
+  delComment,
 } from './actions';
 import {
   selectListNewsMK,
@@ -34,6 +36,10 @@ import {
   selectErrorCodeMK,
   selectgetListCateNewsMK,
   selectLoading,
+  selectListComment,
+  selectLoadingComment,
+  selectTotalComment,
+  selectPageComment,
 } from './selectors';
 
 export class ListMarketInfo extends React.Component { 
@@ -112,14 +118,16 @@ export class ListMarketInfo extends React.Component {
   viewNewsDetail(id){
     let tempNews = this.props.listNews.filter((item,index)=>{
       if(id===item.id){
-        return item;
+        if((this.state.news && this.state.news.id!==id)|| !this.state.news){
+          // this.props.initPageTotalComment();
+          this.props.getCommentNews(item.id,0)
+          this.setState({
+            news: item,
+          });
+        }
+        
       }
     })
-    
-    this.setState({
-      news: tempNews[0],
-    });
-    
   }
   confirm=(e)=> {
     console.log('Click on Yes');
@@ -194,7 +202,9 @@ export class ListMarketInfo extends React.Component {
             </div>
           </div>
           <div style={styles.content}>
-            <CmarketInfoDetail newsMKInfo={this.state.news} updateTags={this.props.updateTags} updateImageMK={this.props.updateImageMK}/>
+            <CmarketInfoDetail newsMKInfo={this.state.news} updateTags={this.props.updateTags} updateImageMK={this.props.updateImageMK}
+              loadingComment={this.props.loadingComment} pageComment={this.props.pageComment} totalComment={this.props.totalComment}
+              listComment={this.props.listComment} getCommentNews={this.props.getCommentNews} delComment={this.props.delComment}/>
           </div>
         </div>
       )
@@ -263,10 +273,16 @@ const mapStateToProps = createStructuredSelector({
   delSuccess: selectStateDelMK(),
   errorCode: selectErrorCodeMK(),
   loading: selectLoading(),
+  loadingComment: selectLoadingComment(),
+  totalComment: selectTotalComment(),
+  pageComment: selectPageComment(),
+  listComment: selectListComment(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    delComment: (id,idNews) => dispatch(delComment(id,idNews)),
+    getCommentNews: (id,page)=> dispatch(getCommentNews(id,page)),
     updateNewsMK:(idnews,title,author,source,idcate,content) => dispatch(updateNewsMK(idnews,title,author,source,idcate,content)),
     updateImageMK:(image,id) => dispatch(updateImageMK(image,id)),
     updateTags:(tags,id) => dispatch(updateTags(tags,id)),

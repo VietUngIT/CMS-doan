@@ -60,6 +60,34 @@ const selectNewsMKUpdate = () => createSelector(
   selectListMarketInfoDomain(),
   (substate) => substate.get("editNews")
 );
+const selectListComment = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("comment")
+);
+const selectIdNewsGetComment = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("idNewsGetComment")
+);
+const selectLoadingComment = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("loadingComment")
+);
+const selectPageComment = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("pageComment")
+);
+const selectTotalComment = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("totalComment")
+);
+const selectIdCommentDel = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("idCommentDel")
+);
+const selectIdNewsToCommentDel = () => createSelector(
+  selectListMarketInfoDomain(),
+  (substate) => substate.get("idNewsToCommentDel")
+);
 export {
   selectListMarketInfoDomain,
   selectListNewsMK,
@@ -76,4 +104,11 @@ export {
   selectTags,
   selectImageMKUpdate,
   selectNewsMKUpdate,
+  selectListComment,
+  selectIdNewsGetComment,
+  selectLoadingComment,
+  selectPageComment,
+  selectTotalComment,
+  selectIdCommentDel,
+  selectIdNewsToCommentDel,
 };

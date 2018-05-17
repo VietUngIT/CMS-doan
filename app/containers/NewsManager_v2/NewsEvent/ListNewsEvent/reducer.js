@@ -29,11 +29,25 @@ import {
   UPDATE_NEWS_EVENT_ACTION_SUCCESS,
   UPDATE_NEWS_EVENT_ACTION_FAIL,
   UPDATE_NEWS_EVENT_ACTION_NO_DATA_SUCCESS,
+  GET_COMMENT_NEWS_EVENT_ACTION,
+  GET_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+  GET_COMMENT_NEWS_EVENT_ACTION_FAIL,
+  INIT_PAGE_TOTAL_NEWS_EVENT_ACTION,
+  DEL_COMMENT_NEWS_EVENT_ACTION,
+  DEL_COMMENT_NEWS_EVENT_ACTION_SUCCESS,
+  DEL_COMMENT_NEWS_EVENT_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
   listNews:[],
   listcatenews: [],
+  comment: [],
+  idNewsGetComment: false,
+  loadingComment: false,
+  pageComment: 0,
+  totalComment: 0,
+  idCommentDel: false,
+  idNewsToCommentDel: false,
   page: 0,
   total: 0,
   idCate: false,
@@ -68,6 +82,45 @@ const initialState = fromJS({
 
 function listNewsEventReducer(state = initialState, action) {
   switch (action.type) {
+    case DEL_COMMENT_NEWS_EVENT_ACTION:
+      return state
+      .set("idCommentDel",action.id)
+      .set("idNewsToCommentDel",action.idNews)
+      .set("loading",true)
+    case DEL_COMMENT_NEWS_EVENT_ACTION_SUCCESS:
+      return state
+      .set('comment', state.get('comment').filter((item) => { return item._id !== action.id}))
+      .set("totalComment",state.get("totalComment")-1)
+      .set('listNews', state.get('listNews').map((item) => { return Object.assign({},item,{comments:item.id===action.idNewsToCommentDel?item.comments-1:item.comments}) }))
+      .set("pageComment",(state.get("totalComment")-1)%4===0?(state.get("pageComment")-1)>0?(state.get("pageComment")-1):0:state.get("pageComment"))
+      .set("idNewsToCommentDel",false)
+      .set("loading",false)
+    case DEL_COMMENT_NEWS_EVENT_ACTION_FAIL:
+      return state
+      .set("idNewsToCommentDel",false)
+      .set("idCommentDel",false)
+      .set("loading",false)
+    case INIT_PAGE_TOTAL_NEWS_EVENT_ACTION:
+      return state
+      .set("pageComment",0)
+      .set("totalComment",0)
+      .set("comment",[])
+    case GET_COMMENT_NEWS_EVENT_ACTION:
+      return state
+      .set("idNewsGetComment",action.id)
+      .set("pageComment",action.page)
+      .set("totalComment",action.page===0?0:state.get("totalComment"))
+      .set("loadingComment",true)
+    case GET_COMMENT_NEWS_EVENT_ACTION_SUCCESS:
+      return state
+      .update('comment', comment => comment.concat(action.data))
+      .set("totalComment",action.total)
+      .set("idNewsGetComment",false)
+      .set("loadingComment",false)
+    case GET_COMMENT_NEWS_EVENT_ACTION_FAIL:
+      return state
+      .set("idNewsGetComment",false)
+      .set("loadingComment",false)
     case UPDATE_NEWS_EVENT_ACTION:
       return state
       .setIn(['editNews', 'idnews'], action.idnews)

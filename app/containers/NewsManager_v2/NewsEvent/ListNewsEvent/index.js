@@ -27,6 +27,9 @@ import {
   updateTags,
   updateImage,
   updateNewsEvent,
+  getCommentNews,
+  initPageTotalComment,
+  delComment,
 } from './actions';
 import {
   selectListNewsEvent,
@@ -36,6 +39,10 @@ import {
   selectErrorCode,
   selectListCateNewsEvent,
   selectLoading,
+  selectListComment,
+  selectLoadingComment,
+  selectTotalComment,
+  selectPageComment,
 } from './selectors';
 
 export class ListNewsEvent extends React.Component {
@@ -107,14 +114,16 @@ export class ListNewsEvent extends React.Component {
   viewNewsDetail(id){
     let tempNews = this.props.listNews.filter((item,index)=>{
       if(id===item.id){
-        return item;
+        if((this.state.news && this.state.news.id!==id)|| !this.state.news){
+          // this.props.initPageTotalComment();
+          this.props.getCommentNews(item.id,0)
+          this.setState({
+            news: item,
+          });
+        }
+        
       }
     })
-    
-    this.setState({
-      news: tempNews[0],
-    });
-    
   }
   confirm=(e)=> {
     if(this.state.news){
@@ -181,7 +190,10 @@ export class ListNewsEvent extends React.Component {
           </div>
           <div style={styles.content}>
             <CnewsEventDetail newsEventInfo={this.state.news} addNews={this.props.addNews} updateTags={this.props.updateTags} 
-              updateImage={this.props.updateImage} updateNewsEvent={this.props.updateNewsEvent}/>
+              updateImage={this.props.updateImage} updateNewsEvent={this.props.updateNewsEvent} 
+              loadingComment={this.props.loadingComment} pageComment={this.props.pageComment} totalComment={this.props.totalComment}
+              listComment={this.props.listComment} initPageTotalComment={this.props.initPageTotalComment} getCommentNews={this.props.getCommentNews}
+              delComment={this.props.delComment}/>
           </div>
         </div>
       )
@@ -198,7 +210,7 @@ export class ListNewsEvent extends React.Component {
     if(this.state.news && this.state.modalEditNews){
       modalEdit = (
         <EditNewsEventModal handleCloseModalEdit={this.handleCloseModalEdit} modalEditNews={this.state.modalEditNews} dataNews={this.state.news}
-        updateNewsEvent={this.props.updateNewsEvent}/>
+        updateNewsEvent={this.props.updateNewsEvent}  />
       )
     }
 
@@ -259,11 +271,18 @@ const mapStateToProps = createStructuredSelector({
   errorCode: selectErrorCode(),
   listCate: selectListCateNewsEvent(),
   loading: selectLoading(),
+  loadingComment: selectLoadingComment(),
+  totalComment: selectTotalComment(),
+  pageComment: selectPageComment(),
+  listComment: selectListComment(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    delComment: (id,idNews) => dispatch(delComment(id,idNews)),
+    initPageTotalComment: () => dispatch(initPageTotalComment()),
+    getCommentNews: (id,page) => dispatch(getCommentNews(id,page)),
     updateNewsEvent:(idnews,title,shortDesc,author,source,idcate,content) => dispatch(updateNewsEvent(idnews,title,shortDesc,author,source,idcate,content) ),
     updateImage: (image,id) =>dispatch(updateImage(image,id)),
     updateTags: (tags,id) =>dispatch(updateTags(tags,id)),

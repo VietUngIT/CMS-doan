@@ -28,6 +28,12 @@ import {
   UPDATE_NEWS_MK_ACTION,
   UPDATE_NEWS_MK_ACTION_SUCCESS,
   UPDATE_NEWS_MK_ACTION_FAIL,
+  GET_COMMENT_NEWS_MK_ACTION,
+  GET_COMMENT_NEWS_MK_ACTION_SUCCESS,
+  GET_COMMENT_NEWS_MK_ACTION_FAIL,
+  DEL_COMMENT_NEWS_MK_ACTION,
+  DEL_COMMENT_NEWS_MK_ACTION_SUCCESS,
+  DEL_COMMENT_NEWS_MK_ACTION_FAIL,
 } from './constants';
 
 const initialState = fromJS({
@@ -60,11 +66,52 @@ const initialState = fromJS({
     source: false,
     idcate: false,
     content: false,
-  }
+  },
+  comment: [],
+  idNewsGetComment: false,
+  loadingComment: false,
+  pageComment: 0,
+  totalComment: 0,
+  idCommentDel: false,
+  idNewsToCommentDel: false,
 });
 
 function listMarketInfoReducer(state = initialState, action) {
   switch (action.type) {
+    case DEL_COMMENT_NEWS_MK_ACTION:
+      return state
+      .set("idCommentDel",action.id)
+      .set("idNewsToCommentDel",action.idNews)
+      .set("loading",true)
+    case DEL_COMMENT_NEWS_MK_ACTION_SUCCESS:
+      return state
+      .set('comment', state.get('comment').filter((item) => { return item._id !== action.id}))
+      .set("totalComment",state.get("totalComment")-1)
+      .set('listNewsMK', state.get('listNewsMK').map((item) => { return Object.assign({},item,{comments:item.id===action.idNewsToCommentDel?item.comments-1:item.comments}) }))
+      .set("pageComment",(state.get("totalComment")-1)%4===0?(state.get("pageComment")-1)>0?(state.get("pageComment")-1):0:state.get("pageComment"))
+      .set("idNewsToCommentDel",false)
+      .set("loading",false)
+    case DEL_COMMENT_NEWS_MK_ACTION_FAIL:
+      return state
+      .set("idNewsToCommentDel",false)
+      .set("idCommentDel",false)
+      .set("loading",false)
+    case GET_COMMENT_NEWS_MK_ACTION:
+      return state
+      .set("idNewsGetComment",action.id)
+      .set("pageComment",action.page)
+      .set("totalComment",action.page===0?0:state.get("totalComment"))
+      .set("loadingComment",true)
+    case GET_COMMENT_NEWS_MK_ACTION_SUCCESS:
+      return state
+      .update('comment', comment => comment.concat(action.data))
+      .set("totalComment",action.total)
+      .set("idNewsGetComment",false)
+      .set("loadingComment",false)
+    case GET_COMMENT_NEWS_MK_ACTION_FAIL:
+      return state
+      .set("idNewsGetComment",false)
+      .set("loadingComment",false)
     case UPDATE_NEWS_MK_ACTION:
       return state
       .setIn(['editNews', 'idnews'], action.idnews)

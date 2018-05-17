@@ -27,8 +27,52 @@ import {
   UPDATE_NEWS_MK_ACTION,
   UPDATE_NEWS_MK_ACTION_SUCCESS,
   UPDATE_NEWS_MK_ACTION_FAIL,
+  GET_COMMENT_NEWS_MK_ACTION,
+  GET_COMMENT_NEWS_MK_ACTION_SUCCESS,
+  GET_COMMENT_NEWS_MK_ACTION_FAIL,
+  DEL_COMMENT_NEWS_MK_ACTION,
+  DEL_COMMENT_NEWS_MK_ACTION_SUCCESS,
+  DEL_COMMENT_NEWS_MK_ACTION_FAIL,
 } from './constants';
 
+export function delComment(id,idNews) {
+  return {
+    type: DEL_COMMENT_NEWS_MK_ACTION,
+    id,
+    idNews,
+  };
+}
+export function delCommentSuccess(id,idNewsToCommentDel) {
+  return {
+    type: DEL_COMMENT_NEWS_MK_ACTION_SUCCESS,
+    id,
+    idNewsToCommentDel,
+  };
+}
+export function delCommentFail() {
+  return {
+    type: DEL_COMMENT_NEWS_MK_ACTION_FAIL,
+  };
+}
+export function getCommentNews(id,page) {
+  return {
+    type: GET_COMMENT_NEWS_MK_ACTION,
+    id,
+    page,
+  };
+}
+export function getCommentNewsSuccess(data,total) {
+  return {
+    type: GET_COMMENT_NEWS_MK_ACTION_SUCCESS,
+    data,
+    total,
+  };
+}
+export function getCommentNewsFail(data,total) {
+  return {
+    type: GET_COMMENT_NEWS_MK_ACTION_FAIL,
+  };
+}
 export function updateNewsMK(idnews,title,author,source,idcate,content) {
   return {
     type: UPDATE_NEWS_MK_ACTION,

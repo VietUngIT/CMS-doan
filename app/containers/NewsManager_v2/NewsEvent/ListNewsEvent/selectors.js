@@ -61,6 +61,34 @@ const selectNewsEventUpdate = () => createSelector(
   selectListNewsEventDomain(),
   (substate) => substate.get("editNews")
 );
+const selectListComment = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("comment")
+);
+const selectIdNewsGetComment = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("idNewsGetComment")
+);
+const selectLoadingComment = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("loadingComment")
+);
+const selectPageComment = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("pageComment")
+);
+const selectTotalComment = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("totalComment")
+);
+const selectIdCommentDel = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("idCommentDel")
+);
+const selectIdNewsToCommentDel = () => createSelector(
+  selectListNewsEventDomain(),
+  (substate) => substate.get("idNewsToCommentDel")
+);
 export {
   selectListNewsEventDomain,
   selectListNewsEvent,
@@ -77,4 +105,11 @@ export {
   selectTags,
   selectImageUpdate,
   selectNewsEventUpdate,
+  selectListComment,
+  selectIdNewsGetComment,
+  selectLoadingComment,
+  selectPageComment,
+  selectTotalComment,
+  selectIdCommentDel,
+  selectIdNewsToCommentDel,
 };
