@@ -12,12 +12,13 @@ import CcustomTooltip from 'components/CUserManager/CExpert/CcustomTooltip'
 
 class Cfrqschart extends React.Component {
   render() {
+    console.log("render - width:"+this.props.width)
     let chart = false;
     if(this.props.data &&(this.props.data.size>0 || this.props.data.length>0)){
       chart = (
         <div style={styles.wrapDetail}>
           <div style={styles.wrapBody}>
-            <AreaChart width={600} height={350} data={this.props.data}
+            <AreaChart width={this.props.width>0?this.props.width:600} height={350} data={this.props.data}
               margin={{top: 10, right: 30, left: 0, bottom: 0}}>
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="date" padding={{left: 10, right: 10}}>

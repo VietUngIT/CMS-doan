@@ -31,8 +31,6 @@ const initialState = fromJS({
     address: false,
     workplace: false,
     idfield: false,
-    lat: false,
-    long: false,
     tags: false,
     degree: false,
     errorcode: false,
@@ -51,8 +49,6 @@ function inFoListExpertReducer(state = initialState, action) {
       .setIn(['expertAdd', 'address'], action.address)
       .setIn(['expertAdd', 'workplace'], action.workplace)
       .setIn(['expertAdd', 'idfield'], action.idfield)
-      .setIn(['expertAdd', 'lat'], action.lat)
-      .setIn(['expertAdd', 'long'], action.long)
       .setIn(['expertAdd', 'tags'], action.tags)
       .setIn(['expertAdd', 'degree'], action.degree)
       .setIn(['expertAdd', 'errorcode'], false)
@@ -68,8 +64,6 @@ function inFoListExpertReducer(state = initialState, action) {
       .setIn(['expertAdd', 'address'], false)
       .setIn(['expertAdd', 'workplace'], false)
       .setIn(['expertAdd', 'idfield'], false)
-      .setIn(['expertAdd', 'lat'], false)
-      .setIn(['expertAdd', 'long'], false)
       .setIn(['expertAdd', 'tags'], false)
       .setIn(['expertAdd', 'degree'], false)
       .setIn(['expertAdd', 'errorcode'], action.error)
@@ -84,8 +78,6 @@ function inFoListExpertReducer(state = initialState, action) {
       .setIn(['expertAdd', 'address'], false)
       .setIn(['expertAdd', 'workplace'], false)
       .setIn(['expertAdd', 'idfield'], false)
-      .setIn(['expertAdd', 'lat'], false)
-      .setIn(['expertAdd', 'long'], false)
       .setIn(['expertAdd', 'tags'], false)
       .setIn(['expertAdd', 'degree'], false)
       .setIn(['expertAdd', 'errorcode'], action.error)

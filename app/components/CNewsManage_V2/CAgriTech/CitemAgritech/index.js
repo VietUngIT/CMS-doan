@@ -37,15 +37,15 @@ class CitemAgritech extends React.Component {
     }
     return (
       <div style={styles.wrapItem}>
-        <Row>
-          <Col span={6}>
+        <div style={{display: 'flex'}}>
+          <div style={{flexBasis: 85}}>
             <img src={image} id="imgstore" width='85px' height='60px' />
-          </Col>
-          <Col span={18}>
+          </div>
+          <div style={{flex: 1}}>
             <div onClick={()=>this.viewDetailNews()} style={styles.showTitle}>{title}</div>
             <div style={styles.showDate}>{`Ngày cập nhật: ${this.convertTime(date)}`}</div>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </div>
     );
   }

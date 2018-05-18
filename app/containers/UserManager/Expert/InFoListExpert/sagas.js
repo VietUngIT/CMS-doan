@@ -39,8 +39,6 @@ export function* addExpert() {
                                 expertAdd.get("address"),
                                 expertAdd.get("workplace"), 
                                 expertAdd.get("idfield"), 
-                                expertAdd.get("lat"),
-                                expertAdd.get("long"),
                                 expertAdd.get("tags"),
                                 expertAdd.get("degree"));
   try{

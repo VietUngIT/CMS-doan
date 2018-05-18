@@ -31,13 +31,13 @@ class ClistFieldExpert extends React.Component {
           <Col span={5} style={{fontWeight: 600}}></Col>
           <Col span={4} style={{fontWeight: 600}}></Col>
         </Row>
-        <Row style={{borderBottom: '1px solid #ffbf00'}}>
-          <Col span={17}>
+        <Row style={{borderBottom: '1px solid #ffbf00',display: 'flex'}}>
+          <div style={{flex: 1}}>
             <input type='text' ref="nameField" placeholder="Nhập tên danh mục..."  style={styles.input}/>
-          </Col>
-          <Col span={7}>
+          </div>
+          <div style={{flexBasis: 105}}>
             <div onClick={this.addField} style={styles.buttonAdd}>Thêm</div>
-          </Col>
+          </div>
         </Row>
         {listField}
       </div>

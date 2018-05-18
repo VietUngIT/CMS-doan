@@ -51,6 +51,7 @@ export class ExpertDetail extends React.Component {
         showActiveExpert: false,
         rateData: [],
         stylerateMax: 0,
+        widthContent: 0,
       };
   }
   componentWillMount(){
@@ -66,6 +67,16 @@ export class ExpertDetail extends React.Component {
       this.props.getExpertDetail(this.props.params.id_expert);
     }
     
+  }
+  componentDidMount(){
+    console.log("componentDidMount")
+    if(this.refs.contentDetail){
+      console.log(this.refs.contentDetail)
+      console.log(this.refs.contentDetail.clientWidth)
+      this.setState({
+        widthContent: this.refs.contentDetail.clientWidth,
+      })
+    }
   }
   componentWillReceiveProps(nextProps){
     // console.log("componentWillReceiveProps")
@@ -264,7 +275,7 @@ export class ExpertDetail extends React.Component {
     let showActiveExpertHTML = false;
     let showPiechartRateHTML = false;
     if(this.props.statiticComment && this.state.showActiveExpert){
-      showActiveExpertHTML = (<CstatiticCommentExpert statiticComment={this.props.statiticComment} 
+      showActiveExpertHTML = (<CstatiticCommentExpert statiticComment={this.props.statiticComment } width={Math.floor(this.state.widthContent*85/100)}
         totalActive={this.props.totalActive}/>)
         if(this.props.expert && this.props.orderShow===2){
           showPiechartRateHTML = (<CpieChartRateExpert rateData={this.state.rateData} activeInitPieChart={this.state.stylerateMax}/>)
@@ -339,9 +350,11 @@ export class ExpertDetail extends React.Component {
             </div>
           </Col>
           <Col span={17}>
-            {showProfileHTML}
-            {showActiveExpertHTML}
-            {showPiechartRateHTML}
+            <div style={{width: '100%'}} ref='contentDetail'>
+              {showProfileHTML}
+              {showActiveExpertHTML}
+              {showPiechartRateHTML}
+            </div>
           </Col>
         </Row>
       </div>

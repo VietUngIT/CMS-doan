@@ -124,16 +124,12 @@ class ModalAddExpert extends React.Component {
       message.error(" Không được bỏ trống địa chỉ.");
     }else if(this.workExpert.value===null || this.workExpert.value.trim()===""){
       message.error(" Không được bỏ trống nơi làm việc.");
-    }else if(this.latExpert.value===null || this.latExpert.value.trim()==="" || this.longExpert.value===null || this.longExpert.value.trim()===""){
-      message.error(" Nhập đầy đủ tọa độ.");
     }else{
       let name  = this.nameExpert.value.trim();
       let phone  = this.phoneExpert.value.trim();
       let email  = this.emailExpert.value.trim();
       let address  = this.addressExpert.value.trim();
       let workplace  = this.workExpert.value.trim();
-      let lat  = this.latExpert.value.trim();
-      let long  = this.longExpert.value.trim();
       let idField = this.select.value;
       this.props.addExpert(this.props.idFieldCurrent,
         name,
@@ -143,8 +139,6 @@ class ModalAddExpert extends React.Component {
         address,
         workplace,
         idField,
-        lat,
-        long,
         this.state.listTags,
         this.state.listDegree)      
     }
@@ -156,8 +150,6 @@ class ModalAddExpert extends React.Component {
     this.emailExpert.value = "";
     this.addressExpert.value = "";
     this.workExpert.value = "";
-    this.latExpert.value = "";
-    this.longExpert.value = "";
     this.setState({
       listTags: [],
     });
@@ -225,16 +217,7 @@ class ModalAddExpert extends React.Component {
             <_Input type='text' innerRef={(comp) => { this.workExpert = comp;}} placeholder="Nhập nơi làm việc"/>
           </Col>
         </Row>
-        <Row style={styles.row}>
-          <div style={styles.label}>Tọa độ (*)</div>
-          <Col span={11}>
-            <_Input type='text' innerRef={(comp) => { this.latExpert = comp;}} placeholder="Latitude"/>
-          </Col>
-          <Col span={2}></Col>
-          <Col span={11}>
-            <_Input type='text' innerRef={(comp) => { this.longExpert = comp;}} placeholder="Longtitude"/>
-          </Col>
-        </Row>
+        
         <Row style={styles.row}>
           <Col span={24}>
             <div style={styles.label}>Lĩnh vực (*)</div>

@@ -111,7 +111,7 @@ export class InFoListExpert extends React.Component {
           <div style={styles.inlineWrapContent}>
             <div style={{display: 'flex', flexDirection: 'collumn'}}>
               <div style={styles.header}>Danh sách chuyên gia</div>
-              <div style={{flex: 2,minWidth:96,textAlign: 'center',paddingTop: 8,backgroundColor: '#a2a2a2',}}>
+              <div style={{flexBasic: 105,minWidth:96,textAlign: 'center',paddingTop: 8,backgroundColor: '#a2a2a2',}}>
                 <Button onClick={this.addExpertHandle} type="primary" icon="plus-square-o" >Thêm mới</Button>
               </div>
             </div>
@@ -141,7 +141,7 @@ function mapDispatchToProps(dispatch) {
     getListField: () => dispatch(getListField()),
     setLoading: (loading) => dispatch(setLoading(loading)),
     getListExpert: (id,page) => dispatch(getListExpert(id,page)),
-    addExpert: (idfieldcurrent,name,phone,desc,email,address,workplace,idfield,lat,long,tags,degree) => dispatch(addExpert(idfieldcurrent,name,phone,desc,email,address,workplace,idfield,lat,long,tags,degree)),
+    addExpert: (idfieldcurrent,name,phone,desc,email,address,workplace,idfield,tags,degree) => dispatch(addExpert(idfieldcurrent,name,phone,desc,email,address,workplace,idfield,tags,degree)),
     dispatch,
   };
 }

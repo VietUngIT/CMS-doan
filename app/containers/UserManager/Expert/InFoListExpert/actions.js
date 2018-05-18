@@ -15,7 +15,7 @@ import {
   ADD_EXPERT_ACTION_ERROR,
 } from './constants';
 
-export function addExpert(idfieldcurrent,name,phone,desc,email,address,workplace,idfield,lat,long,tags,degree) {
+export function addExpert(idfieldcurrent,name,phone,desc,email,address,workplace,idfield,tags,degree) {
   return {
     type: ADD_EXPERT_ACTION,
     idfieldcurrent,
@@ -26,8 +26,6 @@ export function addExpert(idfieldcurrent,name,phone,desc,email,address,workplace
     address,
     workplace,
     idfield,
-    lat,
-    long,
     tags,
     degree,
   };

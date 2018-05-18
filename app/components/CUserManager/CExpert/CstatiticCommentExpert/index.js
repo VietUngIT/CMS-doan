@@ -18,7 +18,7 @@ class CstatiticCommentExpert extends React.Component {
         <div style={styles.wrapDetail}>
           <div style={styles.wrapTitle}>Thống kế tham gia diễn đàn theo ngày của chuyên gia</div>
           <div style={styles.wrapBody}>
-            <LineChart width={700} height={300} data={this.props.statiticComment}>
+            <LineChart width={this.props.width>0?this.props.width:700} height={300} data={this.props.statiticComment}>
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="date" padding={{left: 10, right: 10}}>
                 <Label value="Thời gian" offset={0} position="insideBottom" />

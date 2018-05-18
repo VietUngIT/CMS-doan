@@ -720,7 +720,7 @@ export function callAPIGetListExpert(phone,password,id,page) {
     .catch((error) => ({ error }));
 }
 
-export function callAPIAddExpert(ph,p,name,phone,desc,email,address,workplace,idparentfield,lat,long,tags,degree) {
+export function callAPIAddExpert(ph,p,name,phone,desc,email,address,workplace,idparentfield,tags,degree) {
   const url = `${API_BASE_URL}adminexpert`;
   var formData = new FormData();
   formData.append("t","ad")
@@ -733,8 +733,6 @@ export function callAPIAddExpert(ph,p,name,phone,desc,email,address,workplace,id
   formData.append("address",address);
   formData.append("workplace",workplace);
   formData.append("idparentfield",idparentfield);
-  formData.append("lat",lat);
-  formData.append("long",long);
   if(tags){
     formData.append("tags",JSON.stringify(tags));
   }
